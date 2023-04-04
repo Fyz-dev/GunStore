@@ -1,0 +1,85 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(GunStore VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+
+find_package(Qt6 REQUIRED COMPONENTS Sql)
+
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src/View)
+include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel)
+include_directories(${PROJECT_SOURCE_DIR}/src/Model)
+include_directories(${PROJECT_SOURCE_DIR}/src/Model/base)
+include_directories(${PROJECT_SOURCE_DIR}/src/Mediator)
+
+file(GLOB RESOURCES "resources/*.qrc")
+file(GLOB VIEW "src/View/*.cpp" "src/View/*.h")
+file(GLOB UI_HEADERS "src/View/*.ui")
+file(GLOB VIEWMODEL "src/ViewModel/*.cpp" "src/ViewModel/*.h")
+file(GLOB MODEL "src/Model/*.cpp" "src/Model/*.h" "src/Model/base/*.cpp" "src/Model/base/*.h")
+file(GLOB MEDIATOR "src/Mediator/*.cpp" "src/Mediator/*.h")
+
+set(PROJECT_SOURCES
+    src/main.cpp
+    src/connectionhandler.h
+    src/connectionhandler.cpp
+    src/WindowState.h
+    src/LayoutState.h
+    ${RESOURCES}
+    ${VIEW}
+    ${VIEWMODEL}
+    ${MODEL}
+    ${MEDIATOR}
+    ${UI_HEADERS}
+)
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(GunStore
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+    )
+# Define target properties for Android with Qt 6 as:
+#    set_property(TARGET GunStore APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+else()
+    if(ANDROID)
+        add_library(GunStore SHARED
+            ${PROJECT_SOURCES}
+        )
+# Define properties for Android with Qt 5 after find_package() calls as:
+#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    else()
+        add_executable(GunStore
+            ${PROJECT_SOURCES}
+        )
+    endif()
+endif()
+
+target_link_libraries(GunStore PRIVATE Qt6::Sql)
+target_link_libraries(GunStore PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+set_target_properties(GunStore PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
+
+install(TARGETS GunStore
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(GunStore)
+endif()

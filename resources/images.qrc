@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/WhiteIcon">
+        <file>images/admin.png</file>
+        <file>images/basket.png</file>
+        <file>images/house.png</file>
+        <file>images/plus.png</file>
+        <file>images/shopping-bag.png</file>
+        <file>images/user.png</file>
+    </qresource>
+    <qresource prefix="/Icon">
+        <file>images/indocator.png</file>
+    </qresource>
+</RCC>
