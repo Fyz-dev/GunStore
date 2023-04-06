@@ -17,6 +17,7 @@ public:
 
 protected:
     QSqlQuery* select(QString request);
+    QString s;
 
 protected:
     QSqlDatabase* db;

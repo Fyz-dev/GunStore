@@ -14,11 +14,9 @@ public:
     QList<QString> getListCategory(){ return listCategory; }
     QList<QString> getListCountry(){ return listCountry; }
     QList<QString> getListBrand(){ return listBrand; }
-
     void updateListFilter();
-
-private:
     void updateList(QList<QString>& list, QString request);
+    void updateListForCharacteristic(QHash<QString, QString>& list, QString request);
 
 private:
     QList<QString> listCategory;

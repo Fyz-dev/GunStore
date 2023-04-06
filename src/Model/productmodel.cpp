@@ -12,7 +12,7 @@ void ProductModel::updateListFilter()
 
 void ProductModel::updateList(QList<QString>& list, QString request)
 {
-   QSqlQuery* query= select(request);
+   QSqlQuery* query = select(request);
 
    if(query == nullptr)
        return;
@@ -24,3 +24,16 @@ void ProductModel::updateList(QList<QString>& list, QString request)
    delete query;
 }
 
+void ProductModel::updateListForCharacteristic(QHash<QString, QString>& list, QString request)
+{
+    QSqlQuery* query = select(request);
+
+    if(query == nullptr)
+        return;
+
+    list.clear();
+    while(query->next())
+        list.insert(query->value(0).toString(), query->value(1).toString());
+
+    delete query;
+}

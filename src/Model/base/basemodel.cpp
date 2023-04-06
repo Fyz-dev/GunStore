@@ -25,8 +25,7 @@ bool BaseModel::updateModel(QString request)
 
 QSqlQuery* BaseModel::select(QString request)
 {
-    QSqlQuery* query = new QSqlQuery;
-    query->prepare(request);
+    QSqlQuery* query = new QSqlQuery(request, *db);
 
     if(query->exec())
     {

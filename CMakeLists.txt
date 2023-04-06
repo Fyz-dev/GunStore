@@ -20,25 +20,23 @@ include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model/base)
 include_directories(${PROJECT_SOURCE_DIR}/src/Mediator)
+include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel/base)
 
 file(GLOB RESOURCES "resources/*.qrc")
-file(GLOB VIEW "src/View/*.cpp" "src/View/*.h")
-file(GLOB UI_HEADERS "src/View/*.ui")
-file(GLOB VIEWMODEL "src/ViewModel/*.cpp" "src/ViewModel/*.h")
+file(GLOB VIEW "src/View/*.cpp" "src/View/*.h" "src/View/MenuAdmin/*.cpp" "src/View/MenuAdmin/*.h")
+file(GLOB UI_HEADERS "src/View/*.ui" "src/View/MenuAdmin/*.ui")
+file(GLOB VIEWMODEL "src/ViewModel/*.cpp" "src/ViewModel/*.h" "src/ViewModel/base/*.cpp" "src/ViewModel/base/*.h")
 file(GLOB MODEL "src/Model/*.cpp" "src/Model/*.h" "src/Model/base/*.cpp" "src/Model/base/*.h")
-file(GLOB MEDIATOR "src/Mediator/*.cpp" "src/Mediator/*.h")
 
 set(PROJECT_SOURCES
     src/main.cpp
     src/connectionhandler.h
     src/connectionhandler.cpp
-    src/WindowState.h
     src/LayoutState.h
     ${RESOURCES}
     ${VIEW}
     ${VIEWMODEL}
     ${MODEL}
-    ${MEDIATOR}
     ${UI_HEADERS}
 )
 
