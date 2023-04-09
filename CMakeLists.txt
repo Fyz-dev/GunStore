@@ -13,9 +13,13 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 find_package(Qt6 REQUIRED COMPONENTS Sql)
+find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
+find_package(Qt6 REQUIRED COMPONENTS Gui)
+
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/src/View)
+include_directories(${PROJECT_SOURCE_DIR}/src/View/ViewElement)
 include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model/base)
@@ -23,8 +27,8 @@ include_directories(${PROJECT_SOURCE_DIR}/src/Mediator)
 include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel/base)
 
 file(GLOB RESOURCES "resources/*.qrc")
-file(GLOB VIEW "src/View/*.cpp" "src/View/*.h" "src/View/MenuAdmin/*.cpp" "src/View/MenuAdmin/*.h")
-file(GLOB UI_HEADERS "src/View/*.ui" "src/View/MenuAdmin/*.ui")
+file(GLOB VIEW "src/View/*.cpp" "src/View/*.h" "src/View/MenuAdmin/*.cpp" "src/View/MenuAdmin/*.h" "src/View/ViewElement/*.cpp" "src/View/ViewElement/*.h")
+file(GLOB UI_HEADERS "src/View/*.ui" "src/View/MenuAdmin/*.ui" "src/View/ViewElement/*.ui")
 file(GLOB VIEWMODEL "src/ViewModel/*.cpp" "src/ViewModel/*.h" "src/ViewModel/base/*.cpp" "src/ViewModel/base/*.h")
 file(GLOB MODEL "src/Model/*.cpp" "src/Model/*.h" "src/Model/base/*.cpp" "src/Model/base/*.h")
 
@@ -33,6 +37,8 @@ set(PROJECT_SOURCES
     src/connectionhandler.h
     src/connectionhandler.cpp
     src/LayoutState.h
+    src/printer.h
+    src/printer.cpp
     ${RESOURCES}
     ${VIEW}
     ${VIEWMODEL}
@@ -65,6 +71,8 @@ endif()
 
 target_link_libraries(GunStore PRIVATE Qt6::Sql)
 target_link_libraries(GunStore PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(GunStore PRIVATE Qt6::PrintSupport)
+target_link_libraries(GunStore PRIVATE Qt6::Gui)
 
 set_target_properties(GunStore PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

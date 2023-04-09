@@ -11,7 +11,6 @@ MainMenu::MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent) :
     connected();
 
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->tableViewProduct->setSelectionMode(QAbstractItemView::SingleSelection);
 
 
     mainMenuViewModel->update();

@@ -14,9 +14,10 @@ public:
 public:
     QSqlTableModel* getModelData();
     virtual bool updateModel(QString request);
+    bool updateInfoBD(QString request);
 
 protected:
-    QSqlQuery* select(QString request);
+    QSqlQuery* select(const QString& request);
     QString s;
 
 protected:

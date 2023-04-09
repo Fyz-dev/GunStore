@@ -6,6 +6,9 @@
         <file>images/plus.png</file>
         <file>images/shopping-bag.png</file>
         <file>images/user.png</file>
+        <file>images/plus_new.png</file>
+        <file>images/icon-clear.png</file>
+        <file>images/minus.png</file>
     </qresource>
     <qresource prefix="/Icon">
         <file>images/indocator.png</file>
