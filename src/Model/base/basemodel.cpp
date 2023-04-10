@@ -3,7 +3,7 @@
 BaseModel::BaseModel(QSqlDatabase* db) :
     db(db)
 {
-    modelData = new QSqlTableModel;
+    modelData = new QSqlTableModel(nullptr, *db);
 }
 
 QSqlTableModel* BaseModel::getModelData() { return modelData; }

@@ -20,14 +20,14 @@ public:
 
 public slots:
     void modelChangedSlots(QSqlTableModel* modelData);
-    void addCheckBoxSlots(QCheckBox* checkBox, LayoutState& layoutName);
+    void addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName);
     void addInfoProductSlots(QLabel* label = nullptr, QLineEdit* lineEdit = nullptr);
     void clearCheckBoxSlots();
     void clearLableSlots();
     void priceFilterChangedSlots();
 
 signals:
-    void priceFilterChangetSignals(QLineEdit* inputTo, QLineEdit* inputDo);
+    void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);
 
 private:
     void connected();

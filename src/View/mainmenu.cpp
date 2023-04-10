@@ -22,7 +22,7 @@ void MainMenu::modelChangedSlots(QSqlTableModel* modelData)
     ui->tableViewProduct->setModel(modelData);
 }
 
-void MainMenu::addCheckBoxSlots(QCheckBox* checkBox, LayoutState& layoutName)
+void MainMenu::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName)
 {
     switch (layoutName) {
     case LayoutState::CATEGORY:
@@ -63,7 +63,7 @@ void MainMenu::clearCheckBoxSlots()
 
 void MainMenu::priceFilterChangedSlots()
 {
-    emit priceFilterChangetSignals(ui->inputTo, ui->inputDo);
+    emit priceFilterChangedSignals(ui->inputTo, ui->inputDo);
 }
 
 void MainMenu::clearLableSlots()
@@ -90,7 +90,7 @@ void MainMenu::connected()
     connect(mainMenuViewModel, &MainMenuViewModel::clearCheckBoxSignal, this, &MainMenu::clearCheckBoxSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::addInfoProductSignal, this, &MainMenu::addInfoProductSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::clearLableSignal, this, &MainMenu::clearLableSlots);
-    connect(this, &MainMenu::priceFilterChangetSignals, mainMenuViewModel, &MainMenuViewModel::priceFilterChangedSlots);
+    connect(this, &MainMenu::priceFilterChangedSignals, mainMenuViewModel, &MainMenuViewModel::priceFilterChangedSlots);
     connect(ui->tableViewProduct, &QTableView::doubleClicked, mainMenuViewModel, &MainMenuViewModel::selectedElemTableViewSlots);
 }
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>menuEditProduct</class>
- <widget class="QWidget" name="menuEditProduct">
+ <class>MenuEditProduct</class>
+ <widget class="QWidget" name="MenuEditProduct">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1203</width>
-    <height>551</height>
+    <width>1066</width>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,6 +32,21 @@
    <item>
     <widget class="QWidget" name="tableEdit" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QTableView" name="BD"/>
       </item>
@@ -72,6 +87,18 @@
    <item>
     <widget class="QWidget" name="additionalInfo" native="true">
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_AddInfo_2">
         <item>
@@ -117,7 +144,7 @@
              <x>0</x>
              <y>0</y>
              <width>122</width>
-             <height>141</height>
+             <height>114</height>
             </rect>
            </property>
           </widget>

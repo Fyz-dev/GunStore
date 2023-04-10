@@ -1,22 +1,26 @@
 #ifndef MENUEDITPRODUCT_H
 #define MENUEDITPRODUCT_H
 
+#include "menueditproductviewmodel.h"
+
 #include <QWidget>
 
+
 namespace Ui {
-class menuEditProduct;
+class MenuEditProduct;
 }
 
-class menuEditProduct : public QWidget
+class MenuEditProduct : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit menuEditProduct(QWidget *parent = nullptr);
-    ~menuEditProduct();
+    explicit MenuEditProduct(MenuEditProductViewModel* menuEditProductViewModel, QWidget *parent = nullptr);
+    ~MenuEditProduct();
 
 private:
-    Ui::menuEditProduct *ui;
+    Ui::MenuEditProduct *ui;
+    MenuEditProductViewModel* menuEditProductViewModel;
 };
 
 #endif // MENUEDITPRODUCT_H

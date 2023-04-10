@@ -1,14 +1,15 @@
 #include "menueditproduct.h"
 #include "ui_menueditproduct.h"
 
-menuEditProduct::menuEditProduct(QWidget *parent) :
+MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewModel, QWidget *parent) :
+    menuEditProductViewModel(menuEditProductViewModel),
     QWidget(parent),
-    ui(new Ui::menuEditProduct)
+    ui(new Ui::MenuEditProduct)
 {
     ui->setupUi(this);
 }
 
-menuEditProduct::~menuEditProduct()
+MenuEditProduct::~MenuEditProduct()
 {
     delete ui;
 }

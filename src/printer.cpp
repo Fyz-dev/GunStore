@@ -30,7 +30,7 @@ void Printer::paintRequestedActOfSupply(QPrinter* printer, QTableView* table, co
     paint.setFont(QFont("Arial", 14, QFont::Normal));
     paint.drawText(0, table->rect().height() + 70, "Співробітник Підпис___________");
     paint.drawText(0, table->rect().height() + 100, "Постачальник Підпис___________");
-    paint.drawText(table->rect().width()-300, table->rect().height() + 70, "Загальна кількість: " + sumCount + " од.");
+    paint.drawText(table->rect().width()-300, table->rect().height() + 70, "Загальна кількість: " + sumCount);
     paint.drawText(table->rect().width()-300, table->rect().height() + 100, "Загальна сума: " + sumPrice);
 
     paint.end();

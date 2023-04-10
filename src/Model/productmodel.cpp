@@ -24,16 +24,42 @@ void ProductModel::updateList(QList<QString>& list, QString request)
    delete query;
 }
 
-void ProductModel::updateListForCharacteristic(QHash<QString, QString>& list, QString request)
+QHash<QLabel*, QLineEdit*>* ProductModel::createElementForDispleyCharact(QString request, bool lineEditIsReadOnly)
 {
     QSqlQuery* query = select(request);
+    QHash<QLabel*, QLineEdit*>* listCharacter;
 
     if(query == nullptr)
-        return;
+        return nullptr;
 
-    list.clear();
+    listCharacter = new QHash<QLabel*, QLineEdit*>;
     while(query->next())
-        list.insert(query->value(0).toString(), query->value(1).toString());
+    {
+        QLabel* label = new QLabel;
+        label->setText(query->value(0).toString() + ":");
+        label->setAlignment(Qt::AlignLeft);
+
+        QLineEdit* lineEdit = new QLineEdit;
+        lineEdit->setText(query->value(1).toString());
+        lineEdit->setReadOnly(lineEditIsReadOnly);
+        listCharacter->insert(label, lineEdit);
+    }
 
     delete query;
+    return listCharacter;
+}
+
+QList<QCheckBox*> ProductModel::createCheckBox(const QList<QString>& list)
+{
+    QList<QCheckBox*> listCheckBox;
+
+    for(const QString& value : list)
+    {
+        QCheckBox* checkBox = new QCheckBox;
+        checkBox->setText(value);
+        checkBox->setToolTip(value);
+        listCheckBox.append(checkBox);
+    }
+
+    return listCheckBox;
 }

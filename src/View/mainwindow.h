@@ -23,6 +23,7 @@ public:
 private slots:
     void buttonMainMenu_clicked();
     void buttonBuyProduct_clicked();
+    void buttonAdmin_clicked();
 
 private:
     void connected();

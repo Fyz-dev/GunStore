@@ -20,6 +20,7 @@ find_package(Qt6 REQUIRED COMPONENTS Gui)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/src/View)
 include_directories(${PROJECT_SOURCE_DIR}/src/View/ViewElement)
+include_directories(${PROJECT_SOURCE_DIR}/src/View/MenuAdmin)
 include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model/base)
@@ -39,6 +40,8 @@ set(PROJECT_SOURCES
     src/LayoutState.h
     src/printer.h
     src/printer.cpp
+    src/filter.h
+    src/filter.cpp
     ${RESOURCES}
     ${VIEW}
     ${VIEWMODEL}

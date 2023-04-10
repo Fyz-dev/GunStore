@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "mainmenu.h"
 #include "buyproduct.h"
+#include "menuadmin.h"
 
 #include "./ui_mainwindow.h"
 
@@ -24,6 +25,7 @@ void MainWindow::connected()
 {
     connect(ui->buttonMainMenu, &QPushButton::clicked, this, &MainWindow::buttonMainMenu_clicked);
     connect(ui->buttonBuyProduct, &QPushButton::clicked, this, &MainWindow::buttonBuyProduct_clicked);
+    connect(ui->buttonAdmin, &QPushButton::clicked, this, &MainWindow::buttonAdmin_clicked);
 }
 
 void MainWindow::buttonMainMenu_clicked()
@@ -49,6 +51,18 @@ void MainWindow::buttonBuyProduct_clicked()
     thisModel = new ProductModel(connectionHandler->getDB());
     thisViewModel = new BuyProductViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new BuyProduct(static_cast<BuyProductViewModel*>(thisViewModel), this);
+    ui->centralwidget->layout()->addWidget(thisWindow);
+}
+
+void MainWindow::buttonAdmin_clicked()
+{
+    if(qobject_cast<MenuAdmin*>(thisWindow))
+        return;
+
+    freeMemory();
+    thisModel = nullptr;
+    thisViewModel = nullptr;
+    thisWindow = new MenuAdmin(connectionHandler, this);
     ui->centralwidget->layout()->addWidget(thisWindow);
 }
 

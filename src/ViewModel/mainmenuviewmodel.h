@@ -4,12 +4,9 @@
 #include "productmodel.h"
 #include "LayoutState.h"
 #include "baseviewmodel.h"
+#include "filter.h"
 
-#include <QSqlTableModel>
-#include <QCheckBox>
-#include <QLabel>
-#include <QLineEdit>
-#include <QRegularExpression>
+
 
 class MainMenuViewModel : public QObject, public BaseViewModel
 {
@@ -17,6 +14,7 @@ Q_OBJECT
 
 public:
     MainMenuViewModel(ProductModel* productModel);
+    ~MainMenuViewModel();
     void update() override;
 
 public slots:
@@ -26,21 +24,17 @@ public slots:
 
 signals:
     void modelChangedSignal(QSqlTableModel* modelData);
-    void addCheckBoxSignal(QCheckBox* checkBox, LayoutState& layoutName);
+    void addCheckBoxSignal(QCheckBox* checkBox, const LayoutState& layoutName);
     void addInfoProductSignal(QLabel* label = nullptr, QLineEdit* lineEdit = nullptr);
     void clearCheckBoxSignal();
     void clearLableSignal();
 
 private:
-    void createCheckBox(const QList<QString>& list, LayoutState layoutName);
-    void createLable(const QHash<QString, QString>& list);
-    void updateModelByFilter();
+    void addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName);
 
 private:
     ProductModel* productModel;
-    QList<QObject*> listCheckBoxEnabled;
-    QList<QObject*> listLabelCharacteristic;
-    QString priceTo, priceDo;
+    Filter* filter;
 };
 
 #endif // MAINMENUVIEWMODEL_H
