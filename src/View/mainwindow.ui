@@ -173,48 +173,6 @@ QScrollArea QScrollBar::sub-line{
 	background-color: transparent;
 }
 
-/* Поле вкладки для админа*/
-QWidget#menuSupplier {
-	border: none;
-	border-radius: 10px;
-	background-color: #202124;
-}
-
-QWidget#menuEmployee {
-	border-radius: 10px;
-	background-color: #202124;
-}
-
-QWidget#MenuReportPrint {
-	border-radius: 10px;
-	background-color: #202124;
-}
-
-QWidget#InfoBuyer {
-	border-radius: 10px;
-	background-color: #202124;
-}
-
-QWidget#tableEdit{
-	border-radius: 10px;
-	background-color: #202124;
-}
-
-QWidget#additionalInfo{
-	border-radius: 10px;
-	background-color: #202124;
-}
-
-QGraphicsView#graphicsReport {
-	border-radius: 10px;
-	background-color: #202124;
-}
-
-QWidget#settingGraphics {
-	border-radius: 10px;
-	background-color: #202124;
-}
-
 /* Поле вкладки для закупки товаров*/
 QWidget#buyProductAndInfo {
 	border-radius: 10px;
