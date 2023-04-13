@@ -2,6 +2,7 @@
 #define MENUEDITPRODUCT_H
 
 #include "menueditproductviewmodel.h"
+#include <QMessageBox>
 
 #include <QWidget>
 
@@ -21,10 +22,11 @@ public:
 public slots:
     void modelChangedSlots(QAbstractTableModel* modelData);
     void addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName);
-    void addInfoProductSlots(QLabel* label = nullptr, QLineEdit* lineEdit = nullptr);
+    void addInfoProductSlots(QWidget* widget = nullptr);
     void clearCheckBoxSlots();
     void clearLableSlots();
     void priceFilterChangedSlots();
+    void showMessageBox();
 
 signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);

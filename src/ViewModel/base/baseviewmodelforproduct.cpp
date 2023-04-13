@@ -5,9 +5,9 @@ BaseViewModelForProduct::BaseViewModelForProduct(ProductModel* productModel, QSt
 {
     filter = new Filter;
 
-    connect(productModel, &ProductModel::addInfoProductSignal, this, [&](QLabel* label, QLineEdit* lineEdit)
+    connect(productModel, &ProductModel::addInfoProductSignal, this, [&](QWidget* widget)
     {
-       emit addInfoProductSignal(label, lineEdit);
+       emit addInfoProductSignal(widget);
     });
 }
 

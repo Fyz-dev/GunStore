@@ -13,7 +13,6 @@ MainMenu::MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent) :
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     mainMenuViewModel->update();
-
     ui->tableViewProduct->hideColumn(0);
 }
 
@@ -38,21 +37,15 @@ void MainMenu::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutNa
     }
 }
 
-void MainMenu::addInfoProductSlots(QLabel* label, QLineEdit* lineEdit)
+void MainMenu::addInfoProductSlots(QWidget* widget)
 {
-    if(label == nullptr)
+    if(widget == nullptr)
     {
         ui->verticalLayout_4->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
         return;
     }
 
-    QFrame* frame = new QFrame;
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->addWidget(label);
-    layout->addWidget(lineEdit);
-
-    frame->setLayout(layout);
-    ui->infoSelectProduct->layout()->addWidget(frame);
+    ui->infoSelectProduct->layout()->addWidget(widget);
 }
 
 void MainMenu::clearCheckBoxSlots()
@@ -69,6 +62,7 @@ void MainMenu::priceFilterChangedSlots()
 
 void MainMenu::clearLableSlots()
 {
+    ui->tableViewProduct->hideColumn(0);
     deleteWidget(ui->infoSelectProduct->layout());
 }
 
@@ -92,7 +86,7 @@ void MainMenu::connected()
     connect(mainMenuViewModel, &MainMenuViewModel::addInfoProductSignal, this, &MainMenu::addInfoProductSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::clearLableSignal, this, &MainMenu::clearLableSlots);
     connect(this, &MainMenu::priceFilterChangedSignals, mainMenuViewModel, &MainMenuViewModel::priceFilterChangedSlots);
-    connect(ui->tableViewProduct, &QTableView::doubleClicked, this, [&](const QModelIndex& i)
+    connect(ui->tableViewProduct, &QTableView::clicked, this, [&](const QModelIndex& i)
     {
         mainMenuViewModel->selectedElemTableViewSlots(i);
     });

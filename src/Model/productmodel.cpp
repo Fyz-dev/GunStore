@@ -33,14 +33,12 @@ void ProductModel::createElementForDispleyCharact(QString request, bool lineEdit
 
     while(query->next())
     {
-        QLabel* label = new QLabel;
-        label->setText(query->value(0).toString() + ":");
-        label->setAlignment(Qt::AlignLeft);
+        ElementCharacteristic* element = new ElementCharacteristic(query->value(0).toString(),
+        listChangedCharacteristic.contains(query->value(2).toInt()) ? listChangedCharacteristic.value(query->value(2).toInt()) : query->value(1).toString(),
+        query->value(2).toInt(), lineEditIsReadOnly);
 
-        QLineEdit* lineEdit = new QLineEdit;
-        lineEdit->setText(query->value(1).toString());
-        lineEdit->setReadOnly(lineEditIsReadOnly);
-        emit addInfoProductSignal(label, lineEdit);
+        connect(element, &ElementCharacteristic::changedValueSignals, this, &ProductModel::changedValueCharacteristicSlots);
+        emit addInfoProductSignal(element);
     }
 
     delete query;
@@ -72,3 +70,19 @@ void ProductModel::setHeaderModel()
     modelData->setHeaderData(7, Qt::Horizontal, "Країна");
     modelData->setHeaderData(8, Qt::Horizontal, "Категорія");
 }
+
+void ProductModel::changedValueCharacteristicSlots(const ElementCharacteristic* element)
+{
+    for(QHash<int, QString>::iterator i = listChangedCharacteristic.begin(); i != listChangedCharacteristic.end(); ++i)
+    {
+        if(element->getIdProductValue() == i.key())
+        {
+            i.value() = element->getValue();
+            return;
+        }
+
+    }
+
+    listChangedCharacteristic.insert(element->getIdProductValue(), element->getValue());
+}
+

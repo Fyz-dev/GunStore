@@ -21,7 +21,10 @@
 
 QWidget#infoSelectProduct{
 	background-color: transparent;
-}</string>
+}
+
+
+</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="spacing">

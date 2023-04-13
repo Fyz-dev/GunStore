@@ -21,7 +21,7 @@ public:
 public slots:
     void modelChangedSlots(QAbstractTableModel * modelData);
     void addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName);
-    void addInfoProductSlots(QLabel* label = nullptr, QLineEdit* lineEdit = nullptr);
+    void addInfoProductSlots(QWidget* widget = nullptr);
     void clearCheckBoxSlots();
     void clearLableSlots();
     void priceFilterChangedSlots();

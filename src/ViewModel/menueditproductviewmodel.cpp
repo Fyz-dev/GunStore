@@ -29,6 +29,19 @@ void MenuEditProductViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox
 
 void MenuEditProductViewModel::applyChanges()
 {
-    productModel->getModelData()->submitAll();
-    qDebug() << productModel->getModelData()->lastError();
+    if(!productModel->getModelData()->isDirty() && productModel->getListChangedCharacteristic().count() == 0)
+        return;
+
+    for(QHash<int, QString>::const_iterator i = productModel->getListChangedCharacteristic().constBegin(); i != productModel->getListChangedCharacteristic().constEnd(); ++i)
+    {
+        productModel->requestBD("UPDATE productvalue SET value = '" + i.value()
+                                        + "' WHERE id_productValue = " + QString::number(i.key()));
+    }
+
+    if(productModel->getModelData()->isDirty())
+        productModel->getModelData()->submitAll();
+
+    emit showMessageBoxSignals();
+    productModel->getListChangedCharacteristic().clear();
 }
+

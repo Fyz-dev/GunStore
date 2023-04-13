@@ -23,7 +23,7 @@ public slots:
 signals:
     void modelChangedSignal(QSqlTableModel* modelData);
     void addCheckBoxSignal(QCheckBox* checkBox, const LayoutState& layoutName);
-    void addInfoProductSignal(QLabel* label = nullptr, QLineEdit* lineEdit = nullptr);
+    void addInfoProductSignal(QWidget* widget = nullptr);
     void clearCheckBoxSignal();
     void clearLableSignal();
 

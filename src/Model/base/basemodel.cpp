@@ -4,6 +4,7 @@ BaseModel::BaseModel(QSqlDatabase* db) :
     db(db)
 {
     modelData = new QSqlRelationalTableModel(nullptr, *db);
+    modelData->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 }
 
 QSqlRelationalTableModel* BaseModel::getModelData() { return modelData; }

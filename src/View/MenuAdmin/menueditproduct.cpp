@@ -39,21 +39,16 @@ void MenuEditProduct::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& l
     }
 }
 
-void MenuEditProduct::addInfoProductSlots(QLabel* label, QLineEdit* lineEdit)
+//Добавляем характеристики в отображение
+void MenuEditProduct::addInfoProductSlots(QWidget* widget)
 {
-    if(label == nullptr)
+    if(widget == nullptr)
     {
         ui->verticalLayout_16->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
         return;
     }
 
-    QFrame* frame = new QFrame;
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->addWidget(label);
-    layout->addWidget(lineEdit);
-
-    frame->setLayout(layout);
-    ui->infoSelectProduct->layout()->addWidget(frame);
+    ui->infoSelectProduct->layout()->addWidget(widget);
 }
 
 void MenuEditProduct::clearCheckBoxSlots()
@@ -70,6 +65,7 @@ void MenuEditProduct::priceFilterChangedSlots()
 
 void MenuEditProduct::clearLableSlots()
 {
+    ui->tableViewProduct->hideColumn(0);
     deleteWidget(ui->infoSelectProduct->layout());
 }
 
@@ -83,11 +79,17 @@ void MenuEditProduct::deleteWidget(QLayout* layout)
     }
 }
 
+void MenuEditProduct::showMessageBox()
+{
+    QMessageBox::information(this, tr("Увага!"), tr("Зміни внесено до бази даних."));
+}
+
 void MenuEditProduct::connected()
 {
     //Button
     connect(ui->buttonAccept, &QPushButton::clicked, menuEditProductViewModel, &MenuEditProductViewModel::applyChanges);
 
+    connect(menuEditProductViewModel, &MenuEditProductViewModel::showMessageBoxSignals, this, &MenuEditProduct::showMessageBox);
     connect(ui->inputTo, &QLineEdit::textChanged, this, &MenuEditProduct::priceFilterChangedSlots);
     connect(ui->inputDo, &QLineEdit::textChanged, this, &MenuEditProduct::priceFilterChangedSlots);
     connect(menuEditProductViewModel, &MenuEditProductViewModel::modelChangedSignal, this, &MenuEditProduct::modelChangedSlots);
@@ -96,7 +98,7 @@ void MenuEditProduct::connected()
     connect(menuEditProductViewModel, &MenuEditProductViewModel::addInfoProductSignal, this, &MenuEditProduct::addInfoProductSlots);
     connect(menuEditProductViewModel, &MenuEditProductViewModel::clearLableSignal, this, &MenuEditProduct::clearLableSlots);
     connect(this, &MenuEditProduct::priceFilterChangedSignals, menuEditProductViewModel, &MenuEditProductViewModel::priceFilterChangedSlots);
-    connect(ui->tableViewProduct, &QTableView::doubleClicked, this, [&](const QModelIndex& i)
+    connect(ui->tableViewProduct, &QTableView::clicked, this, [&](const QModelIndex& i)
     {
         menuEditProductViewModel->selectedElemTableViewSlots(i, false);
     });
