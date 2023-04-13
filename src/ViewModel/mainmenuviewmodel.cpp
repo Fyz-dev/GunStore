@@ -5,7 +5,7 @@ MainMenuViewModel::MainMenuViewModel(ProductModel* productModel) : BaseViewModel
 
 void MainMenuViewModel::update()
 {
-    if(!productModel->updateModel(standartRequest))
+    if(!productModel->updateModel("product", "", 8, QSqlRelation("category", "id_category", "c_name")))
         return;
 
     emit modelChangedSignal(productModel->getModelData());

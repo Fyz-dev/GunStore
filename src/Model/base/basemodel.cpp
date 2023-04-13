@@ -3,12 +3,31 @@
 BaseModel::BaseModel(QSqlDatabase* db) :
     db(db)
 {
-    modelData = new QSqlTableModel(nullptr, *db);
+    modelData = new QSqlRelationalTableModel(nullptr, *db);
 }
 
-QSqlTableModel* BaseModel::getModelData() { return modelData; }
+QSqlRelationalTableModel* BaseModel::getModelData() { return modelData; }
 
-bool BaseModel::updateModel(QString request)
+bool BaseModel::updateModel(QString table, QString filter, int column, const QSqlRelation& relation)
+{
+    modelData->setTable(table);
+
+    if(relation.isValid())
+        modelData->setRelation(column, relation);
+
+    if(filter != "")
+        modelData->setFilter(filter);
+
+    if(modelData->select())
+    {
+        setHeaderModel();
+        return true;
+    }
+
+    return false;
+}
+
+bool BaseModel::updateModelViaQuery(QString request)
 {
     QSqlQuery query(request, *db);
 
@@ -33,7 +52,7 @@ QSqlQuery* BaseModel::select(const QString& request)
     return nullptr;
 }
 
-bool BaseModel::updateInfoBD(QString request)
+bool BaseModel::requestBD(QString request)
 {
     QSqlQuery query(*db);
     query.prepare(request);

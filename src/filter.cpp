@@ -61,6 +61,6 @@ QString Filter::updateModelByFilter()
     filterCountry = filterCountry == "" ? "p_country" : filterCountry.chopped(1);
     filterBrand = filterBrand == "" ? "p_brand" : filterBrand.chopped(1);
 
-    return ("where 1=1 and c_name in(" + filterCategory + ") and p_country in(" +
+    return ("c_name in(" + filterCategory + ") and p_country in(" +
             filterCountry + ") and p_brand in(" + filterBrand + ") and (" + filterPrice + ")");
 }

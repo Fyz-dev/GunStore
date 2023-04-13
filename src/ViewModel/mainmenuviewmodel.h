@@ -12,7 +12,7 @@ public:
     void update() override;
 
 private:
-    void addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName);
+    void addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName) override;
 };
 
 #endif // MAINMENUVIEWMODEL_H

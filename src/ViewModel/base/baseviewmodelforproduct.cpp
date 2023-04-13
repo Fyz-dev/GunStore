@@ -4,36 +4,32 @@ BaseViewModelForProduct::BaseViewModelForProduct(ProductModel* productModel, QSt
     : BaseViewModel(standartRequest), productModel(productModel)
 {
     filter = new Filter;
+
+    connect(productModel, &ProductModel::addInfoProductSignal, this, [&](QLabel* label, QLineEdit* lineEdit)
+    {
+       emit addInfoProductSignal(label, lineEdit);
+    });
 }
 
 void BaseViewModelForProduct::priceFilterChangedSlots(QLineEdit* inputTo, QLineEdit* inputDo)
 {
-    productModel->updateModel(standartRequest + filter->priceFilterChangedSlots(inputTo, inputDo));
+    productModel->updateModel("product", filter->priceFilterChangedSlots(inputTo, inputDo), 8, QSqlRelation("category", "id_category", "c_name"));
     emit clearLableSignal();
 }
 
 void BaseViewModelForProduct::checkBoxEnabledSlots(const int& state)
 {
-    productModel->updateModel(standartRequest + filter->checkBoxEnabled(state, sender()));
+    productModel->updateModel("product", filter->checkBoxEnabled(state, sender()), 8, QSqlRelation("category", "id_category", "c_name"));
     emit clearLableSignal();
 }
 
-void BaseViewModelForProduct::selectedElemTableViewSlots(const QModelIndex& i)
+void BaseViewModelForProduct::selectedElemTableViewSlots(const QModelIndex& i, bool lineEditIsReadOnly)
 {
     emit clearLableSignal();
-    QHash<QLabel*, QLineEdit*>* list = productModel->createElementForDispleyCharact("call getCharacteristicForProduct('" +
-                                                                                   i.model()->data(i.model()->index(i.row(), 0)).toString() +"')");
-
-    if(!list)
-        return;
-
-    emit clearLableSignal();
-    for (QLineEdit*& value : (*list))
-        emit addInfoProductSignal(list->key(value), value);
+    productModel->createElementForDispleyCharact("call getCharacteristicForProduct(" +
+    i.model()->data(i.model()->index(i.row(), 0)).toString() +")", lineEditIsReadOnly);
 
     emit addInfoProductSignal();
-
-    delete list;
 }
 
 BaseViewModelForProduct::~BaseViewModelForProduct()

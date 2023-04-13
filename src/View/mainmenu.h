@@ -19,7 +19,7 @@ public:
     ~MainMenu();
 
 public slots:
-    void modelChangedSlots(QSqlTableModel* modelData);
+    void modelChangedSlots(QAbstractTableModel * modelData);
     void addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName);
     void addInfoProductSlots(QLabel* label = nullptr, QLineEdit* lineEdit = nullptr);
     void clearCheckBoxSlots();

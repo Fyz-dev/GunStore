@@ -8,8 +8,10 @@
 #include <QLabel>
 #include <QLineEdit>
 
-class ProductModel : public BaseModel
+class ProductModel : public QObject, public BaseModel
 {
+    Q_OBJECT
+
 public:
     ProductModel(QSqlDatabase* db);
 
@@ -20,10 +22,14 @@ public:
 
     void updateListFilter();
     void updateList(QList<QString>& list, QString request);
-    QHash<QLabel*, QLineEdit*>* createElementForDispleyCharact(QString request, bool lineEditIsReadOnly = true);
-
+    void createElementForDispleyCharact(QString request, bool lineEditIsReadOnly = true);
     QList<QCheckBox*> createCheckBox(const QList<QString>& list);
 
+signals:
+    void addInfoProductSignal(QLabel* label, QLineEdit* lineEdit);
+
+private:
+    void setHeaderModel() override;
 
 private:
     QList<QString> listCategory;

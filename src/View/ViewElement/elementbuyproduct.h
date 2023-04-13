@@ -15,7 +15,7 @@ class ElementBuyProduct : public QWidget
     Q_OBJECT
 
 public:
-    explicit ElementBuyProduct(const QSqlTableModel* model, QWidget *parent = nullptr);
+    explicit ElementBuyProduct(const QAbstractTableModel* model, QWidget *parent = nullptr);
     ~ElementBuyProduct();
 
 public:

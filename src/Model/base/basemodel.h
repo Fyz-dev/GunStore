@@ -2,27 +2,28 @@
 #define BASEMODEL_H
 
 #include <QSqlDatabase>
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include <QSqlQuery>
 
 class BaseModel
 {
 public:
     BaseModel(QSqlDatabase* db);
-    ~BaseModel();
+    virtual ~BaseModel();
 
 public:
-    QSqlTableModel* getModelData();
-    virtual bool updateModel(QString request);
-    bool updateInfoBD(QString request);
+    QSqlRelationalTableModel* getModelData();
+    virtual bool updateModel(QString table, QString filter = "", int colum = 0, const QSqlRelation& relation = QSqlRelation());
+    virtual bool updateModelViaQuery(QString request);
+    virtual bool requestBD(QString request);
 
 protected:
+    virtual void setHeaderModel() = 0;
     QSqlQuery* select(const QString& request);
-    QString s;
 
 protected:
     QSqlDatabase* db;
-    QSqlTableModel* modelData;
+    QSqlRelationalTableModel* modelData;
 };
 
 #endif // BASEMODEL_H

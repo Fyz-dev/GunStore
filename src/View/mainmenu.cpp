@@ -12,11 +12,12 @@ MainMenu::MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent) :
 
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-
     mainMenuViewModel->update();
+
+    ui->tableViewProduct->hideColumn(0);
 }
 
-void MainMenu::modelChangedSlots(QSqlTableModel* modelData)
+void MainMenu::modelChangedSlots(QAbstractTableModel * modelData)
 {
     ui->tableViewProduct->setModel(nullptr);
     ui->tableViewProduct->setModel(modelData);
@@ -91,7 +92,10 @@ void MainMenu::connected()
     connect(mainMenuViewModel, &MainMenuViewModel::addInfoProductSignal, this, &MainMenu::addInfoProductSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::clearLableSignal, this, &MainMenu::clearLableSlots);
     connect(this, &MainMenu::priceFilterChangedSignals, mainMenuViewModel, &MainMenuViewModel::priceFilterChangedSlots);
-    connect(ui->tableViewProduct, &QTableView::doubleClicked, mainMenuViewModel, &MainMenuViewModel::selectedElemTableViewSlots);
+    connect(ui->tableViewProduct, &QTableView::doubleClicked, this, [&](const QModelIndex& i)
+    {
+        mainMenuViewModel->selectedElemTableViewSlots(i);
+    });
 }
 
 MainMenu::~MainMenu()

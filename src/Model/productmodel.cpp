@@ -24,15 +24,13 @@ void ProductModel::updateList(QList<QString>& list, QString request)
    delete query;
 }
 
-QHash<QLabel*, QLineEdit*>* ProductModel::createElementForDispleyCharact(QString request, bool lineEditIsReadOnly)
+void ProductModel::createElementForDispleyCharact(QString request, bool lineEditIsReadOnly)
 {
     QSqlQuery* query = select(request);
-    QHash<QLabel*, QLineEdit*>* listCharacter;
 
     if(query == nullptr)
-        return nullptr;
+        return;
 
-    listCharacter = new QHash<QLabel*, QLineEdit*>;
     while(query->next())
     {
         QLabel* label = new QLabel;
@@ -42,11 +40,10 @@ QHash<QLabel*, QLineEdit*>* ProductModel::createElementForDispleyCharact(QString
         QLineEdit* lineEdit = new QLineEdit;
         lineEdit->setText(query->value(1).toString());
         lineEdit->setReadOnly(lineEditIsReadOnly);
-        listCharacter->insert(label, lineEdit);
+        emit addInfoProductSignal(label, lineEdit);
     }
 
     delete query;
-    return listCharacter;
 }
 
 QList<QCheckBox*> ProductModel::createCheckBox(const QList<QString>& list)
@@ -62,4 +59,16 @@ QList<QCheckBox*> ProductModel::createCheckBox(const QList<QString>& list)
     }
 
     return listCheckBox;
+}
+
+void ProductModel::setHeaderModel()
+{
+    modelData->setHeaderData(1, Qt::Horizontal, "Назва");
+    modelData->setHeaderData(2, Qt::Horizontal, "Ціна(грн.)");
+    modelData->setHeaderData(3, Qt::Horizontal, "Кількість(шт.)");
+    modelData->setHeaderData(4, Qt::Horizontal, "Бренд");
+    modelData->setHeaderData(5, Qt::Horizontal, "Вес(г.)");
+    modelData->setHeaderData(6, Qt::Horizontal, "Упаковка");
+    modelData->setHeaderData(7, Qt::Horizontal, "Країна");
+    modelData->setHeaderData(8, Qt::Horizontal, "Категорія");
 }

@@ -6,7 +6,7 @@
 class BaseViewModel
 {
 public:
-    BaseViewModel(QString standartRequest);
+    BaseViewModel(QString standartRequest = "");
     virtual ~BaseViewModel();
     virtual void update() = 0;
 

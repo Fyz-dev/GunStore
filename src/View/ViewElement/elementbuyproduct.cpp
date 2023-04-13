@@ -1,7 +1,7 @@
 #include "elementbuyproduct.h"
 #include "ui_elementbuyproduct.h"
 
-ElementBuyProduct::ElementBuyProduct(const QSqlTableModel* model, QWidget *parent) :
+ElementBuyProduct::ElementBuyProduct(const QAbstractTableModel* model, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ElementBuyProduct)
 {

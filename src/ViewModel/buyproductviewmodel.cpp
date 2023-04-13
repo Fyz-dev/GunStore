@@ -26,7 +26,7 @@ void BuyProductViewModel::changedComboBoxSlots(const int& i)
         return;
 
     QComboBox* senders = qobject_cast<QComboBox*>(sender());
-    productModel->updateModel(standartRequest + "('" + senders->itemText(i) + "')");
+    productModel->updateModelViaQuery(standartRequest + "('" + senders->itemText(i) + "')");
     listElement.append(new ElementBuyProduct(productModel->getModelData()));
 
     connect(listElement.last(), &ElementBuyProduct::deleteMe, this, &BuyProductViewModel::deleteElementBuyProduct);
@@ -73,7 +73,7 @@ void BuyProductViewModel::buyProducts()
         return;
 
     for (ElementBuyProduct* element : listElement)
-        productModel->updateInfoBD("call addCountProduct('" + element->getNameProduct() +"'," + QString::number(element->getCount()) + ")");
+        productModel->requestBD("call addCountProduct('" + element->getNameProduct() +"'," + QString::number(element->getCount()) + ")");
 
     emit messageBoxShowSignals();
 }
