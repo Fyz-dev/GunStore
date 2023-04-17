@@ -1,5 +1,4 @@
 #include "connectionhandler.h"
-#include <QDebug>
 
 ConnectionHandler::ConnectionHandler()
 {

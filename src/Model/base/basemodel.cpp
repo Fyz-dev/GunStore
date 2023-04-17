@@ -1,4 +1,5 @@
 #include "basemodel.h"
+#include <QSqlError>
 
 BaseModel::BaseModel(QSqlDatabase* db) :
     db(db)
@@ -57,7 +58,9 @@ bool BaseModel::requestBD(QString request)
 {
     QSqlQuery query(*db);
     query.prepare(request);
-    return query.exec();
+    bool ok = query.exec();
+    lastInsertId = query.lastInsertId().toInt();
+    return ok;
 }
 
 BaseModel::~BaseModel()

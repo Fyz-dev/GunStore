@@ -19,6 +19,9 @@ public:
     explicit MenuAdmin(ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
     ~MenuAdmin();
 
+public slots:
+    void openAddNewProductDialog();
+
 private slots:
     void buttonEditProduct_clicked();
 

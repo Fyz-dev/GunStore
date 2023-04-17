@@ -1,8 +1,9 @@
 #include "menueditproductviewmodel.h"
-#include <QSqlError>
 
 MenuEditProductViewModel::MenuEditProductViewModel(ProductModel* productModel) : BaseViewModelForProduct(productModel)
-{}
+{
+    delegate = new DelegateForTableView(listToRemove, productModel->getModelData());
+}
 
 void MenuEditProductViewModel::update()
 {
@@ -29,9 +30,10 @@ void MenuEditProductViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox
 
 void MenuEditProductViewModel::applyChanges()
 {
-    if(!productModel->getModelData()->isDirty() && productModel->getListChangedCharacteristic().count() == 0)
+    if(!productModel->getModelData()->isDirty() && productModel->getListChangedCharacteristic().isEmpty() && listToRemove.isEmpty())
         return;
 
+    //Обновляем информацию в БД
     for(QHash<int, QString>::const_iterator i = productModel->getListChangedCharacteristic().constBegin(); i != productModel->getListChangedCharacteristic().constEnd(); ++i)
     {
         productModel->requestBD("UPDATE productvalue SET value = '" + i.value()
@@ -41,7 +43,26 @@ void MenuEditProductViewModel::applyChanges()
     if(productModel->getModelData()->isDirty())
         productModel->getModelData()->submitAll();
 
+    //Удаляем информацию в БД
+    for (int id : listToRemove)
+        productModel->requestBD("DELETE FROM product where id_product = " + QString::number(id));
+
     emit showMessageBoxSignals();
     productModel->getListChangedCharacteristic().clear();
+    listToRemove.clear();
 }
 
+void MenuEditProductViewModel::addItemToRemove(const int& row)
+{
+    int idProduct = productModel->getModelData()->index(row, 0).data().toInt();
+
+    if(!listToRemove.contains(idProduct))
+        listToRemove.append(idProduct);
+    else
+        listToRemove.removeOne(idProduct);
+}
+
+MenuEditProductViewModel::~MenuEditProductViewModel()
+{
+    delete delegate;
+}

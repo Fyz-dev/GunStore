@@ -13,14 +13,14 @@ MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewMo
     ui->tableViewProduct->setPalette(QPalette(QPalette::WindowText, Qt::white));
 
     menuEditProductViewModel->update();
-
-    ui->tableViewProduct->hideColumn(0);
+    ui->tableViewProduct->setItemDelegate(menuEditProductViewModel->getDelegate());
 }
 
 void MenuEditProduct::modelChangedSlots(QAbstractTableModel* modelData)
 {
     ui->tableViewProduct->setModel(nullptr);
     ui->tableViewProduct->setModel(modelData);
+    ui->tableViewProduct->hideColumn(0);
 }
 
 void MenuEditProduct::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName)
@@ -87,7 +87,23 @@ void MenuEditProduct::showMessageBox()
 void MenuEditProduct::connected()
 {
     //Button
-    connect(ui->buttonAccept, &QPushButton::clicked, menuEditProductViewModel, &MenuEditProductViewModel::applyChanges);
+    connect(ui->buttonAccept, &QPushButton::clicked, this, [&]()
+    {
+        menuEditProductViewModel->applyChanges();
+        menuEditProductViewModel->update();
+    });
+
+    connect(ui->buttonAddNewProduct, &QPushButton::clicked, this, [=]()
+    {
+        emit openAddNewProductDialogSignals();
+        menuEditProductViewModel->update();
+    });
+
+    connect(ui->buttonDeleteProduct, &QPushButton::clicked, this, [&]()
+    {
+        if(ui->tableViewProduct->currentIndex().isValid())
+            menuEditProductViewModel->addItemToRemove(ui->tableViewProduct->currentIndex().row());
+    });
 
     connect(menuEditProductViewModel, &MenuEditProductViewModel::showMessageBoxSignals, this, &MenuEditProduct::showMessageBox);
     connect(ui->inputTo, &QLineEdit::textChanged, this, &MenuEditProduct::priceFilterChangedSlots);

@@ -2,8 +2,8 @@
 #define MENUEDITPRODUCT_H
 
 #include "menueditproductviewmodel.h"
-#include <QMessageBox>
 
+#include <QMessageBox>
 #include <QWidget>
 
 
@@ -30,6 +30,7 @@ public slots:
 
 signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);
+    void openAddNewProductDialogSignals();
 
 private:
     void connected();

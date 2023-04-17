@@ -3,6 +3,7 @@
 
 #include "baseviewmodelforproduct.h"
 #include "productmodel.h"
+#include "delegatefortableview.h"
 
 class MenuEditProductViewModel : public BaseViewModelForProduct
 {
@@ -10,9 +11,13 @@ class MenuEditProductViewModel : public BaseViewModelForProduct
 
 public:
     MenuEditProductViewModel(ProductModel* productModel);
-    void update() override;
+    ~MenuEditProductViewModel();
 
-public slots:
+public:
+    void update() override;
+    void addItemToRemove(const int& row);
+    const QList<int>& getListToRemove() { return listToRemove; };
+    DelegateForTableView* getDelegate() { return delegate; };
     void applyChanges();
 
 signals:
@@ -21,6 +26,9 @@ signals:
 private:
     void addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName) override;
 
+private:
+    QList<int> listToRemove;
+    DelegateForTableView* delegate;
 };
 
 #endif // MENUEDITPRODUCTVIEWMODEL_H
