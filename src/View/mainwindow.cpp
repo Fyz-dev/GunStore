@@ -1,10 +1,12 @@
-//Мои заголовочные файлы формы
 #include "mainwindow.h"
 #include "mainmenu.h"
 #include "buyproduct.h"
 #include "menuadmin.h"
 
 #include "./ui_mainwindow.h"
+
+//Основной класс где происходит контроль таких окон как: Главное окно, закупки, админа, оформление заказа
+//При желание добавить новое окно в область видимости основного окна НЕОБХОДИМО вызвать метод freeMemory()
 
 MainWindow::MainWindow(ConnectionHandler* connectionHandler, QWidget *parent) :
     connectionHandler(connectionHandler),

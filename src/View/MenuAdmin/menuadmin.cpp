@@ -10,6 +10,13 @@
 #include "menuemployeesviewmodel.h"
 #include "addnewemployees.h"
 #include "addemployeesviewmodel.h"
+#include "suppliermodel.h"
+#include "menusupplierviewmodel.h"
+#include "menusupplier.h"
+#include "addnewsupplier.h"
+
+//Класс где происходит контроль всех окон админа
+//При желание добавить новое окно в область видимости окна администратора НЕОБХОДИМО вызвать метод freeMemory()
 
 MenuAdmin::MenuAdmin(ConnectionHandler* connectionHandler, QWidget *parent) :
     connectionHandler(connectionHandler),
@@ -27,6 +34,7 @@ void MenuAdmin::connected()
 {
     connect(ui->buttonEditProduct, &QPushButton::clicked, this, &MenuAdmin::buttonEditProduct_clicked);
     connect(ui->buttonInfoEmployees, &QPushButton::clicked, this, &MenuAdmin::buttonInfoEmployees_clicked);
+    connect(ui->buttonInfoSupplier, &QPushButton::clicked, this, &MenuAdmin::buttonInfoSupplier_clicked);
 }
 
 void MenuAdmin::openAddNewProductDialog()
@@ -43,6 +51,13 @@ void MenuAdmin::openAddNewEmployees()
     std::unique_ptr<AddEmployeesViewModel> addEmployeesViewModel = std::make_unique<AddEmployeesViewModel>(employeesModel.get());
     std::unique_ptr<AddNewEmployees> addNewEmployees = std::make_unique<AddNewEmployees>(addEmployeesViewModel.get(), this);
     addNewEmployees->exec();
+}
+
+void MenuAdmin::openAddSupplier()
+{
+    std::unique_ptr<SupplierModel> supplierModel = std::make_unique<SupplierModel>(connectionHandler->getDB());
+    std::unique_ptr<AddNewSupplier> addNewSupplier = std::make_unique<AddNewSupplier>(supplierModel.get(), this);
+    addNewSupplier->exec();
 }
 
 void MenuAdmin::buttonEditProduct_clicked()
@@ -71,6 +86,20 @@ void MenuAdmin::buttonInfoEmployees_clicked()
     thisWindow = new MenuEmployees(static_cast<MenuEmployeesViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
     connect(qobject_cast<MenuEmployees*>(thisWindow), &MenuEmployees::openAddNewEmployees, this, &MenuAdmin::openAddNewEmployees);
+}
+
+void MenuAdmin::buttonInfoSupplier_clicked()
+{
+    if(qobject_cast<MenuSupplier*>(thisWindow))
+        return;
+
+    freeMemory();
+
+    thisModel = new SupplierModel(connectionHandler->getDB());
+    thisViewModel = new MenuSupplierViewModel(static_cast<SupplierModel*>(thisModel));
+    thisWindow = new MenuSupplier(static_cast<MenuSupplierViewModel*>(thisViewModel), this);
+    ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
+    connect(qobject_cast<MenuSupplier*>(thisWindow), &MenuSupplier::openAddSupplier, this, &MenuAdmin::openAddSupplier);
 }
 
 void MenuAdmin::freeMemory()

@@ -36,6 +36,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout_8">
      <item>
       <widget class="QPushButton" name="buttonDeleteEmployees">
+       <property name="minimumSize">
+        <size>
+         <width>140</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Видалити</string>
        </property>
@@ -56,6 +62,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="buttonAddEmployees">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>140</width>
