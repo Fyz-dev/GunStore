@@ -19,6 +19,7 @@ void BaseViewModelForProduct::priceFilterChangedSlots(QLineEdit* inputTo, QLineE
 
 void BaseViewModelForProduct::checkBoxEnabledSlots(const int& state)
 {
+    QString r = filter->checkBoxEnabled(state, sender());
     productModel->updateModel("product", filter->checkBoxEnabled(state, sender()), 8, QSqlRelation("category", "id_category", "c_name"));
     emit clearLableSignal();
 }

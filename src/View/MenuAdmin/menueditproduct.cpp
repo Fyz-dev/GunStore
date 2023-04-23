@@ -102,7 +102,10 @@ void MenuEditProduct::connected()
     connect(ui->buttonDeleteProduct, &QPushButton::clicked, this, [&]()
     {
         if(ui->tableViewProduct->currentIndex().isValid())
+        {
             menuEditProductViewModel->addItemToRemove(ui->tableViewProduct->currentIndex().row());
+            ui->tableViewProduct->update();
+        }
     });
 
     connect(menuEditProductViewModel, &MenuEditProductViewModel::showMessageBoxSignals, this, &MenuEditProduct::showMessageBox);

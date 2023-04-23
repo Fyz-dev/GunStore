@@ -37,6 +37,13 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_12">
        <item>
+        <widget class="QPushButton" name="buttonRemoveSupplier">
+         <property name="text">
+          <string>Видалити</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer_7">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -52,7 +59,27 @@
        <item>
         <widget class="QPushButton" name="buttonAddSupplier">
          <property name="text">
-          <string>Додати постачальника</string>
+          <string>Додати </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonApplyChanges">
+         <property name="text">
+          <string>Підтвердити зміни</string>
          </property>
         </widget>
        </item>

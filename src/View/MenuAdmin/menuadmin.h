@@ -21,9 +21,11 @@ public:
 
 public slots:
     void openAddNewProductDialog();
+    void openAddNewEmployees();
 
 private slots:
     void buttonEditProduct_clicked();
+    void buttonInfoEmployees_clicked();
 
 private:
     void freeMemory();

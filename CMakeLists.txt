@@ -16,7 +16,6 @@ find_package(Qt6 REQUIRED COMPONENTS Sql)
 find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
 find_package(Qt6 REQUIRED COMPONENTS Gui)
 
-
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/src/View)
 include_directories(${PROJECT_SOURCE_DIR}/src/View/ViewElement)

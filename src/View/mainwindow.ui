@@ -110,7 +110,6 @@ QTableView QTableCornerButton::section{
 QTableView QHeaderView, QHeaderView::section{
 	background-color: #18191c;
 	border-style: solid;
-	border-style: solid;
 	font: 14pt &quot;Franklin Gothic Medium&quot;;
 	color: white;
 }
@@ -121,6 +120,13 @@ QDoubleSpinBox{
 
 QSpinBox{
 	color: white;
+}
+
+QDateEdit {
+    color: white;
+    background-color: #41444a;
+	font: 14pt &quot;Franklin Gothic Medium&quot;;
+	border: none;
 }
 
 /* Поле с кнопками для администратора*/

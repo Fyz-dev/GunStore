@@ -88,6 +88,9 @@ QLineEdit {
            <height>16777215</height>
           </size>
          </property>
+         <property name="text">
+          <string>admin</string>
+         </property>
          <property name="placeholderText">
           <string>Логін</string>
          </property>
@@ -131,6 +134,9 @@ QLineEdit {
          </property>
          <property name="inputMethodHints">
           <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+         </property>
+         <property name="text">
+          <string>admin</string>
          </property>
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>

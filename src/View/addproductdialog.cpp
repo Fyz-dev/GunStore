@@ -53,6 +53,14 @@ void AddProductDialog::connected()
         emit selectedItemComboBox(i, qobject_cast<QComboBox*>(sender()));
     });
 
+    connect(ui->tableWidget, &QTableWidget::cellDoubleClicked, this, [&](const int& row, const int& column)
+    {
+        if(column == 1)
+            ui->tableWidget->setEditTriggers(QAbstractItemView::DoubleClicked);
+        else
+            ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    });
+
     connect(ui->buttonAdd, &QPushButton::clicked, this, [&]()
     {
         emit addNewProduct(ui->inputName->text(), QString::number(ui->inputPrice->text().toDouble(), 'f', 2), ui->inputBrand->text(),

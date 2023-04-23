@@ -14,8 +14,7 @@ Login::Login(std::shared_ptr<LoginViewModel> loginViewModel, QWidget *parent) :
 
 void Login::on_Button_Login_clicked()
 {
-    //loginViewModel->connectedBD(ui->lineEdit_Login->text(), ui->lineEdit_Password->text());
-    loginViewModel->connectedBD("admin", "admin");
+    loginViewModel->connectedBD(ui->lineEdit_Login->text(), ui->lineEdit_Password->text());
 }
 
 void Login::on_Button_Exit_clicked()
