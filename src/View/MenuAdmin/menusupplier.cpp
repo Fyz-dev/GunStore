@@ -20,6 +20,7 @@ void MenuSupplier::connected()
     connect(ui->buttonAddSupplier, &QPushButton::clicked, this, [&]()
     {
         emit openAddSupplier();
+        menuSupplierViewModel->update();
     });
 
     connect(ui->buttonApplyChanges, &QPushButton::clicked, this, [&]()

@@ -8,10 +8,10 @@ AddNewSupplier::AddNewSupplier(SupplierModel* supplierModel, QWidget *parent) :
 {
     ui->setupUi(this);
 
-
     connect(ui->buttonAddSupplier, &QPushButton::clicked, this, [&]()
     {
-        supplierModel->requestBD("");
+        this->supplierModel->requestBD("INSERT INTO supplier(sup_name, sup_edrpou, sup_phoneNum, sup_address, sup_bank) VALUES('" + ui->inputFullNameSupplier->text() + "'," + ui->inputEdrpou->text() + ",'" + ui->inpuNumberPhone->text() + "','" + ui->inpuAddress->text() + "','" + ui->inpuBank->text() + "')");
+        this->close();
     });
 }
 
