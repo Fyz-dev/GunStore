@@ -1,10 +1,10 @@
 #include "basemodel.h"
 #include <QSqlError>
 
-BaseModel::BaseModel(QSqlDatabase* db) :
-    db(db)
+BaseModel::BaseModel(ConnectionHandler* connection) :
+    connection(connection)
 {
-    modelData = new QSqlRelationalTableModel(nullptr, *db);
+    modelData = new QSqlRelationalTableModel(nullptr, *connection->getDB());
     modelData->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 }
 
@@ -31,7 +31,7 @@ bool BaseModel::updateModel(QString table, QString filter, int column, const QSq
 
 bool BaseModel::updateModelViaQuery(QString request)
 {
-    QSqlQuery query(request, *db);
+    QSqlQuery query(request, *connection->getDB());
 
     if(query.exec())
     {
@@ -45,7 +45,7 @@ bool BaseModel::updateModelViaQuery(QString request)
 
 QSqlQuery* BaseModel::select(const QString& request)
 {
-    QSqlQuery* query = new QSqlQuery(request, *db);
+    QSqlQuery* query = new QSqlQuery(request, *connection->getDB());
 
     if(query->exec())
         return query;
@@ -56,7 +56,7 @@ QSqlQuery* BaseModel::select(const QString& request)
 
 bool BaseModel::requestBD(QString request)
 {
-    QSqlQuery query(*db);
+    QSqlQuery query(*connection->getDB());
     query.prepare(request);
     bool ok = query.exec();
     lastInsertId = query.lastInsertId().toInt();

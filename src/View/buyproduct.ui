@@ -25,7 +25,7 @@ QWidget#scrollAreaWidgetContents{
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QComboBox" name="comboBox_2"/>
+        <widget class="QComboBox" name="comboBoxSupplier"/>
        </item>
        <item>
         <spacer name="horizontalSpacer">

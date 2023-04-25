@@ -7,7 +7,7 @@ BuyProductViewModel::BuyProductViewModel(ProductModel* productModel) : BaseViewM
 
 void BuyProductViewModel::update()
 {
-    QList<QString> list;
+    QList<QString> list, listSupplier;
 
     while(listElement.count() != 0)
     {
@@ -17,7 +17,8 @@ void BuyProductViewModel::update()
     changedCountPriceSlots();
 
     productModel->updateList(list, "select p_name from product");
-    emit updateComboBoxSignals(list);
+    productModel->updateList(listSupplier, "select sup_name from supplier");
+    emit updateComboBoxSignals(list, listSupplier);
 }
 
 void BuyProductViewModel::changedComboBoxSlots(const int& i)
@@ -67,7 +68,7 @@ void BuyProductViewModel::changedCountPriceSlots()
     emit updateSumInfoSignals(sumCount, sumPrice);
 }
 
-void BuyProductViewModel::buyProducts()
+void BuyProductViewModel::buyProducts(const QString& nameSupplier)
 {
     if(listElement.count() == 0)
         return;

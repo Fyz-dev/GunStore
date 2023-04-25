@@ -12,9 +12,11 @@ public:
 public:
     bool connectionDataBase(QString userName, QString password);
     QSqlDatabase* getDB();
+    const QString& getIdWorker() { return idWorker; }
 
 private:
     QSqlDatabase* db;
+    QString idWorker;
     bool dbOpen = false;
 };
 

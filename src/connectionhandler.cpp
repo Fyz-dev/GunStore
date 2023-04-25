@@ -1,4 +1,5 @@
 #include "connectionhandler.h"
+#include <QSqlQuery>
 
 ConnectionHandler::ConnectionHandler()
 {
@@ -13,7 +14,15 @@ bool ConnectionHandler::connectionDataBase(QString userName, QString password)
     db->setPassword(password);
     db->setPort(3306);
 
-    return dbOpen = db->open();
+    if((dbOpen = db->open()))
+    {
+        QSqlQuery query;
+        query.exec("select id_worker from worker where w_full_name = '" + userName + "'");
+        while (query.next())
+            idWorker = query.value(0).toString();
+    }
+
+    return dbOpen;
 }
 
 QSqlDatabase* ConnectionHandler::getDB() { return db; }

@@ -37,7 +37,7 @@ void MainWindow::buttonMainMenu_clicked()
 
     freeMemory();
 
-    thisModel = new ProductModel(connectionHandler->getDB());
+    thisModel = new ProductModel(connectionHandler);
     thisViewModel = new MainMenuViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new MainMenu(static_cast<MainMenuViewModel*>(thisViewModel), this);
     ui->centralwidget->layout()->addWidget(thisWindow);
@@ -50,7 +50,7 @@ void MainWindow::buttonBuyProduct_clicked()
 
     freeMemory();
 
-    thisModel = new ProductModel(connectionHandler->getDB());
+    thisModel = new ProductModel(connectionHandler);
     thisViewModel = new BuyProductViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new BuyProduct(static_cast<BuyProductViewModel*>(thisViewModel), this);
     ui->centralwidget->layout()->addWidget(thisWindow);

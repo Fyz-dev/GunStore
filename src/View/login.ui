@@ -89,7 +89,7 @@ QLineEdit {
           </size>
          </property>
          <property name="text">
-          <string>admin</string>
+          <string>Вертухайло Олег Петрович</string>
          </property>
          <property name="placeholderText">
           <string>Логін</string>
@@ -136,7 +136,7 @@ QLineEdit {
           <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
          </property>
          <property name="text">
-          <string>admin</string>
+          <string>1111</string>
          </property>
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>

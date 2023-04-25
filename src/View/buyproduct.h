@@ -19,7 +19,7 @@ public:
     ~BuyProduct();
 
 public slots:
-    void updateComboBoxSlots(const QList<QString>& list);
+    void updateComboBoxSlots(const QList<QString>& list, const QList<QString>& listSupplier);
     void addElemntByView(ElementBuyProduct* element);
     void updateSumInfoSlots(const int& sumCount, const double& sumPrice);
     void messageBoxShow();

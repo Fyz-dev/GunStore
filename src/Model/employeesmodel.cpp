@@ -1,7 +1,7 @@
 #include "employeesmodel.h"
 #include <QSqlQuery>
 
-EmployeesModel::EmployeesModel(QSqlDatabase* db) : BaseModel(db)
+EmployeesModel::EmployeesModel(ConnectionHandler* connection) : BaseModel(connection)
 {}
 
 void EmployeesModel::setHeaderModel()

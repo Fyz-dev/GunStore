@@ -1,6 +1,6 @@
 #include "suppliermodel.h"
 
-SupplierModel::SupplierModel(QSqlDatabase* db) : BaseModel(db)
+SupplierModel::SupplierModel(ConnectionHandler* connection) : BaseModel(connection)
 {}
 
 void SupplierModel::setHeaderModel()

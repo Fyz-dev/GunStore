@@ -1,6 +1,6 @@
 #include "productmodel.h"
 
-ProductModel::ProductModel(QSqlDatabase* db) : BaseModel(db)
+ProductModel::ProductModel(ConnectionHandler* connection) : BaseModel(connection)
 {}
 
 void ProductModel::updateListFilter()

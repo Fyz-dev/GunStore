@@ -14,7 +14,7 @@ class ProductModel : public QObject, public BaseModel
     Q_OBJECT
 
 public:
-    ProductModel(QSqlDatabase* db);
+    ProductModel(ConnectionHandler* connection);
 
 public:
     QList<QString> getListCategory(){ return listCategory; }

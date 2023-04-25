@@ -39,7 +39,7 @@ void MenuAdmin::connected()
 
 void MenuAdmin::openAddNewProductDialog()
 {
-    std::unique_ptr<ProductModel> productModel = std::make_unique<ProductModel>(connectionHandler->getDB());
+    std::unique_ptr<ProductModel> productModel = std::make_unique<ProductModel>(connectionHandler);
     std::unique_ptr<AddProductDialogViewModel> addProductDialogViewModel = std::make_unique<AddProductDialogViewModel>(productModel.get());
     std::unique_ptr<AddProductDialog> addProductDialog = std::make_unique<AddProductDialog>(addProductDialogViewModel.get(), this);
     addProductDialog->exec();
@@ -47,7 +47,7 @@ void MenuAdmin::openAddNewProductDialog()
 
 void MenuAdmin::openAddNewEmployees()
 {
-    std::unique_ptr<EmployeesModel> employeesModel = std::make_unique<EmployeesModel>(connectionHandler->getDB());
+    std::unique_ptr<EmployeesModel> employeesModel = std::make_unique<EmployeesModel>(connectionHandler);
     std::unique_ptr<AddEmployeesViewModel> addEmployeesViewModel = std::make_unique<AddEmployeesViewModel>(employeesModel.get());
     std::unique_ptr<AddNewEmployees> addNewEmployees = std::make_unique<AddNewEmployees>(addEmployeesViewModel.get(), this);
     addNewEmployees->exec();
@@ -55,7 +55,7 @@ void MenuAdmin::openAddNewEmployees()
 
 void MenuAdmin::openAddSupplier()
 {
-    std::unique_ptr<SupplierModel> supplierModel = std::make_unique<SupplierModel>(connectionHandler->getDB());
+    std::unique_ptr<SupplierModel> supplierModel = std::make_unique<SupplierModel>(connectionHandler);
     std::unique_ptr<AddNewSupplier> addNewSupplier = std::make_unique<AddNewSupplier>(supplierModel.get(), this);
     addNewSupplier->exec();
 }
@@ -67,7 +67,7 @@ void MenuAdmin::buttonEditProduct_clicked()
 
     freeMemory();
 
-    thisModel = new ProductModel(connectionHandler->getDB());
+    thisModel = new ProductModel(connectionHandler);
     thisViewModel = new MenuEditProductViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new MenuEditProduct(static_cast<MenuEditProductViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
@@ -81,7 +81,7 @@ void MenuAdmin::buttonInfoEmployees_clicked()
 
     freeMemory();
 
-    thisModel = new EmployeesModel(connectionHandler->getDB());
+    thisModel = new EmployeesModel(connectionHandler);
     thisViewModel = new MenuEmployeesViewModel(static_cast<EmployeesModel*>(thisModel));
     thisWindow = new MenuEmployees(static_cast<MenuEmployeesViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
@@ -95,7 +95,7 @@ void MenuAdmin::buttonInfoSupplier_clicked()
 
     freeMemory();
 
-    thisModel = new SupplierModel(connectionHandler->getDB());
+    thisModel = new SupplierModel(connectionHandler);
     thisViewModel = new MenuSupplierViewModel(static_cast<SupplierModel*>(thisModel));
     thisWindow = new MenuSupplier(static_cast<MenuSupplierViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);

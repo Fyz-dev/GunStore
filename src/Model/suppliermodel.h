@@ -6,7 +6,7 @@
 class SupplierModel : public BaseModel
 {
 public:
-    SupplierModel(QSqlDatabase* db);
+    SupplierModel(ConnectionHandler* connection);
     void setHeaderModel() override;
     void addToRomove(const int& row);
     const QList<int>& getListToRemove() { return listToRemove; }

@@ -24,10 +24,10 @@ public slots:
     void changedComboBoxSlots(const int& i);
     void deleteElementBuyProduct(ElementBuyProduct* element);
     void changedCountPriceSlots();
-    void buyProducts();
+    void buyProducts(const QString& nameSupplier);
 
 signals:
-    void updateComboBoxSignals(const QList<QString>& list);
+    void updateComboBoxSignals(const QList<QString>& list, const QList<QString>& listSupplier);
     void addElemntByViewSignals(ElementBuyProduct* element);
     void addComboBoxSignals(const QString& itemName);
     void updateSumInfoSignals(const int& sumCount, const double& sumPrice);

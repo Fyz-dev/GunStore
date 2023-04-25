@@ -1,6 +1,7 @@
 #ifndef BASEMODEL_H
 #define BASEMODEL_H
 
+#include "connectionhandler.h"
 #include <QSqlDatabase>
 #include <QSqlRelationalTableModel>
 #include <QSqlQuery>
@@ -8,7 +9,7 @@
 class BaseModel
 {
 public:
-    BaseModel(QSqlDatabase* db);
+    BaseModel(ConnectionHandler* connection);
     virtual ~BaseModel();
 
 public:
@@ -23,7 +24,7 @@ protected:
     QSqlQuery* select(const QString& request);
 
 protected:
-    QSqlDatabase* db;
+    ConnectionHandler* connection;
     QSqlRelationalTableModel* modelData;
     int lastInsertId;
 };

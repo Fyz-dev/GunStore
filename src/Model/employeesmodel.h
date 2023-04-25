@@ -6,7 +6,7 @@
 class EmployeesModel : public BaseModel
 {
 public:
-    EmployeesModel(QSqlDatabase* db);
+    EmployeesModel(ConnectionHandler* connection);
     void addToRomove(const int& row);
     const QList<int>& getListToRemove() { return listToRemove; }
 

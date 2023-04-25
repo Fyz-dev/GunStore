@@ -11,13 +11,17 @@ BuyProduct::BuyProduct(BuyProductViewModel* buyProductViewModel, QWidget *parent
     buyProductViewModel->update();
 }
 
-void BuyProduct::updateComboBoxSlots(const QList<QString>& list)
+void BuyProduct::updateComboBoxSlots(const QList<QString>& list, const QList<QString>& listSupplier)
 {
     ui->comboBox->blockSignals(true);
     ui->comboBox->clear();
     ui->comboBox->addItems(list);
     ui->comboBox->setCurrentIndex(-1);
     ui->comboBox->blockSignals(false);
+
+    ui->comboBoxSupplier->clear();
+    ui->comboBoxSupplier->addItems(listSupplier);
+    ui->comboBoxSupplier->setCurrentIndex(-1);
 }
 
 void BuyProduct::addElemntByView(ElementBuyProduct* element)
@@ -34,11 +38,22 @@ void BuyProduct::updateSumInfoSlots(const int& sumCount, const double& sumPrice)
 void BuyProduct::connected()
 {
     connect(buyProductViewModel, &BuyProductViewModel::messageBoxShowSignals, this, &BuyProduct::messageBoxShow);
-    connect(ui->buttonPurchaseProduct, &QPushButton::clicked, buyProductViewModel, &BuyProductViewModel::buyProducts);
     connect(buyProductViewModel, &BuyProductViewModel::updateSumInfoSignals, this, &BuyProduct::updateSumInfoSlots);
     connect(buyProductViewModel, &BuyProductViewModel::updateComboBoxSignals, this, &BuyProduct::updateComboBoxSlots);
     connect(buyProductViewModel, &BuyProductViewModel::addElemntByViewSignals, this, &BuyProduct::addElemntByView);
     connect(ui->comboBox, &QComboBox::currentIndexChanged, buyProductViewModel, &BuyProductViewModel::changedComboBoxSlots);
+
+    connect(ui->buttonPurchaseProduct, &QPushButton::clicked, this, [&]()
+    {
+        if(ui->comboBoxSupplier->currentIndex() == -1)
+        {
+            QMessageBox::information(this, "Увага!", "Виберіть постачальника!");
+            return;
+        }
+
+        buyProductViewModel->buyProducts(ui->comboBox->currentText());
+    });
+
     connect(buyProductViewModel, &BuyProductViewModel::addComboBoxSignals, this, [=](const QString& itemName)
     {
         ui->comboBox->blockSignals(true);
