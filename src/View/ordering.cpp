@@ -14,6 +14,7 @@ void Ordering::connected()
     connect(ui->buttonBack, &QPushButton::clicked, this, [&]()
     {
         emit closeMe();
+        this->deleteLater();
     });
 }
 

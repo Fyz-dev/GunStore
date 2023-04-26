@@ -81,14 +81,11 @@ void MainWindow::buttonBasket_clicked()
     if(qobject_cast<Ordering*>(thisWindow))
         return;
 
-    freeMemory();
+    Ordering* basket = new Ordering(this);
+    ui->centralwidget->layout()->addWidget(basket);
+    connect(basket, &Ordering::closeMe, this, &MainWindow::closeBasket);
 
-    thisModel = nullptr;
-    thisViewModel = nullptr;
-    thisWindow = new Ordering(this);
-    ui->centralwidget->layout()->addWidget(thisWindow);
-    connect(qobject_cast<Ordering*>(thisWindow), &Ordering::closeMe, this, &MainWindow::closeBasket);
-
+    thisWindow->hide();
     ui->TopMenu->hide();
 }
 
@@ -97,7 +94,7 @@ void MainWindow::closeBasket()
     if(ui->TopMenu->isHidden())
         ui->TopMenu->show();
 
-    buttonMainMenu_clicked();
+    thisWindow->show();
 }
 
 void MainWindow::colorButtonControl(QPushButton* sender)
