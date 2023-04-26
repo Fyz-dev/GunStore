@@ -15,6 +15,12 @@ public:
     explicit Ordering(QWidget *parent = nullptr);
     ~Ordering();
 
+signals:
+    void closeMe();
+
+private:
+    void connected();
+
 private:
     Ui::Ordering *ui;
 };

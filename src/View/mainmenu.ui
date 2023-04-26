@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>551</height>
+    <width>1365</width>
+    <height>556</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_5">
    <property name="spacing">
     <number>20</number>
    </property>
@@ -70,7 +73,7 @@
         <x>0</x>
         <y>0</y>
         <width>250</width>
-        <height>495</height>
+        <height>500</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -95,6 +98,9 @@
        <enum>Qt::DefaultContextMenu</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
         <layout class="QVBoxLayout" name="priceFilter">
          <item>
@@ -112,6 +118,9 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>5</number>
+           </property>
            <property name="sizeConstraint">
             <enum>QLayout::SetFixedSize</enum>
            </property>
@@ -511,7 +520,7 @@
              <x>0</x>
              <y>0</y>
              <width>246</width>
-             <height>299</height>
+             <height>304</height>
             </rect>
            </property>
            <property name="sizePolicy">

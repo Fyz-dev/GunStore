@@ -9,6 +9,7 @@
         <file>images/plus_new.png</file>
         <file>images/icon-clear.png</file>
         <file>images/minus.png</file>
+        <file>images/left-arrow.png</file>
     </qresource>
     <qresource prefix="/Icon">
         <file>images/indocator.png</file>

@@ -2,6 +2,7 @@
 #include "mainmenu.h"
 #include "buyproduct.h"
 #include "menuadmin.h"
+#include "ordering.h"
 
 #include "./ui_mainwindow.h"
 
@@ -20,7 +21,9 @@ MainWindow::MainWindow(ConnectionHandler* connectionHandler, QWidget *parent) :
     this->resize(1400, 600);
 
     connected();
+
     buttonMainMenu_clicked();
+    colorButtonControl(ui->buttonMainMenu);
 }
 
 void MainWindow::connected()
@@ -28,6 +31,7 @@ void MainWindow::connected()
     connect(ui->buttonMainMenu, &QPushButton::clicked, this, &MainWindow::buttonMainMenu_clicked);
     connect(ui->buttonBuyProduct, &QPushButton::clicked, this, &MainWindow::buttonBuyProduct_clicked);
     connect(ui->buttonAdmin, &QPushButton::clicked, this, &MainWindow::buttonAdmin_clicked);
+    connect(ui->buttonBasket, &QPushButton::clicked, this, &MainWindow::buttonBasket_clicked);
 }
 
 void MainWindow::buttonMainMenu_clicked()
@@ -41,6 +45,7 @@ void MainWindow::buttonMainMenu_clicked()
     thisViewModel = new MainMenuViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new MainMenu(static_cast<MainMenuViewModel*>(thisViewModel), this);
     ui->centralwidget->layout()->addWidget(thisWindow);
+    colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
 void MainWindow::buttonBuyProduct_clicked()
@@ -54,6 +59,7 @@ void MainWindow::buttonBuyProduct_clicked()
     thisViewModel = new BuyProductViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new BuyProduct(static_cast<BuyProductViewModel*>(thisViewModel), this);
     ui->centralwidget->layout()->addWidget(thisWindow);
+    colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
 void MainWindow::buttonAdmin_clicked()
@@ -62,10 +68,51 @@ void MainWindow::buttonAdmin_clicked()
         return;
 
     freeMemory();
+
     thisModel = nullptr;
     thisViewModel = nullptr;
     thisWindow = new MenuAdmin(connectionHandler, this);
     ui->centralwidget->layout()->addWidget(thisWindow);
+    colorButtonControl(qobject_cast<QPushButton*>(sender()));
+}
+
+void MainWindow::buttonBasket_clicked()
+{
+    if(qobject_cast<Ordering*>(thisWindow))
+        return;
+
+    freeMemory();
+
+    thisModel = nullptr;
+    thisViewModel = nullptr;
+    thisWindow = new Ordering(this);
+    ui->centralwidget->layout()->addWidget(thisWindow);
+    connect(qobject_cast<Ordering*>(thisWindow), &Ordering::closeMe, this, &MainWindow::closeBasket);
+
+    ui->TopMenu->hide();
+}
+
+void MainWindow::closeBasket()
+{
+    if(ui->TopMenu->isHidden())
+        ui->TopMenu->show();
+
+    buttonMainMenu_clicked();
+}
+
+void MainWindow::colorButtonControl(QPushButton* sender)
+{
+    if(sender)
+    {
+        if (thisButton)
+            thisButton->setStyleSheet("QPushButton{ background-color: transparent; } QPushButton::hover {background-color: #02cc88;}");
+
+        sender->setStyleSheet("QPushButton{ background-color: #16171b; }");
+        thisButton = sender;
+
+        ui->buttonBasket->setVisible(sender == ui->buttonMainMenu);
+        ui->printCountProduct->setVisible(sender == ui->buttonMainMenu);
+    }
 }
 
 //Очищаем память

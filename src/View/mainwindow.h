@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
+#include <QPushButton>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,19 +21,25 @@ public:
     MainWindow(ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void closeBasket();
+
 private slots:
     void buttonMainMenu_clicked();
     void buttonBuyProduct_clicked();
     void buttonAdmin_clicked();
+    void buttonBasket_clicked();
 
 private:
     void connected();
     void freeMemory();
+    void colorButtonControl(QPushButton* sender);
 
 private:
     Ui::MainWindow *ui;
-    QWidget* thisWindow;
-    BaseModel* thisModel;
+    QPushButton* thisButton = nullptr;
+    QWidget* thisWindow = nullptr;
+    BaseModel* thisModel = nullptr;
     BaseViewModel* thisViewModel;
     ConnectionHandler* connectionHandler;
 };

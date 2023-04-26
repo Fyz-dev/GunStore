@@ -3,6 +3,7 @@
 
 #include "basemodel.h"
 #include "elementcharacteristic.h"
+#include "elementbuyproduct.h"
 
 #include <QSqlDatabase>
 #include <QCheckBox>
@@ -22,6 +23,7 @@ public:
     QList<QString> getListBrand(){ return listBrand; }
     QHash<int, QString>& getListChangedCharacteristic() { return listChangedCharacteristic; }
 
+    void buyProduct(const QString& nameSupplier, QList<ElementBuyProduct*>& listElement);
     void updateListFilter();
     void updateList(QList<QString>& list, QString request);
     void createElementForDispleyCharact(QString request, bool lineEditIsReadOnly = true);

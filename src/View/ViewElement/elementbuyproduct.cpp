@@ -7,14 +7,15 @@ ElementBuyProduct::ElementBuyProduct(const QAbstractTableModel* model, QWidget *
 {
     ui->setupUi(this);
 
-    ui->labelNameProduct->setText(nameProduct = model->index(0, 0).data().toString());
-    ui->productCount->setText(model->index(0, 1).data().toString());
-    ui->productBrand->setText(model->index(0, 2).data().toString());
-    ui->productWeight->setText(model->index(0, 3).data().toString());
-    ui->productPackage->setText(model->index(0, 4).data().toString());
-    ui->productCountry->setText(model->index(0, 5).data().toString());
-    ui->categoryName->setText(model->index(0, 6).data().toString());
-    price = (model->index(0, 7).data().toDouble() - model->index(0, 7).data().toFloat()/100 * 30);
+    idProduct = model->index(0, 0).data().toString();
+    ui->labelNameProduct->setText(nameProduct = model->index(0, 1).data().toString());
+    ui->productCount->setText(model->index(0, 2).data().toString());
+    ui->productBrand->setText(model->index(0, 3).data().toString());
+    ui->productWeight->setText(model->index(0, 4).data().toString());
+    ui->productPackage->setText(model->index(0, 5).data().toString());
+    ui->productCountry->setText(model->index(0, 6).data().toString());
+    ui->categoryName->setText(model->index(0, 7).data().toString());
+    price = (model->index(0, 8).data().toDouble() - model->index(0, 8).data().toFloat()/100 * 30);
 
     connected();
     setCount(1);

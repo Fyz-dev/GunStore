@@ -6,6 +6,15 @@ Ordering::Ordering(QWidget *parent) :
     ui(new Ui::Ordering)
 {
     ui->setupUi(this);
+    connected();
+}
+
+void Ordering::connected()
+{
+    connect(ui->buttonBack, &QPushButton::clicked, this, [&]()
+    {
+        emit closeMe();
+    });
 }
 
 Ordering::~Ordering()

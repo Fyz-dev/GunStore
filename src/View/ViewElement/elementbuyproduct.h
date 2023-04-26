@@ -22,6 +22,8 @@ public:
     const QString& getNameProduct();
     int getCount() { return count; }
     double getSumPrice() { return sumPrice; }
+    const QString& getIdProduct() { return idProduct; }
+    const QString getPrice() { return QString::number(price, 'f', 2); }
     QString getBrand();
 
 signals:
@@ -34,6 +36,7 @@ private:
 
 private:
     Ui::ElementBuyProduct *ui;
+    QString idProduct;
     QString nameProduct;
     int count;
     double price;

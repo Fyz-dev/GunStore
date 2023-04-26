@@ -51,7 +51,7 @@ void BuyProduct::connected()
             return;
         }
 
-        buyProductViewModel->buyProducts(ui->comboBox->currentText());
+        buyProductViewModel->buyProducts(ui->comboBoxSupplier->currentText());
     });
 
     connect(buyProductViewModel, &BuyProductViewModel::addComboBoxSignals, this, [=](const QString& itemName)

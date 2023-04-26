@@ -80,9 +80,23 @@ void ProductModel::changedValueCharacteristicSlots(const ElementCharacteristic* 
             i.value() = element->getValue();
             return;
         }
-
     }
 
     listChangedCharacteristic.insert(element->getIdProductValue(), element->getValue());
 }
 
+void ProductModel::buyProduct(const QString& nameSupplier, QList<ElementBuyProduct*>& listElement)
+{
+    qDebug() << nameSupplier;
+    qDebug() << QString("INSERT INTO waybill(id_worker, id_supplier, waybillDate) VALUES(%1, (select id_supplier from supplier where sup_name = '%2'), CURDATE())").arg(connection->getIdWorker(), nameSupplier);
+    requestBD(QString("INSERT INTO waybill(id_worker, id_supplier, waybillDate) VALUES(%1, (select id_supplier from supplier where sup_name = '%2'), CURDATE())").arg(connection->getIdWorker(), nameSupplier));
+
+    QString idWayBill = QString::number(lastInsertId);
+
+    for (ElementBuyProduct* element : listElement)
+    {
+        QString countThisElem = QString::number(element->getCount());
+        requestBD(QString("INSERT INTO listsupply(id_waybill, id_product, listS_priceCount, listS_count) VALUES(%1, %2, %3, %4)").arg(idWayBill, element->getIdProduct(), element->getPrice(), countThisElem));
+        requestBD("call addCountProduct(" + element->getIdProduct() + "," + countThisElem + ")");
+    }
+}

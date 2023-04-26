@@ -73,8 +73,7 @@ void BuyProductViewModel::buyProducts(const QString& nameSupplier)
     if(listElement.count() == 0)
         return;
 
-    for (ElementBuyProduct* element : listElement)
-        productModel->requestBD("call addCountProduct('" + element->getNameProduct() +"'," + QString::number(element->getCount()) + ")");
+    productModel->buyProduct(nameSupplier, listElement);
 
     emit messageBoxShowSignals();
 }
