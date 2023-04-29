@@ -7,12 +7,13 @@
 class DelegateForTableView : public QSqlRelationalDelegate
 {
 public:
-    DelegateForTableView(const QList<int>& listToRemove, const QSqlTableModel* model);
+    DelegateForTableView(const QList<int>& listToRemove, const QSqlTableModel* model, const QColor colorForPaint);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
-    const QList<int>& listToRemove;
+    const QList<int>& list;
     const QSqlTableModel* model;
+    const QColor colorForPaint;
 };
 
 #endif // DELEGATEFORTABLEVIEW_H

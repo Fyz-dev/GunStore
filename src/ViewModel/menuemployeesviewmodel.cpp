@@ -3,7 +3,7 @@
 MenuEmployeesViewModel::MenuEmployeesViewModel(EmployeesModel* employeesModel) : BaseViewModel(),
     employeesModel(employeesModel)
 {
-    delegate = new DelegateForTableViewWorker(employeesModel->getListToRemove(), employeesModel->getModelData());
+    delegate = new DelegateForTableViewWorker(employeesModel->getListToRemove(), employeesModel->getModelData(), QColor(255, 0, 13, 80));
 }
 
 void MenuEmployeesViewModel::update()

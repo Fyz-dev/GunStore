@@ -3,7 +3,7 @@
 MenuSupplierViewModel::MenuSupplierViewModel(SupplierModel* supplierModel) : BaseViewModel(),
     supplierModel(supplierModel)
 {
-    delegate = new DelegateForTableView(supplierModel->getListToRemove(), supplierModel->getModelData());
+    delegate = new DelegateForTableView(supplierModel->getListToRemove(), supplierModel->getModelData(), QColor(255, 0, 13, 80));
 }
 
 void MenuSupplierViewModel::update()

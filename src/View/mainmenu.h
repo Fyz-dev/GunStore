@@ -32,6 +32,7 @@ signals:
 private:
     void connected();
     void deleteWidget(QLayout* layout);
+    void buttonAddOrder_clicked();
 
 private:
     Ui::MainMenu *ui;

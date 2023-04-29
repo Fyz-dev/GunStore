@@ -1,7 +1,9 @@
 #include "filter.h"
 
 Filter::Filter()
-{}
+{
+
+}
 
 QString Filter::checkBoxEnabled(const int& state, QObject* checkBox)
 {

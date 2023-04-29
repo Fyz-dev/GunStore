@@ -20,6 +20,7 @@ void MainMenu::modelChangedSlots(QAbstractTableModel * modelData)
 {
     ui->tableViewProduct->setModel(nullptr);
     ui->tableViewProduct->setModel(modelData);
+    ui->tableViewProduct->setItemDelegate(mainMenuViewModel->getDelegate());
 }
 
 void MainMenu::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName)
@@ -76,6 +77,11 @@ void MainMenu::deleteWidget(QLayout* layout)
     }
 }
 
+void MainMenu::buttonAddOrder_clicked()
+{
+    mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt());
+}
+
 void MainMenu::connected()
 {
     connect(ui->inputTo, &QLineEdit::textChanged, this, &MainMenu::priceFilterChangedSlots);
@@ -86,6 +92,7 @@ void MainMenu::connected()
     connect(mainMenuViewModel, &MainMenuViewModel::addInfoProductSignal, this, &MainMenu::addInfoProductSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::clearLableSignal, this, &MainMenu::clearLableSlots);
     connect(this, &MainMenu::priceFilterChangedSignals, mainMenuViewModel, &MainMenuViewModel::priceFilterChangedSlots);
+    connect(ui->buttonAddOrder, &QPushButton::clicked, this, &MainMenu::buttonAddOrder_clicked);
     connect(ui->tableViewProduct, &QTableView::clicked, this, [&](const QModelIndex& i)
     {
         mainMenuViewModel->selectedElemTableViewSlots(i);

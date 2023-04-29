@@ -1,7 +1,9 @@
 #include "mainmenuviewmodel.h"
 
 MainMenuViewModel::MainMenuViewModel(ProductModel* productModel) : BaseViewModelForProduct(productModel)
-{}
+{
+    delegate = new DelegateForTableView(listProductForSale, productModel->getModelData(), QColor(2, 204, 136, 80));
+}
 
 void MainMenuViewModel::update()
 {
@@ -24,4 +26,28 @@ void MainMenuViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox, const
         connect(checkBox, &QCheckBox::stateChanged, this, &MainMenuViewModel::checkBoxEnabledSlots);
         emit addCheckBoxSignal(checkBox, layoutName);
     }
+}
+
+void MainMenuViewModel::changedListProductForSale(const int& row, const int& count)
+{
+    if(row == -1)
+        return;
+
+    int idProduct = productModel->getModelData()->index(row, 0).data().toInt();
+
+    if(!listProductForSale.contains(idProduct))
+    {
+        listProductForSale.append(idProduct);
+        listProductCount[idProduct] = count;
+    }
+    else
+    {
+        listProductForSale.removeOne(idProduct);
+        listProductCount.remove(idProduct);
+    }
+}
+
+MainMenuViewModel::~MainMenuViewModel()
+{
+    delete delegate;
 }

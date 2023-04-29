@@ -2,7 +2,7 @@
 
 MenuEditProductViewModel::MenuEditProductViewModel(ProductModel* productModel) : BaseViewModelForProduct(productModel)
 {
-    delegate = new DelegateForTableView(listToRemove, productModel->getModelData());
+    delegate = new DelegateForTableView(listToRemove, productModel->getModelData(), QColor(255, 0, 13, 80));
 }
 
 void MenuEditProductViewModel::update()

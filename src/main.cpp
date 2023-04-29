@@ -4,6 +4,8 @@
 
 #include <QApplication>
 #include <QSqlDatabase>
+#include <QVBoxLayout>
+#include <QLabel>
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +15,6 @@ int main(int argc, char *argv[])
     Login login(loginViewModel);
 
     login.show();
-
     if(a.exec() == 13)
     {
         std::unique_ptr<MainWindow> formMainWindow = std::make_unique<MainWindow>(connectionHandler.get());
