@@ -12,13 +12,17 @@ public:
     MainMenuViewModel(ProductModel* productModel);
     ~MainMenuViewModel();
     void update() override;
-    void changedListProductForSale(const int& row, const int& count);
+    bool changedListProductForSale(const int& row, const int& count);
+    void syncHashAndList();
+    //Get
     DelegateForTableView* getDelegate() { return delegate; };
+    const QList<int>& getListProductForSale() { return listProductForSale; }
+    QHash<int, int>& getListProduct() { return listProduct; }
 
 private:
     void addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName) override;
     QList<int> listProductForSale;
-    QHash<int, int> listProductCount;
+    QHash<int, int> listProduct;
     DelegateForTableView* delegate;
 };
 

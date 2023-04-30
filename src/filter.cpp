@@ -66,3 +66,8 @@ QString Filter::updateModelByFilter()
     return ("c_name in(" + filterCategory + ") and p_country in(" +
             filterCountry + ") and p_brand in(" + filterBrand + ") and (" + filterPrice + ")");
 }
+
+QString Filter::getFilterForList(const QStringList& list, const QString& nameColumCopare)
+{
+    return nameColumCopare + " in(" + QString(list.join(",")) + ")";
+}

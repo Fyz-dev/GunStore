@@ -18,6 +18,8 @@ MainWindow::MainWindow(ConnectionHandler* connectionHandler, QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    formWithButtonBack = FormWithButtonBack::getInstance(ui->centralwidget->layout());
+
     this->resize(1400, 600);
 
     connected();
@@ -45,6 +47,13 @@ void MainWindow::buttonMainMenu_clicked()
     thisViewModel = new MainMenuViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new MainMenu(static_cast<MainMenuViewModel*>(thisViewModel), this);
     ui->centralwidget->layout()->addWidget(thisWindow);
+
+    connect(static_cast<MainMenu*>(thisWindow), &MainMenu::updateCountForProduct, this, [&](const int& newCount)
+    {
+        ui->printCountProduct->setText(QString::number(newCount));
+    });
+    ui->printCountProduct->setText("0");
+
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
@@ -78,23 +87,7 @@ void MainWindow::buttonAdmin_clicked()
 
 void MainWindow::buttonBasket_clicked()
 {
-    if(qobject_cast<Ordering*>(thisWindow))
-        return;
-
-    Ordering* basket = new Ordering(this);
-    ui->centralwidget->layout()->addWidget(basket);
-    connect(basket, &Ordering::closeMe, this, &MainWindow::closeBasket);
-
-    thisWindow->hide();
-    ui->TopMenu->hide();
-}
-
-void MainWindow::closeBasket()
-{
-    if(ui->TopMenu->isHidden())
-        ui->TopMenu->show();
-
-    thisWindow->show();
+    FormWithButtonBack::pushToView({new Ordering(static_cast<MainMenuViewModel*>(thisViewModel)->getListProduct(), connectionHandler, this)});
 }
 
 void MainWindow::colorButtonControl(QPushButton* sender)
@@ -137,5 +130,7 @@ void MainWindow::freeMemory()
 MainWindow::~MainWindow()
 {
     freeMemory();
+
+    delete formWithButtonBack;
     delete ui;
 }

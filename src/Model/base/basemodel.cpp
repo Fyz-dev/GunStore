@@ -20,13 +20,10 @@ bool BaseModel::updateModel(QString table, QString filter, int column, const QSq
     if(filter != "")
         modelData->setFilter(filter);
 
-    if(modelData->select())
-    {
-        setHeaderModel();
-        return true;
-    }
+    bool isOk = modelData->select();
+    setHeaderModel();
 
-    return false;
+    return isOk;
 }
 
 bool BaseModel::updateModelViaQuery(QString request)

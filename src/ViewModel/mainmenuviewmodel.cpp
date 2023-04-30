@@ -28,23 +28,32 @@ void MainMenuViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox, const
     }
 }
 
-void MainMenuViewModel::changedListProductForSale(const int& row, const int& count)
+bool MainMenuViewModel::changedListProductForSale(const int& row, const int& count)
 {
     if(row == -1)
-        return;
+        return false;
 
     int idProduct = productModel->getModelData()->index(row, 0).data().toInt();
 
     if(!listProductForSale.contains(idProduct))
     {
         listProductForSale.append(idProduct);
-        listProductCount[idProduct] = count;
+        listProduct[idProduct] = count;
     }
     else
     {
         listProductForSale.removeOne(idProduct);
-        listProductCount.remove(idProduct);
+        listProduct.remove(idProduct);
     }
+    return true;
+}
+
+void MainMenuViewModel::syncHashAndList()
+{
+    listProductForSale.clear();
+
+    for (QHash<int, int>::iterator item = listProduct.begin(); item != listProduct.end(); ++item)
+        listProductForSale.append(item.key());
 }
 
 MainMenuViewModel::~MainMenuViewModel()

@@ -51,16 +51,16 @@ QWidget#frameButtonCheckInfo QPushButton::hover{
     <widget class="QWidget" name="frameButtonCheckInfo" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_13">
       <property name="spacing">
-       <number>4</number>
+       <number>10</number>
       </property>
       <property name="leftMargin">
-       <number>0</number>
+       <number>20</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>20</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>20</number>
       </property>
       <property name="bottomMargin">
        <number>0</number>

@@ -8,11 +8,10 @@ MainMenu::MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connected();
+    connected();    
+    mainMenuViewModel->update();    
 
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-    mainMenuViewModel->update();
     ui->tableViewProduct->hideColumn(0);
 }
 
@@ -79,7 +78,19 @@ void MainMenu::deleteWidget(QLayout* layout)
 
 void MainMenu::buttonAddOrder_clicked()
 {
-    mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt());
+    if (mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt()))
+    {
+        emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
+        ui->tableViewProduct->update();
+    }
+    ui->inputCountProduct->setText("");
+}
+
+void MainMenu::show()
+{
+    QWidget::show();
+    mainMenuViewModel->syncHashAndList();
+    emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
 }
 
 void MainMenu::connected()

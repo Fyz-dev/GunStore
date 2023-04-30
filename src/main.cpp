@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     {
         std::unique_ptr<MainWindow> formMainWindow = std::make_unique<MainWindow>(connectionHandler.get());
         formMainWindow->show();
+
         a.exec();
     }
 

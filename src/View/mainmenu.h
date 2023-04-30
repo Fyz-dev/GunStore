@@ -25,9 +25,11 @@ public slots:
     void clearCheckBoxSlots();
     void clearLableSlots();
     void priceFilterChangedSlots();
+    void show();
 
 signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);
+    void updateCountForProduct(const int& newCount);
 
 private:
     void connected();

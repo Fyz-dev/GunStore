@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1159</width>
-    <height>522</height>
+    <width>1309</width>
+    <height>613</height>
    </rect>
   </property>
   <property name="font">
@@ -23,15 +23,6 @@
    <string notr="true">QWidget#widgetInfo {
 	border-radius: 10px;
 	background-color: #202124;
-}
-
-QPushButton#buttonBack {
-	background-color: transparent;
-	border-radius: 0px;
-}
-
-QPushButton#buttonBack::hover{
-	background-color: rgba(255,255,255,30);
 }
 </string>
   </property>
@@ -49,53 +40,31 @@ QPushButton#buttonBack::hover{
     <number>20</number>
    </property>
    <property name="spacing">
-    <number>0</number>
+    <number>20</number>
    </property>
-   <item row="0" column="0">
-    <widget class="QPushButton" name="buttonBack">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
+   <item row="0" column="2">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resources/images.qrc">
-       <normaloff>:/WhiteIcon/images/left-arrow.png</normaloff>:/WhiteIcon/images/left-arrow.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>32</width>
-       <height>32</height>
-      </size>
+      <string>Оформлення замовлення</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="3">
+   <item row="1" column="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="spacing">
       <number>20</number>
      </property>
      <item>
-      <widget class="QTableView" name="tableViewOrder"/>
+      <widget class="QTableWidget" name="tableWidget"/>
      </item>
      <item>
       <widget class="QWidget" name="widgetInfo" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>0</height>
+        </size>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -108,21 +77,57 @@ QPushButton#buttonBack::hover{
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Загальна сума</string>
+             <string>Загальна сума (грн.)</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="sumPrice">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="maximumSize">
              <size>
-              <width>150</width>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Загальна кількість (од.)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="sumCount">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
             </property>
@@ -147,7 +152,7 @@ QPushButton#buttonBack::hover{
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="buttonOrderConfirm">
+         <widget class="QPushButton" name="buttonNext">
           <property name="text">
            <string>Оформити</string>
           </property>
@@ -158,17 +163,8 @@ QPushButton#buttonBack::hover{
      </item>
     </layout>
    </item>
-   <item row="0" column="3">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Оформлення замовлення</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../resources/images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -4,6 +4,7 @@
 #include "basemodel.h"
 #include "baseviewmodel.h"
 #include "connectionhandler.h"
+#include "formwithbuttonback.h"
 
 #include <QMainWindow>
 #include <QSqlTableModel>
@@ -21,9 +22,6 @@ public:
     MainWindow(ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
-    void closeBasket();
-
 private slots:
     void buttonMainMenu_clicked();
     void buttonBuyProduct_clicked();
@@ -37,10 +35,13 @@ private:
 
 private:
     Ui::MainWindow *ui;
+
     QPushButton* thisButton = nullptr;
     QWidget* thisWindow = nullptr;
     BaseModel* thisModel = nullptr;
     BaseViewModel* thisViewModel;
+
+    FormWithButtonBack* formWithButtonBack;
     ConnectionHandler* connectionHandler;
 };
 #endif // MAINWINDOW_H
