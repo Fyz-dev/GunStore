@@ -13,5 +13,6 @@
     </qresource>
     <qresource prefix="/Icon">
         <file>images/indocator.png</file>
+        <file>images/down-arrow.png</file>
     </qresource>
 </RCC>

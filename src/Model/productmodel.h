@@ -18,10 +18,12 @@ public:
     ProductModel(ConnectionHandler* connection);
 
 public:
+    //GET
     QList<QString> getListCategory(){ return listCategory; }
     QList<QString> getListCountry(){ return listCountry; }
     QList<QString> getListBrand(){ return listBrand; }
     QHash<int, QString>& getListChangedCharacteristic() { return listChangedCharacteristic; }
+    const QString& getIdWorker() { return connection->getIdWorker(); }
 
     void buyProduct(const QString& nameSupplier, QList<ElementBuyProduct*>& listElement);
     void updateListFilter();

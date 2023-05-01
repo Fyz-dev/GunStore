@@ -87,8 +87,8 @@ void ProductModel::changedValueCharacteristicSlots(const ElementCharacteristic* 
 
 void ProductModel::buyProduct(const QString& nameSupplier, QList<ElementBuyProduct*>& listElement)
 {
-    qDebug() << nameSupplier;
-    qDebug() << QString("INSERT INTO waybill(id_worker, id_supplier, waybillDate) VALUES(%1, (select id_supplier from supplier where sup_name = '%2'), CURDATE())").arg(connection->getIdWorker(), nameSupplier);
+//    qDebug() << nameSupplier;
+//    qDebug() << QString("INSERT INTO waybill(id_worker, id_supplier, waybillDate) VALUES(%1, (select id_supplier from supplier where sup_name = '%2'), CURDATE())").arg(connection->getIdWorker(), nameSupplier);
     requestBD(QString("INSERT INTO waybill(id_worker, id_supplier, waybillDate) VALUES(%1, (select id_supplier from supplier where sup_name = '%2'), CURDATE())").arg(connection->getIdWorker(), nameSupplier));
 
     QString idWayBill = QString::number(lastInsertId);

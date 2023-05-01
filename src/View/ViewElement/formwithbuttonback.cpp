@@ -51,6 +51,20 @@ void FormWithButtonBack::pushToView(QList<QWidget*> newDisplay)
     stack.push(newDisplay);
 }
 
+void FormWithButtonBack::clearStack()
+{
+    for (int i= 0; i < stack.count(); ++i)
+        for (QWidget* item : stack.pop())
+                delete item;
+
+    for (QWidget* item : stack.last())
+        item->show();
+
+    baseCentalWidgetWindow->removeWidget(instance);
+    instance->hide();
+    stack.pop();
+}
+
 void FormWithButtonBack::popView()
 {
     for (QWidget* item : stack.pop())

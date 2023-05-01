@@ -154,7 +154,7 @@
         <item>
          <widget class="QPushButton" name="buttonNext">
           <property name="text">
-           <string>Оформити</string>
+           <string>Далі</string>
           </property>
          </widget>
         </item>

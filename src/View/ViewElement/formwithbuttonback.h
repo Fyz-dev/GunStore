@@ -17,6 +17,10 @@ public:
     static FormWithButtonBack* getInstance(QLayout *baseWindow);
     ~FormWithButtonBack();
     static void pushToView(QList<QWidget*> newDisplay);
+    static void clearStack();
+
+public slots:
+    void closeMe();
 
 //PRIVATE!!!
 private:
@@ -26,9 +30,6 @@ private:
     FormWithButtonBack(QLayout *baseWindow);
 //----------
     static void popView();
-
-private slots:
-    void closeMe();
 
 private:
     Ui::FormWithButtonBack *ui;

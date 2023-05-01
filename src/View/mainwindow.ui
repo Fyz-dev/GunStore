@@ -61,9 +61,8 @@ QLineEdit {
 }
 
 QLineEdit::focus{
-	border: 1px solid blue;
+	border: 1px solid blue;	
 }
-
 
 QCheckBox {
 	font: 14pt &quot;Franklin Gothic Medium&quot;;
@@ -88,6 +87,21 @@ QComboBox {
     background-color: #41444a;
 	color: white;
 	border: none;
+	border-radius: 5px;
+}
+
+QComboBox::drop-down {
+	background-color: transparent;
+}
+
+QComboBox::down-arrow {
+    image: url(:/Icon/images/down-arrow.png);
+	width: 32px;
+}
+
+QComboBox QAbstractItemView {
+    color: white;
+	border: 1px solid #01b075;
 }
 
 QFrame {
@@ -246,8 +260,10 @@ QWidget#buyProductAndInfo {
 }
 
 QLineEdit {
-	border-radius:10px;
+	border-radius:16px;
 	padding-left: 8px; 
+	padding-top: 5px;
+	padding-bottom: 5px
 }
 
 QPushButton {

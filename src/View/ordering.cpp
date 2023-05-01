@@ -98,7 +98,7 @@ void Ordering::deleteProduct()
 
 void Ordering::next()
 {
-    FormWithButtonBack::pushToView({new AddBuyer(this)});
+    FormWithButtonBack::pushToView({new AddBuyer(productModel, listProduct, this)});
 }
 
 Ordering::~Ordering()
