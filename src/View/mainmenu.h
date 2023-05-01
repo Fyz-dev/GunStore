@@ -3,6 +3,7 @@
 
 #include "mainmenuviewmodel.h"
 #include "LayoutState.h"
+#include "centerednotification.h"
 
 #include <QWidget>
 
@@ -39,6 +40,8 @@ private:
 private:
     Ui::MainMenu *ui;
     MainMenuViewModel* mainMenuViewModel;
+    CenteredNotification* notification;
+
 };
 
 #endif // MAINMENU_H

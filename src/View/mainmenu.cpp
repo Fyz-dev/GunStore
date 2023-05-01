@@ -13,6 +13,10 @@ MainMenu::MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent) :
 
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableViewProduct->hideColumn(0);
+
+    notification = new CenteredNotification;
+    notification->setFont(QFont("Franklin Gothic Medium", 16));
+    notification->setStyleSheet("color: white");
 }
 
 void MainMenu::modelChangedSlots(QAbstractTableModel * modelData)
@@ -78,11 +82,16 @@ void MainMenu::deleteWidget(QLayout* layout)
 
 void MainMenu::buttonAddOrder_clicked()
 {
+    if(ui->inputCountProduct->text() == "")
+        return notification->show("Кількість не може дорівнювати 0!", 2);
+
+
     if (mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt()))
     {
         emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
         ui->tableViewProduct->update();
     }
+
     ui->inputCountProduct->setText("");
 }
 
@@ -112,5 +121,6 @@ void MainMenu::connected()
 
 MainMenu::~MainMenu()
 {
+    delete notification;
     delete ui;
 }

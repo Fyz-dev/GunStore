@@ -75,6 +75,13 @@ void AddBuyer::inputNewFIO()
         if(comboBox->itemText(i) == ui->inputFIO->currentText())
             return;
 
+    QString temp = ui->inputFIO->currentText();
+    ui->inputFIO->blockSignals(true);
+    ui->inputFIO->setCurrentIndex(-1);
+    ui->inputFIO->blockSignals(false);
+
+    ui->inputFIO->setCurrentText(temp);
+
     setEditable(true);
     ui->inputINN->clear();
     ui->inputPhone->clear();
