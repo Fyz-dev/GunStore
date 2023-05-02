@@ -48,9 +48,9 @@ QPushButton#buttonBack::hover{
      <item>
       <widget class="QPushButton" name="buttonBack">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>48</horstretch>
+         <verstretch>48</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">

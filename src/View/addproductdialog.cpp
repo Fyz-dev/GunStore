@@ -16,6 +16,7 @@ AddProductDialog::AddProductDialog(AddProductDialogViewModel* addProductDialogVi
 
     addProductDialogViewModel->update();
     ui->comboBox->setCurrentIndex(-1);
+    notification = new CenteredNotification;
 }
 
 const QRegularExpression AddProductDialog::regex = QRegularExpression("^\\d+(\\.\\d+)?$");
@@ -119,5 +120,7 @@ void AddProductDialog::setComboBoxSlots(QComboBox* comboBox)
 
 AddProductDialog::~AddProductDialog()
 {
+    delete notification;
+    delete addProductDialogViewModel;
     delete ui;
 }

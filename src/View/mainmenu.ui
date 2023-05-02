@@ -559,6 +559,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="text">
+         <string>1</string>
+        </property>
         <property name="placeholderText">
          <string>0</string>
         </property>

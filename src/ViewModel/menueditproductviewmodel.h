@@ -3,7 +3,7 @@
 
 #include "baseviewmodelforproduct.h"
 #include "productmodel.h"
-#include "delegatefortableview.h"
+#include "delegatefortableviewproduct.h"
 
 class MenuEditProductViewModel : public BaseViewModelForProduct
 {
@@ -28,7 +28,7 @@ private:
 
 private:
     QList<int> listToRemove;
-    DelegateForTableView* delegate;
+    DelegateForTableViewProduct* delegate;
 };
 
 #endif // MENUEDITPRODUCTVIEWMODEL_H

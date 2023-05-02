@@ -4,6 +4,7 @@
 #include "mainmenuviewmodel.h"
 #include "LayoutState.h"
 #include "centerednotification.h"
+#include "iview.h"
 
 #include <QWidget>
 
@@ -11,7 +12,7 @@ namespace Ui {
 class MainMenu;
 }
 
-class MainMenu : public QWidget
+class MainMenu : public QWidget, public IView
 {
     Q_OBJECT
 
@@ -26,7 +27,8 @@ public slots:
     void clearCheckBoxSlots();
     void clearLableSlots();
     void priceFilterChangedSlots();
-    void show();
+    void show() override;
+    void hide() override;
 
 signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);
@@ -41,7 +43,6 @@ private:
     Ui::MainMenu *ui;
     MainMenuViewModel* mainMenuViewModel;
     CenteredNotification* notification;
-
 };
 
 #endif // MAINMENU_H

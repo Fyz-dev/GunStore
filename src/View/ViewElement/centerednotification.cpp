@@ -20,8 +20,11 @@ CenteredNotification::CenteredNotification(const QString& text, const QColor& ba
     ui->text->setWordWrap(true);
     ui->text->adjustSize();
 
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::ToolTip);
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::Tool);
     this->setAttribute(Qt::WA_TranslucentBackground);
+
+    setFont(QFont("Franklin Gothic Medium", 16));
+    setStyleSheet("color: white");
 
     connect(qApp, &QApplication::focusChanged, this, [=](QWidget* oldFocus, QWidget* newFocus)
     {
@@ -38,16 +41,17 @@ CenteredNotification::CenteredNotification(const QString& text, const QColor& ba
             if(timer == nullptr)
                 return;
 
-            if(baseWindow->isActiveWindow())
-            {
-                this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::ToolTip);
-                QWidget::show();
-            }
-            else
-            {
-                this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-                QWidget::show();
-            }
+            this->raise();
+//            if(baseWindow->isActiveWindow())
+//            {
+//                this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::ToolTip);
+//                QWidget::show();
+//            }
+//            else
+//            {
+//                this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+//                QWidget::show();
+//            }
         });
 
         isInitialization = false;
@@ -106,8 +110,28 @@ void CenteredNotification::show(const QString& text, const int& displayTimeSecon
     show(displayTimeSecond);
 }
 
+void CenteredNotification::close()
+{
+    this->hide();
+
+    if(timer)
+    {
+        delete timer;
+        timer = nullptr;
+    }
+
+    if(anim)
+    {
+        delete anim;
+        anim = nullptr;
+    }
+}
+
 bool CenteredNotification::eventFilter(QObject* wathed, QEvent* event)
 {
+    if (event->type() == QEvent::NonClientAreaMouseButtonPress)
+        this->raise();
+
     if(wathed == baseWindow && (event->type() == QEvent::Move || event->type() == QEvent::Resize))
         centredTheWidget();
 
@@ -142,6 +166,12 @@ void CenteredNotification::centredTheWidget()
 
 CenteredNotification::~CenteredNotification()
 {
+    if(anim)
+        delete anim;
+
+    if(timer)
+        delete timer;
+
     baseWindow->removeEventFilter(this);
     delete ui;
 }

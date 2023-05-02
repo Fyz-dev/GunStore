@@ -2,6 +2,7 @@
 #define ADDPRODUCTDIALOG_H
 
 #include "addproductdialogviewmodel.h"
+#include "centerednotification.h"
 
 #include <QDialog>
 #include <QComboBox>
@@ -36,6 +37,8 @@ private:
     Ui::AddProductDialog *ui;
     static const QRegularExpression regex;
     AddProductDialogViewModel* addProductDialogViewModel;
+    CenteredNotification* notification;
+
     int previousIndexComboBox;
 };
 

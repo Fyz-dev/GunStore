@@ -1,5 +1,6 @@
 #include "formwithbuttonback.h"
 #include "ui_formwithbuttonback.h"
+#include "iview.h"
 
 #include <QMainWindow>
 
@@ -44,7 +45,14 @@ void FormWithButtonBack::pushToView(QList<QWidget*> newDisplay)
     }
 
     for (QWidget* item : stack.last())
+    {
+        if(!item) return;
+
+        if(IView* viewItem = dynamic_cast<IView*>(item))
+            viewItem->hide();
+
         item->hide();
+    }
 
     for (QWidget* item : newDisplay)
         thisWidget->layout()->addWidget(item);
@@ -58,8 +66,7 @@ void FormWithButtonBack::clearStack()
         for (QWidget* item : stack.pop())
                 delete item;
 
-    for (QWidget* item : stack.last())
-        item->show();
+    popLast();
 
     baseCentalWidgetWindow->removeWidget(instance);
     instance->hide();
@@ -71,15 +78,29 @@ void FormWithButtonBack::popView()
     for (QWidget* item : stack.pop())
         delete item;
 
-    for (QWidget* item : stack.last())
-        item->show();
-
+    popLast();
 
     if(stack.count() == 1)
     {
         baseCentalWidgetWindow->removeWidget(instance);
         instance->hide();
         stack.pop();
+    }
+}
+
+void FormWithButtonBack::popLast()
+{
+    for (QWidget* item : stack.last())
+    {
+        if(!item) return;
+
+        if(IView* viewItem = dynamic_cast<IView*>(item))
+        {
+            viewItem->show();
+            continue;
+        }
+
+        item->show();
     }
 }
 

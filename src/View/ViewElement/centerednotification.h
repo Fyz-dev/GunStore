@@ -21,6 +21,7 @@ public:
 public:
     void show(const int& displayTimeSecond);
     void show(const QString& text, const int& displayTimeSecond);
+    void close();
 
     //SET
     void setText(const QString& text);

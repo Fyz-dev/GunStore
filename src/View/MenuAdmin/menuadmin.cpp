@@ -14,6 +14,7 @@
 #include "menusupplierviewmodel.h"
 #include "menusupplier.h"
 #include "addnewsupplier.h"
+#include "formwithbuttonback.h"
 
 //Класс где происходит контроль всех окон админа
 //При желание добавить новое окно в область видимости окна администратора НЕОБХОДИМО вызвать метод freeMemory()
@@ -39,10 +40,9 @@ void MenuAdmin::connected()
 
 void MenuAdmin::openAddNewProductDialog()
 {
-    std::unique_ptr<ProductModel> productModel = std::make_unique<ProductModel>(connectionHandler);
-    std::unique_ptr<AddProductDialogViewModel> addProductDialogViewModel = std::make_unique<AddProductDialogViewModel>(productModel.get());
-    std::unique_ptr<AddProductDialog> addProductDialog = std::make_unique<AddProductDialog>(addProductDialogViewModel.get(), this);
-    addProductDialog->exec();
+    ProductModel* productModel = new ProductModel(connectionHandler);
+    AddProductDialogViewModel* addProductDialogViewModel = new AddProductDialogViewModel(productModel);
+    FormWithButtonBack::pushToView({new AddProductDialog(addProductDialogViewModel, this)});
 }
 
 void MenuAdmin::openAddNewEmployees()
@@ -50,6 +50,7 @@ void MenuAdmin::openAddNewEmployees()
     std::unique_ptr<EmployeesModel> employeesModel = std::make_unique<EmployeesModel>(connectionHandler);
     std::unique_ptr<AddEmployeesViewModel> addEmployeesViewModel = std::make_unique<AddEmployeesViewModel>(employeesModel.get());
     std::unique_ptr<AddNewEmployees> addNewEmployees = std::make_unique<AddNewEmployees>(addEmployeesViewModel.get(), this);
+
     addNewEmployees->exec();
 }
 

@@ -13,6 +13,7 @@ class AddProductDialogViewModel : public QObject, public BaseViewModel
 
 public:
     AddProductDialogViewModel(ProductModel* productModel);
+    ~AddProductDialogViewModel();
     void update() override;
 
 public slots:

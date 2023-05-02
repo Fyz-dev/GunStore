@@ -22,6 +22,10 @@ public:
 public slots:
     void closeMe();
 
+signals:
+    void openWindow();
+
+
 //PRIVATE!!!
 private:
     FormWithButtonBack();
@@ -30,6 +34,7 @@ private:
     FormWithButtonBack(QLayout *baseWindow);
 //----------
     static void popView();
+    static void popLast();
 
 private:
     Ui::FormWithButtonBack *ui;

@@ -19,6 +19,7 @@ public:
     BuyProductViewModel(ProductModel* productModel);
     void update() override;
     void printReport(const QString& sumCount, const QString& sumPrice);
+    const QList<ElementBuyProduct*>& getListElement() { return listElement; }
 
 public slots:
     void changedComboBoxSlots(const int& i);

@@ -53,6 +53,9 @@ void BuyProduct::connected()
             return;
         }
 
+        if(buyProductViewModel->getListElement().isEmpty())
+            return notification->show("Ви не обрали товари!", 2);
+
         buyProductViewModel->buyProducts(ui->comboBoxSupplier->currentText());
     });
 

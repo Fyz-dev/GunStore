@@ -15,8 +15,6 @@ MainMenu::MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent) :
     ui->tableViewProduct->hideColumn(0);
 
     notification = new CenteredNotification;
-    notification->setFont(QFont("Franklin Gothic Medium", 16));
-    notification->setStyleSheet("color: white");
 }
 
 void MainMenu::modelChangedSlots(QAbstractTableModel * modelData)
@@ -83,7 +81,7 @@ void MainMenu::deleteWidget(QLayout* layout)
 void MainMenu::buttonAddOrder_clicked()
 {
     if(!ui->tableViewProduct->currentIndex().isValid())
-        return notification->show("Виберіть товар!", 10);
+        return notification->show("Виберіть товар!", 2);
 
     if (mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt()))
     {
@@ -91,7 +89,7 @@ void MainMenu::buttonAddOrder_clicked()
         ui->tableViewProduct->update();
     }
 
-    ui->inputCountProduct->setText("");
+    ui->inputCountProduct->setText("1");
 }
 
 void MainMenu::show()
@@ -99,6 +97,11 @@ void MainMenu::show()
     mainMenuViewModel->syncHashAndList();
     emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
     QWidget::show();
+}
+
+void MainMenu::hide()
+{
+    notification->close();
 }
 
 void MainMenu::connected()
@@ -115,6 +118,17 @@ void MainMenu::connected()
     connect(ui->tableViewProduct, &QTableView::clicked, this, [&](const QModelIndex& i)
     {
         mainMenuViewModel->selectedElemTableViewSlots(i);
+    });
+
+
+    connect(ui->inputCountProduct, &QLineEdit::editingFinished, this, [&]()
+    {
+        static QRegularExpression reg("^[1-9]\\d*$");
+        if(!reg.match(ui->inputCountProduct->text()).hasMatch() || ui->inputCountProduct->text().isEmpty())
+        {
+            ui->inputCountProduct->setText("1");
+            return notification->show("Введіть коректну кількість!", 2);
+        }
     });
 }
 

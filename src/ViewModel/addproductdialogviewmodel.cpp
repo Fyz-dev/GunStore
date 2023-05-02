@@ -47,3 +47,8 @@ void AddProductDialogViewModel::addNewProduct(const QString& name, const QString
         category + "') and id_characteristic = (select id_characteristic from characteristic where charact_name = '" + table->item(i, 0)->text() + "')), '" + table->item(i, 1)->text() + "')");
     }
 }
+
+AddProductDialogViewModel::~AddProductDialogViewModel()
+{
+    delete productModel;
+}

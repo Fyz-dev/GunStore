@@ -21,6 +21,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/View)
 include_directories(${PROJECT_SOURCE_DIR}/src/View/ViewElement)
 include_directories(${PROJECT_SOURCE_DIR}/src/View/MenuAdmin)
 include_directories(${PROJECT_SOURCE_DIR}/src/View/Delegates)
+include_directories(${PROJECT_SOURCE_DIR}/src/View/Interface)
 include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model)
 include_directories(${PROJECT_SOURCE_DIR}/src/Model/base)
@@ -28,11 +29,10 @@ include_directories(${PROJECT_SOURCE_DIR}/src/Mediator)
 include_directories(${PROJECT_SOURCE_DIR}/src/ViewModel/base)
 
 file(GLOB RESOURCES "resources/*.qrc")
-file(GLOB VIEW "src/View/*.cpp" "src/View/*.h" "src/View/MenuAdmin/*.cpp" "src/View/MenuAdmin/*.h" "src/View/ViewElement/*.cpp" "src/View/ViewElement/*.h" "src/View/Delegates/*.cpp" "src/View/Delegates/*.h")
+file(GLOB VIEW "src/View/*.cpp" "src/View/*.h" "src/View/MenuAdmin/*.cpp" "src/View/MenuAdmin/*.h" "src/View/ViewElement/*.cpp" "src/View/ViewElement/*.h" "src/View/Delegates/*.cpp" "src/View/Delegates/*.h" "src/View/Interface/*.h")
 file(GLOB UI_HEADERS "src/View/*.ui" "src/View/MenuAdmin/*.ui" "src/View/ViewElement/*.ui")
 file(GLOB VIEWMODEL "src/ViewModel/*.cpp" "src/ViewModel/*.h" "src/ViewModel/base/*.cpp" "src/ViewModel/base/*.h")
 file(GLOB MODEL "src/Model/*.cpp" "src/Model/*.h" "src/Model/base/*.cpp" "src/Model/base/*.h")
-
 set(PROJECT_SOURCES
     src/main.cpp
     src/connectionhandler.h
