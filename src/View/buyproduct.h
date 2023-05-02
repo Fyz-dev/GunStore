@@ -2,6 +2,7 @@
 #define BUYPRODUCT_H
 
 #include "buyproductviewmodel.h"
+#include "centerednotification.h"
 
 #include <QWidget>
 #include <QComboBox>
@@ -30,6 +31,7 @@ private:
 private:
     Ui::BuyProduct *ui;
     BuyProductViewModel* buyProductViewModel;
+    CenteredNotification* notification;
 };
 
 #endif // BUYPRODUCT_H

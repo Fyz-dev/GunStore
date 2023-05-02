@@ -36,6 +36,7 @@ void FormWithButtonBack::pushToView(QList<QWidget*> newDisplay)
         QList<QWidget*> list;
         for (int i = 0; i < baseCentalWidgetWindow->count(); ++i)
             list.append(baseCentalWidgetWindow->itemAt(i)->widget());
+
         stack.push(list);
 
         baseCentalWidgetWindow->addWidget(instance);
@@ -72,6 +73,7 @@ void FormWithButtonBack::popView()
 
     for (QWidget* item : stack.last())
         item->show();
+
 
     if(stack.count() == 1)
     {

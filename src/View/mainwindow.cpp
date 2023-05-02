@@ -4,7 +4,6 @@
 #include "menuadmin.h"
 #include "ordering.h"
 #include "./ui_mainwindow.h"
-#include "centerednotification.h"
 
 //Основной класс где происходит контроль таких окон как: Главное окно, закупки, админа, оформление заказа
 //При желание добавить новое окно в область видимости основного окна НЕОБХОДИМО вызвать метод freeMemory()
@@ -18,6 +17,7 @@ MainWindow::MainWindow(ConnectionHandler* connectionHandler, QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     formWithButtonBack = FormWithButtonBack::getInstance(ui->centralwidget->layout());
 
     this->resize(1400, 600);
@@ -26,7 +26,6 @@ MainWindow::MainWindow(ConnectionHandler* connectionHandler, QWidget *parent) :
 
     buttonMainMenu_clicked();
     colorButtonControl(ui->buttonMainMenu);
-    CenteredNotification::setBaseWidget(this);
 }
 
 void MainWindow::connected()

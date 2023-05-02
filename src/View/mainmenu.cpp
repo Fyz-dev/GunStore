@@ -82,9 +82,8 @@ void MainMenu::deleteWidget(QLayout* layout)
 
 void MainMenu::buttonAddOrder_clicked()
 {
-    if(ui->inputCountProduct->text() == "")
-        return notification->show("Кількість не може дорівнювати 0!", 2);
-
+    if(!ui->tableViewProduct->currentIndex().isValid())
+        return notification->show("Виберіть товар!", 10);
 
     if (mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt()))
     {
@@ -97,9 +96,9 @@ void MainMenu::buttonAddOrder_clicked()
 
 void MainMenu::show()
 {
-    QWidget::show();
     mainMenuViewModel->syncHashAndList();
     emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
+    QWidget::show();
 }
 
 void MainMenu::connected()

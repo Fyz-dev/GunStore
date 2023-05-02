@@ -3,27 +3,54 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QtConcurrent/QtConcurrent>
+#include <QWindow>
+#include <QObject>
 
+QWidget* CenteredNotification::baseWindow = nullptr;
 
-QWidget* CenteredNotification::baseWidget = nullptr;
-
-CenteredNotification::CenteredNotification(QWidget *parent, const QString& text, const QColor& backgroundColor) :
-    QWidget(parent),
+CenteredNotification::CenteredNotification(const QString& text, const QColor& backgroundColor) :
+    QWidget(),
     ui(new Ui::CenteredNotification)
 {
     ui->setupUi(this);
+
     setText(text);
     setColor(backgroundColor);
 
     ui->text->setWordWrap(true);
     ui->text->adjustSize();
 
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::ToolTip);
     this->setAttribute(Qt::WA_TranslucentBackground);
 
-    connect(qApp, &QApplication::focusChanged, this, [=](QWidget* oldFocus, QWidget* newFocus){
-        if(newFocus)
-            this->raise();
+    connect(qApp, &QApplication::focusChanged, this, [=](QWidget* oldFocus, QWidget* newFocus)
+    {
+        if(!baseWindow)
+            baseWindow = QApplication::activeWindow();
+
+        if(!isInitialization)
+            return;
+
+        baseWindow->installEventFilter(this);
+
+        connect(baseWindow->window()->windowHandle(), &QWindow::activeChanged, this, [=]()
+        {
+            if(timer == nullptr)
+                return;
+
+            if(baseWindow->isActiveWindow())
+            {
+                this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::ToolTip);
+                QWidget::show();
+            }
+            else
+            {
+                this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+                QWidget::show();
+            }
+        });
+
+        isInitialization = false;
     });
 }
 
@@ -37,11 +64,6 @@ void CenteredNotification::setFont(const QFont& font)
     ui->text->setFont(font);
 }
 
-void CenteredNotification::setBaseWidget(QWidget* basewidget)
-{
-    baseWidget = basewidget;
-}
-
 void CenteredNotification::setColor(const QColor& backgroundColor)
 {
     this->backgroundColor = backgroundColor;
@@ -50,7 +72,6 @@ void CenteredNotification::setColor(const QColor& backgroundColor)
 void CenteredNotification::show(const int& displayTimeSecond)
 {
     ui->widget->setStyleSheet(QString("QWidget#widget{border-radius: 10px; background-color: %1;}").arg(backgroundColor.name(QColor::HexArgb)));
-    baseWidget->installEventFilter(this);
 
     if(timer != nullptr)
     {
@@ -73,10 +94,10 @@ void CenteredNotification::show(const int& displayTimeSecond)
         timer = nullptr;
     });
 
-    QWidget::show();
-
     centredTheWidget();
     timer->start();
+
+    QWidget::show();
 }
 
 void CenteredNotification::show(const QString& text, const int& displayTimeSecond)
@@ -87,7 +108,7 @@ void CenteredNotification::show(const QString& text, const int& displayTimeSecon
 
 bool CenteredNotification::eventFilter(QObject* wathed, QEvent* event)
 {
-    if(wathed == baseWidget && (event->type() == QEvent::Move || event->type() == QEvent::Resize))
+    if(wathed == baseWindow && (event->type() == QEvent::Move || event->type() == QEvent::Resize))
         centredTheWidget();
 
     return false;
@@ -114,12 +135,13 @@ void CenteredNotification::startAnimAsync()
 
 void CenteredNotification::centredTheWidget()
 {
-    //this->move(baseWidget->geometry().center().x() - this->width()/2, baseWidget->geometry().bottom() - this->geometry().height() - 20);
-    this->move(baseWidget->geometry().center() - this->rect().center());
+    //this->move(baseWidow->geometry().center().x() - this->width()/2, baseWidow->geometry().top()+10);
+    //this->move(baseWidow->geometry().center().x() - this->width()/2, baseWidow->geometry().bottom() - this->geometry().height() - 20);
+    this->move(baseWindow->geometry().center() - this->rect().center());
 }
 
 CenteredNotification::~CenteredNotification()
 {
-    baseWidget->removeEventFilter(this);
+    baseWindow->removeEventFilter(this);
     delete ui;
 }

@@ -7,8 +7,10 @@ BuyProduct::BuyProduct(BuyProductViewModel* buyProductViewModel, QWidget *parent
     ui(new Ui::BuyProduct)
 {
     ui->setupUi(this);
+
     connected();
     buyProductViewModel->update();
+    notification = new CenteredNotification;
 }
 
 void BuyProduct::updateComboBoxSlots(const QList<QString>& list, const QList<QString>& listSupplier)
@@ -47,7 +49,7 @@ void BuyProduct::connected()
     {
         if(ui->comboBoxSupplier->currentIndex() == -1)
         {
-            QMessageBox::information(this, "Увага!", "Виберіть постачальника!");
+            notification->show("Виберіть постачальника!", 2);
             return;
         }
 
@@ -79,5 +81,6 @@ void BuyProduct::messageBoxShow()
 
 BuyProduct::~BuyProduct()
 {
+    delete notification;
     delete ui;
 }

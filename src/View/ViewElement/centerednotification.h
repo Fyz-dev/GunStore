@@ -14,7 +14,7 @@ class CenteredNotification : public QWidget
 
     //Construct and Destruct
 public:
-    explicit CenteredNotification(QWidget *parent = nullptr, const QString& text = "", const QColor& backgroundColor = QColor(64,69,75, 245));
+    explicit CenteredNotification(const QString& text = "", const QColor& backgroundColor = QColor(64,69,75, 245));
     ~CenteredNotification();
 
     //Method
@@ -26,7 +26,6 @@ public:
     void setText(const QString& text);
     void setFont(const QFont& font);
     void setColor(const QColor& backgroundColor);
-    static void setBaseWidget(QWidget* baseWidget);
 
 protected:
     void show();
@@ -39,11 +38,12 @@ private:
 private:
     Ui::CenteredNotification *ui;
 
+    bool isInitialization = true;
     QColor backgroundColor;
     QPropertyAnimation* anim = nullptr;
     QTimer* timer = nullptr;
 
-    static QWidget* baseWidget;
+    static QWidget* baseWindow;
 };
 
 #endif // CENTEREDNOTIFICATION_H
