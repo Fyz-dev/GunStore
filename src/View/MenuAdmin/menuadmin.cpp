@@ -16,6 +16,7 @@
 #include "addnewsupplier.h"
 #include "formwithbuttonback.h"
 #include "menubuyer.h"
+#include "buyermodel.h"
 
 //Класс где происходит контроль всех окон админа
 //При желание добавить новое окно в область видимости окна администратора НЕОБХОДИМО вызвать метод freeMemory()
@@ -112,7 +113,9 @@ void MenuAdmin::buttonInfoBuyer_clicked()
 
     freeMemory();
 
-    thisWindow = new MenuBuyer(this);
+    thisModel = new BuyerModel(connectionHandler);
+    thisViewModel = nullptr;
+    thisWindow = new MenuBuyer(static_cast<BuyerModel*>(thisModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
 }
 
