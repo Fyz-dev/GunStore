@@ -28,12 +28,21 @@ void MainMenuViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox, const
     }
 }
 
-bool MainMenuViewModel::changedListProductForSale(const int& row, const int& count)
+bool MainMenuViewModel::changedListProductForSale(const int& row, const int& count, QLineEdit* lineEdit)
 {
     if(row == -1)
         return false;
 
     int idProduct = productModel->getModelData()->index(row, 0).data().toInt();
+
+    int actualCount = productModel->getOneCell(QString("select p_count from product where id_product = %1").arg(QString::number(idProduct))).toInt();
+
+    if(count > actualCount)
+    {
+        lineEdit->setText(QString::number(actualCount));
+        emit messageShow("Надто багато!");
+        return false;
+    }
 
     if(!listProductForSale.contains(idProduct))
     {

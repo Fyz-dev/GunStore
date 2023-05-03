@@ -30,8 +30,10 @@ signals:
 
 private slots:
     void connected();
-    void isValidInput();
     void valueEnteredTableWidget(const int& row, const int& column);
+
+private:
+    bool isValidInput(QLineEdit* lineEdit);
 
 private:
     Ui::AddProductDialog *ui;

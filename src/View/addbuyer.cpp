@@ -6,6 +6,11 @@
 #include <QRegularExpression>
 #include <QDateTime>
 
+QRegularExpression AddBuyer::regexNumberPhone = QRegularExpression("^0\\d{9}$");
+QRegularExpression AddBuyer::regexINN= QRegularExpression("^\\d{10}$");
+QRegularExpression AddBuyer::regexEmail = QRegularExpression("^[\\w.-]+@[a-zA-Z_-]+?\\.[a-zA-Z]{2,}$");
+
+
 AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWidget *parent) :
     QWidget(parent),
     productModel(productModel),
@@ -13,6 +18,7 @@ AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWi
     ui(new Ui::AddBuyer)
 {
     ui->setupUi(this);
+    notification = new CenteredNotification;
 
     QStringList list;
     productModel->updateList(list, "select full_name from buyer");
@@ -21,6 +27,10 @@ AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWi
     ui->inputFIO->setEditable(true);
     ui->inputFIO->setInsertPolicy(QComboBox::NoInsert);
     ui->inputFIO->setCurrentIndex(-1);
+
+    ui->inputPhone->setValidator(new QRegularExpressionValidator(regexNumberPhone));
+    ui->inputINN->setValidator(new QRegularExpressionValidator(regexINN));
+    ui->inputEmail->setValidator(new QRegularExpressionValidator(regexEmail));
 
     connected();
 }
@@ -43,6 +53,15 @@ void AddBuyer::connected()
 
 void AddBuyer::buttonOrder_clicked()
 {
+    if(!regexINN.match(ui->inputINN->text()).hasMatch())
+        return notification->show("Введіть коректний ІНН!", 2);
+
+    if(!regexNumberPhone.match(ui->inputPhone->text()).hasMatch())
+        return notification->show("Введіть коректний номер телефону!", 2);
+
+    if(!regexEmail.match(ui->inputEmail->text()).hasMatch())
+        return notification->show("Введіть коректну електронну пошту!", 2);
+
     productModel->requestBD(QString("INSERT INTO sales(inn, id_worker, date_time) VALUES(%1, %2, NOW())").arg(ui->inputINN->text(), productModel->getIdWorker()));
     int idSales = productModel->getLastInsertId();
 
@@ -52,6 +71,7 @@ void AddBuyer::buttonOrder_clicked()
         productModel->requestBD(QString("UPDATE product SET p_count = p_count - %1 WHERE id_product = %2").arg(QString::number(i.value()), QString::number(i.key())));
     }
 
+    listProduct.clear();
     FormWithButtonBack::clearStack();
 }
 

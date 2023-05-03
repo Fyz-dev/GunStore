@@ -1,5 +1,6 @@
 #include "basemodel.h"
 #include <QSqlError>
+#include <QException>
 
 BaseModel::BaseModel(ConnectionHandler* connection) :
     connection(connection)
@@ -49,6 +50,26 @@ QSqlQuery* BaseModel::select(const QString& request)
 
     delete query;
     return nullptr;
+}
+
+QString BaseModel::getOneCell(const QString& request)
+{
+    QSqlQuery* query = new QSqlQuery(request, *connection->getDB());
+
+    if(query->exec())
+    {
+        if(query->first())
+        {
+            QString ret = query->value(0).toString();
+            delete query;
+            return ret;
+        }
+    }
+
+    QString exeption = query->lastError().text();
+
+    delete query;
+    throw exeption;
 }
 
 bool BaseModel::requestBD(QString request)

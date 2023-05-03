@@ -2,6 +2,7 @@
 #define ADDBUYER_H
 
 #include "productmodel.h"
+#include "centerednotification.h"
 
 #include <QWidget>
 
@@ -30,6 +31,11 @@ private:
     Ui::AddBuyer *ui;
     ProductModel* productModel;
     QHash<int, int>& listProduct;
+    CenteredNotification* notification;
+
+    static QRegularExpression regexNumberPhone;
+    static QRegularExpression regexEmail;
+    static QRegularExpression regexINN;
 };
 
 #endif // ADDBUYER_H

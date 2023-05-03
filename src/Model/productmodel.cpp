@@ -63,9 +63,9 @@ void ProductModel::setHeaderModel()
 {
     modelData->setHeaderData(1, Qt::Horizontal, "Назва");
     modelData->setHeaderData(2, Qt::Horizontal, "Ціна(грн.)");
-    modelData->setHeaderData(3, Qt::Horizontal, "Кількість(шт.)");
+    modelData->setHeaderData(3, Qt::Horizontal, "Кількість(од.)");
     modelData->setHeaderData(4, Qt::Horizontal, "Бренд");
-    modelData->setHeaderData(5, Qt::Horizontal, "Вес(г.)");
+    modelData->setHeaderData(5, Qt::Horizontal, "Вага(г.)");
     modelData->setHeaderData(6, Qt::Horizontal, "Упаковка");
     modelData->setHeaderData(7, Qt::Horizontal, "Країна");
     modelData->setHeaderData(8, Qt::Horizontal, "Категорія");

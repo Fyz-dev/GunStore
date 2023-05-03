@@ -14,5 +14,6 @@
     <qresource prefix="/Icon">
         <file>images/indocator.png</file>
         <file>images/down-arrow.png</file>
+        <file>images/empty-basket.png</file>
     </qresource>
 </RCC>

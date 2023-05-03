@@ -12,7 +12,6 @@ MainMenu::MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent) :
     mainMenuViewModel->update();    
 
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->tableViewProduct->hideColumn(0);
 
     notification = new CenteredNotification;
 }
@@ -21,6 +20,7 @@ void MainMenu::modelChangedSlots(QAbstractTableModel * modelData)
 {
     ui->tableViewProduct->setModel(nullptr);
     ui->tableViewProduct->setModel(modelData);
+    ui->tableViewProduct->hideColumn(0);
     ui->tableViewProduct->setItemDelegate(mainMenuViewModel->getDelegate());
 }
 
@@ -81,27 +81,32 @@ void MainMenu::deleteWidget(QLayout* layout)
 void MainMenu::buttonAddOrder_clicked()
 {
     if(!ui->tableViewProduct->currentIndex().isValid())
-        return notification->show("Виберіть товар!", 2);
+        return messageShow("Виберіть товар!");
 
-    if (mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt()))
+    if (mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt(), ui->inputCountProduct))
     {
         emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
         ui->tableViewProduct->update();
+        ui->inputCountProduct->setText("1");
     }
-
-    ui->inputCountProduct->setText("1");
 }
 
 void MainMenu::show()
 {
     mainMenuViewModel->syncHashAndList();
     emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
+    mainMenuViewModel->update();
     QWidget::show();
 }
 
 void MainMenu::hide()
 {
     notification->close();
+}
+
+void MainMenu::messageShow(const QString& message)
+{
+    notification->show(message, 2);
 }
 
 void MainMenu::connected()
@@ -113,6 +118,7 @@ void MainMenu::connected()
     connect(mainMenuViewModel, &MainMenuViewModel::clearCheckBoxSignal, this, &MainMenu::clearCheckBoxSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::addInfoProductSignal, this, &MainMenu::addInfoProductSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::clearLableSignal, this, &MainMenu::clearLableSlots);
+    connect(mainMenuViewModel, &MainMenuViewModel::messageShow, this, &MainMenu::messageShow);
     connect(this, &MainMenu::priceFilterChangedSignals, mainMenuViewModel, &MainMenuViewModel::priceFilterChangedSlots);
     connect(ui->buttonAddOrder, &QPushButton::clicked, this, &MainMenu::buttonAddOrder_clicked);
     connect(ui->tableViewProduct, &QTableView::clicked, this, [&](const QModelIndex& i)
@@ -120,14 +126,13 @@ void MainMenu::connected()
         mainMenuViewModel->selectedElemTableViewSlots(i);
     });
 
-
     connect(ui->inputCountProduct, &QLineEdit::editingFinished, this, [&]()
     {
         static QRegularExpression reg("^[1-9]\\d*$");
         if(!reg.match(ui->inputCountProduct->text()).hasMatch() || ui->inputCountProduct->text().isEmpty())
         {
             ui->inputCountProduct->setText("1");
-            return notification->show("Введіть коректну кількість!", 2);
+            return messageShow("Введіть коректну кількість!");
         }
     });
 }

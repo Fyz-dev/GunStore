@@ -3,6 +3,7 @@
 #include "buyproduct.h"
 #include "menuadmin.h"
 #include "ordering.h"
+#include "formforempty.h"
 #include "./ui_mainwindow.h"
 
 //Основной класс где происходит контроль таких окон как: Главное окно, закупки, админа, оформление заказа
@@ -87,7 +88,10 @@ void MainWindow::buttonAdmin_clicked()
 
 void MainWindow::buttonBasket_clicked()
 {
-    FormWithButtonBack::pushToView({new Ordering(static_cast<MainMenuViewModel*>(thisViewModel)->getListProduct(), connectionHandler, this)});
+    if(dynamic_cast<MainMenuViewModel*>(thisViewModel)->getListProduct().isEmpty())
+        FormWithButtonBack::pushToView({new FormForEmpty});
+    else
+        FormWithButtonBack::pushToView({new Ordering(static_cast<MainMenuViewModel*>(thisViewModel)->getListProduct(), connectionHandler, this)});
 }
 
 void MainWindow::colorButtonControl(QPushButton* sender)

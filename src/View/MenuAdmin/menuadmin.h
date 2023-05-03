@@ -28,6 +28,7 @@ private slots:
     void buttonEditProduct_clicked();
     void buttonInfoEmployees_clicked();
     void buttonInfoSupplier_clicked();
+    void buttonInfoBuyer_clicked();
 
 private:
     void freeMemory();

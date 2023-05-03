@@ -15,6 +15,7 @@
 #include "menusupplier.h"
 #include "addnewsupplier.h"
 #include "formwithbuttonback.h"
+#include "menubuyer.h"
 
 //Класс где происходит контроль всех окон админа
 //При желание добавить новое окно в область видимости окна администратора НЕОБХОДИМО вызвать метод freeMemory()
@@ -36,6 +37,7 @@ void MenuAdmin::connected()
     connect(ui->buttonEditProduct, &QPushButton::clicked, this, &MenuAdmin::buttonEditProduct_clicked);
     connect(ui->buttonInfoEmployees, &QPushButton::clicked, this, &MenuAdmin::buttonInfoEmployees_clicked);
     connect(ui->buttonInfoSupplier, &QPushButton::clicked, this, &MenuAdmin::buttonInfoSupplier_clicked);
+    connect(ui->buttonInfoBuyer, &QPushButton::clicked, this, &MenuAdmin::buttonInfoBuyer_clicked);
 }
 
 void MenuAdmin::openAddNewProductDialog()
@@ -101,6 +103,17 @@ void MenuAdmin::buttonInfoSupplier_clicked()
     thisWindow = new MenuSupplier(static_cast<MenuSupplierViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
     connect(qobject_cast<MenuSupplier*>(thisWindow), &MenuSupplier::openAddSupplier, this, &MenuAdmin::openAddSupplier);
+}
+
+void MenuAdmin::buttonInfoBuyer_clicked()
+{
+    if(qobject_cast<MenuBuyer*>(thisWindow))
+        return;
+
+    freeMemory();
+
+    thisWindow = new MenuBuyer(this);
+    ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
 }
 
 void MenuAdmin::freeMemory()

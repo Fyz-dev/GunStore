@@ -1,6 +1,7 @@
 #include "ordering.h"
 #include "addbuyer.h"
 #include "formwithbuttonback.h"
+#include "formforempty.h"
 #include "ui_ordering.h"
 #include <QMainWindow>
 
@@ -94,6 +95,11 @@ void Ordering::deleteProduct()
             updateSumAndCount();
         }
 
+    if(listProduct.isEmpty())
+    {
+        FormWithButtonBack::clearStack();
+        FormWithButtonBack::pushToView({new FormForEmpty});
+    }
 }
 
 void Ordering::next()

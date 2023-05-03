@@ -32,7 +32,6 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     stream << QString("%1 %2:%3 - %4\n").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz")).arg(context.file).arg(context.line).arg(msg);
 }
 
-
 int main(int argc, char *argv[])
 {
     qInstallMessageHandler(myMessageOutput);

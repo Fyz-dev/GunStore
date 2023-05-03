@@ -29,6 +29,7 @@ public slots:
     void priceFilterChangedSlots();
     void show() override;
     void hide() override;
+    void messageShow(const QString& message);
 
 signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);

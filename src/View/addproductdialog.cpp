@@ -4,6 +4,8 @@
 #include <QTimer>
 #include <QMessageBox>
 
+const QRegularExpression AddProductDialog::regex = QRegularExpression("^\\d+(\\.\\d+)?$");
+
 AddProductDialog::AddProductDialog(AddProductDialogViewModel* addProductDialogViewModel, QWidget *parent) :
     addProductDialogViewModel(addProductDialogViewModel),
     QDialog(parent),
@@ -19,12 +21,27 @@ AddProductDialog::AddProductDialog(AddProductDialogViewModel* addProductDialogVi
     notification = new CenteredNotification;
 }
 
-const QRegularExpression AddProductDialog::regex = QRegularExpression("^\\d+(\\.\\d+)?$");
-
 void AddProductDialog::connected()
 {
-    connect(ui->inputPrice, &QLineEdit::editingFinished, this, &AddProductDialog::isValidInput);
-    connect(ui->inputWeight, &QLineEdit::editingFinished, this, &AddProductDialog::isValidInput);
+    //Коректность данных
+    connect(ui->inputPrice, &QLineEdit::editingFinished, this,  [&]()
+    {
+        if(!isValidInput(ui->inputPrice))
+        {
+            ui->inputPrice->setText("");
+            return notification->show("Введіть коректну ціну!", 2);
+        }
+    });
+
+    connect(ui->inputWeight, &QLineEdit::editingFinished, this, [&]()
+    {
+        if(!isValidInput(ui->inputWeight))
+        {
+            ui->inputWeight->setText("");
+            return notification->show("Введіть коректну вагу!", 2);
+        }
+    });
+
     connect(addProductDialogViewModel, &AddProductDialogViewModel::updateComboBoxSignals, this, &AddProductDialog::updateComboBoxSlots);
     connect(addProductDialogViewModel, &AddProductDialogViewModel::setComboBoxSignals, this, &AddProductDialog::setComboBoxSlots);
     connect(ui->tableWidget, &QTableWidget::cellChanged, this, &AddProductDialog::valueEnteredTableWidget);
@@ -76,9 +93,7 @@ void AddProductDialog::valueEnteredTableWidget(const int& row, const int& column
 
     if(ui->tableWidget->item(row, column)->data(0).toString().isEmpty() && row+1 != ui->tableWidget->rowCount())
     {
-        QTimer::singleShot(0, this, [=](){
-            ui->tableWidget->removeRow(row);
-        });
+        QTimer::singleShot(0, this, [=](){ ui->tableWidget->removeRow(row); });
         return comboBox->addItem(ui->tableWidget->item(row, 0)->data(0).toString());
     }
 
@@ -95,11 +110,9 @@ void AddProductDialog::valueEnteredTableWidget(const int& row, const int& column
     comboBox->removeItem(comboBox->currentIndex());
 }
 
-void AddProductDialog::isValidInput()
+bool AddProductDialog::isValidInput(QLineEdit* lineEdit)
 {
-    QLineEdit* lineEdit = qobject_cast<QLineEdit*>(sender());
-    if(!regex.match(lineEdit->text()).hasMatch())
-        lineEdit->setText("");
+    return regex.match(lineEdit->text()).hasMatch();
 }
 
 void AddProductDialog::updateComboBoxSlots(const QString& text)
