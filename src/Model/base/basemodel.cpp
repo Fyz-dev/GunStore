@@ -66,10 +66,8 @@ QString BaseModel::getOneCell(const QString& request)
         }
     }
 
-    QString exeption = query->lastError().text();
-
     delete query;
-    throw exeption;
+    return "";
 }
 
 bool BaseModel::requestBD(QString request)

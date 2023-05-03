@@ -5,10 +5,12 @@
 #include <QSortFilterProxyModel>
 #include <QRegularExpression>
 #include <QDateTime>
+#include <QSqlError>
 
 QRegularExpression AddBuyer::regexNumberPhone = QRegularExpression("^0\\d{9}$");
 QRegularExpression AddBuyer::regexINN= QRegularExpression("^\\d{10}$");
 QRegularExpression AddBuyer::regexEmail = QRegularExpression("^[\\w.-]+@[a-zA-Z_-]+?\\.[a-zA-Z]{2,}$");
+QRegularExpression AddBuyer::regexLicense= QRegularExpression("^\\d{7}$");
 
 
 AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWidget *parent) :
@@ -31,6 +33,7 @@ AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWi
     ui->inputPhone->setValidator(new QRegularExpressionValidator(regexNumberPhone));
     ui->inputINN->setValidator(new QRegularExpressionValidator(regexINN));
     ui->inputEmail->setValidator(new QRegularExpressionValidator(regexEmail));
+    ui->inputLicense->setValidator(new QRegularExpressionValidator(regexLicense));
 
     connected();
 }
@@ -53,16 +56,38 @@ void AddBuyer::connected()
 
 void AddBuyer::buttonOrder_clicked()
 {
-    if(!regexINN.match(ui->inputINN->text()).hasMatch())
+    QString INN = ui->inputINN->text();
+    QString FIO = ui->inputFIO->lineEdit()->text();
+    QString phoneNumber = ui->inputPhone->text();
+    QString email = ui->inputEmail->text();
+    QString city = ui->inputCity->text();
+    QString detailsAddress = ui->inputAddressDetails->text();
+    QString license = ui->inputLicense->text();
+
+    if(productModel->getOneCell(QString("SELECT COUNT(*) FROM buyer WHERE inn = %1").arg(INN)) != "0")
+        return notification->show("Такий покупець вже є!", 2);
+
+    if(!regexINN.match(INN).hasMatch())
         return notification->show("Введіть коректний ІНН!", 2);
 
-    if(!regexNumberPhone.match(ui->inputPhone->text()).hasMatch())
+    if(!regexNumberPhone.match(phoneNumber).hasMatch())
         return notification->show("Введіть коректний номер телефону!", 2);
 
-    if(!regexEmail.match(ui->inputEmail->text()).hasMatch())
+    if(!regexEmail.match(email).hasMatch())
         return notification->show("Введіть коректну електронну пошту!", 2);
 
-    productModel->requestBD(QString("INSERT INTO sales(inn, id_worker, date_time) VALUES(%1, %2, NOW())").arg(ui->inputINN->text(), productModel->getIdWorker()));
+    if(!regexLicense.match(license).hasMatch())
+        return notification->show("Введіть коректну ліцензію!", 2);
+
+    if(ui->inputFIO->currentIndex() == -1)
+    {
+        productModel->requestBD(QString("INSERT INTO address(city, details) VALUES('%1', '%2')").arg(city, detailsAddress));
+        productModel->requestBD(QString("INSERT INTO buyer(inn, full_name, phone_number, email, id_address, license) VALUES('%1', '%2', '%3', '%4', %5, %6)")
+                                .arg(INN, FIO, phoneNumber, email, QString::number(productModel->getLastInsertId()), license));
+    }
+
+    //Оформление заказа
+    productModel->requestBD(QString("INSERT INTO sales(inn, id_worker, date_time) VALUES(%1, %2, NOW())").arg(INN, productModel->getIdWorker()));
     int idSales = productModel->getLastInsertId();
 
     for (QHash<int, int>::const_iterator i = listProduct.constBegin(); i != listProduct.constEnd(); ++i)
@@ -77,7 +102,7 @@ void AddBuyer::buttonOrder_clicked()
 
 void AddBuyer::comboBoxIndexChanged(const int& i)
 {
-    productModel->updateModelViaQuery(QString("select inn, phone_number, email, city, details from buyer join address using(id_address) where full_name = '%1'").arg(ui->inputFIO->currentText()));
+    productModel->updateModelViaQuery(QString("select inn, phone_number, email, city, details, license from buyer join address using(id_address) where full_name = '%1'").arg(ui->inputFIO->currentText()));
     QSqlRelationalTableModel* model = productModel->getModelData();
 
     ui->inputINN->setText(model->index(0, 0).data().toString());
@@ -85,11 +110,15 @@ void AddBuyer::comboBoxIndexChanged(const int& i)
     ui->inputEmail->setText(model->index(0, 2).data().toString());
     ui->inputCity->setText(model->index(0, 3).data().toString());
     ui->inputAddressDetails->setText(model->index(0, 4).data().toString());
+    ui->inputLicense->setText(model->index(0, 5).data().toString());
     setEditable(false);
 }
 
 void AddBuyer::inputNewFIO()
 {
+    if(ui->inputFIO->currentIndex() == -1)
+        return;
+
     QComboBox* comboBox = ui->inputFIO;
     for (int i = 0; i < comboBox->count(); ++i)
         if(comboBox->itemText(i) == ui->inputFIO->currentText())
@@ -108,6 +137,7 @@ void AddBuyer::inputNewFIO()
     ui->inputEmail->clear();
     ui->inputCity->clear();
     ui->inputAddressDetails->clear();
+    ui->inputLicense->clear();
 }
 
 void AddBuyer::setEditable(bool isEdit)

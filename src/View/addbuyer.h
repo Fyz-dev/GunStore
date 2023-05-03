@@ -36,6 +36,7 @@ private:
     static QRegularExpression regexNumberPhone;
     static QRegularExpression regexEmail;
     static QRegularExpression regexINN;
+    static QRegularExpression regexLicense;
 };
 
 #endif // ADDBUYER_H
