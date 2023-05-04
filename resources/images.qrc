@@ -10,6 +10,8 @@
         <file>images/icon-clear.png</file>
         <file>images/minus.png</file>
         <file>images/left-arrow.png</file>
+        <file>images/location.png</file>
+        <file>images/phone-call.png</file>
     </qresource>
     <qresource prefix="/Icon">
         <file>images/indocator.png</file>

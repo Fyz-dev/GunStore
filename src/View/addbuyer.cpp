@@ -64,9 +64,6 @@ void AddBuyer::buttonOrder_clicked()
     QString detailsAddress = ui->inputAddressDetails->text();
     QString license = ui->inputLicense->text();
 
-    if(productModel->getOneCell(QString("SELECT COUNT(*) FROM buyer WHERE inn = %1").arg(INN)) != "0")
-        return notification->show("Такий покупець вже є!", 2);
-
     if(!regexINN.match(INN).hasMatch())
         return notification->show("Введіть коректний ІНН!", 2);
 
@@ -81,6 +78,9 @@ void AddBuyer::buttonOrder_clicked()
 
     if(ui->inputFIO->currentIndex() == -1)
     {
+        if(productModel->getOneCell(QString("SELECT COUNT(*) FROM buyer WHERE inn = %1").arg(INN)) != "0")
+            return notification->show("Такий покупець вже є!", 2);
+
         productModel->requestBD(QString("INSERT INTO address(city, details) VALUES('%1', '%2')").arg(city, detailsAddress));
         productModel->requestBD(QString("INSERT INTO buyer(inn, full_name, phone_number, email, id_address, license) VALUES('%1', '%2', '%3', '%4', %5, %6)")
                                 .arg(INN, FIO, phoneNumber, email, QString::number(productModel->getLastInsertId()), license));

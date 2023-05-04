@@ -12,7 +12,7 @@ QList<ElementPeople*>& BuyerModel::updateInfoBuyPeople(QWidget* parent)
         list.append(new ElementPeople(modelData->index(i, 0).data().toString(),
                                       modelData->index(i, 1).data().toString(),
                                       modelData->index(i, 2).data().toString(),
-                                      modelData->index(i, 3).data().toString(), parent));
+                                      modelData->index(i, 3).data().toString(), connection, parent));
 
     return list;
 }

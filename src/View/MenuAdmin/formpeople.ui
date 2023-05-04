@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MenuBuyer</class>
- <widget class="QWidget" name="MenuBuyer">
+ <class>FormPeople</class>
+ <widget class="QWidget" name="FormPeople">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1062</width>
-    <height>449</height>
+    <width>1030</width>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel#labelTopBottom {
+	font: 12pt &quot;Franklin Gothic Medium&quot;;
+	color: #818381;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>5</number>
    </property>
    <property name="leftMargin">
-    <number>20</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>20</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>20</number>
+    <number>48</number>
    </property>
    <property name="bottomMargin">
-    <number>20</number>
+    <number>48</number>
    </property>
+   <item>
+    <widget class="QLabel" name="labelTop">
+     <property name="text">
+      <string>Івано Іван Іванович</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelTopBottom">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="widgetResizable">
@@ -39,26 +63,11 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1020</width>
-        <height>374</height>
+        <width>980</width>
+        <height>389</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="spacing">
-        <number>20</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
        <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
@@ -67,7 +76,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>368</height>
           </size>
          </property>
         </spacer>
