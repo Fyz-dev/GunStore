@@ -35,8 +35,6 @@ void ElementPeople::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
 
-
-
     FormWithButtonBack::pushToView({new FormPeople(INN, FIO, new BuyerModel(connectionHandler),this)});
 }
 

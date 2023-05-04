@@ -1,4 +1,5 @@
 #include "productmodel.h"
+#include <QSqlRecord>
 
 ProductModel::ProductModel(ConnectionHandler* connection) : BaseModel(connection)
 {}

@@ -2,6 +2,7 @@
 #define FORMPEOPLE_H
 
 #include "basemodel.h"
+#include "elementorder.h"
 
 #include <QWidget>
 
@@ -22,6 +23,8 @@ public:
 private:
     Ui::FormPeople *ui;
     BaseModel* model;
+    QString identifier;
+    QList<ElementOrder*> list;
 };
 
 #endif // FORMPEOPLE_H
