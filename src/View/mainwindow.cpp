@@ -96,17 +96,17 @@ void MainWindow::buttonBasket_clicked()
 
 void MainWindow::colorButtonControl(QPushButton* sender)
 {
-    if(sender)
-    {
-        if (thisButton)
-            thisButton->setStyleSheet("QPushButton{ background-color: transparent; } QPushButton::hover {background-color: #02cc88;}");
+    if(!sender)
+        return;
 
-        sender->setStyleSheet("QPushButton{ background-color: #16171b; }");
-        thisButton = sender;
+    if (thisButton)
+        thisButton->setStyleSheet("QPushButton{ background-color: transparent; } QPushButton::hover {background-color: #02cc88;}");
 
-        ui->buttonBasket->setVisible(sender == ui->buttonMainMenu);
-        ui->printCountProduct->setVisible(sender == ui->buttonMainMenu);
-    }
+    sender->setStyleSheet("QPushButton{ background-color: #16171b; }");
+    thisButton = sender;
+
+    ui->buttonBasket->setVisible(sender == ui->buttonMainMenu);
+    ui->printCountProduct->setVisible(sender == ui->buttonMainMenu);
 }
 
 //Очищаем память

@@ -6,6 +6,7 @@
 #include "connectionhandler.h"
 
 #include <QWidget>
+#include <QPushButton>
 
 namespace Ui {
 class MenuAdmin;
@@ -31,14 +32,16 @@ private slots:
     void buttonInfoBuyer_clicked();
 
 private:
+    void colorButtonControl(QPushButton* sender);
     void freeMemory();
     void connected();
 
 private:
     Ui::MenuAdmin *ui;
-    QWidget* thisWindow;
-    BaseModel* thisModel;
-    BaseViewModel* thisViewModel;
+    QWidget* thisWindow = nullptr;
+    BaseModel* thisModel = nullptr;
+    BaseViewModel* thisViewModel = nullptr;
+    QPushButton* thisButton = nullptr;
     ConnectionHandler* connectionHandler;
 };
 

@@ -76,6 +76,7 @@ void MenuAdmin::buttonEditProduct_clicked()
     thisWindow = new MenuEditProduct(static_cast<MenuEditProductViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
     connect(qobject_cast<MenuEditProduct*>(thisWindow), &MenuEditProduct::openAddNewProductDialogSignals, this, &MenuAdmin::openAddNewProductDialog);
+    colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
 void MenuAdmin::buttonInfoEmployees_clicked()
@@ -90,6 +91,7 @@ void MenuAdmin::buttonInfoEmployees_clicked()
     thisWindow = new MenuEmployees(static_cast<MenuEmployeesViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
     connect(qobject_cast<MenuEmployees*>(thisWindow), &MenuEmployees::openAddNewEmployees, this, &MenuAdmin::openAddNewEmployees);
+    colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
 void MenuAdmin::buttonInfoSupplier_clicked()
@@ -104,6 +106,7 @@ void MenuAdmin::buttonInfoSupplier_clicked()
     thisWindow = new MenuSupplier(static_cast<MenuSupplierViewModel*>(thisViewModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
     connect(qobject_cast<MenuSupplier*>(thisWindow), &MenuSupplier::openAddSupplier, this, &MenuAdmin::openAddSupplier);
+    colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
 void MenuAdmin::buttonInfoBuyer_clicked()
@@ -117,6 +120,21 @@ void MenuAdmin::buttonInfoBuyer_clicked()
     thisViewModel = nullptr;
     thisWindow = new MenuBuyer(static_cast<BuyerModel*>(thisModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
+    colorButtonControl(qobject_cast<QPushButton*>(sender()));
+}
+
+void MenuAdmin::colorButtonControl(QPushButton* sender)
+{
+    if(!sender)
+        return;
+
+    if(thisButton)
+        thisButton->setStyleSheet("QWidget#frameButtonCheckInfo QPushButton{ background-color: transparent; }"
+                                  " QWidget#frameButtonCheckInfo QPushButton::hover{ border-radius: 5px; background-color: rgba(255, 255, 255, 30); padding-left: 15px; }");
+
+    thisButton = sender;
+    sender->setStyleSheet("QWidget#frameButtonCheckInfo QPushButton{ margin-left: 11px; background-color: rgba(1, 176, 117, 200); }"
+                          "QWidget#frameButtonCheckInfo QPushButton::hover{padding-left:4px;}");
 }
 
 void MenuAdmin::freeMemory()

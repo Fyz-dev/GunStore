@@ -23,11 +23,14 @@ QWidget#frameButtonCheckInfo QPushButton{
 	text-align: left;
 	border-radius: 5px;
 	background-color: transparent;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 
 QWidget#frameButtonCheckInfo QPushButton::hover{
 	border-radius: 5px;
 	background-color: rgba(255, 255, 255, 30);
+	padding-left: 15px;
 }
 </string>
   </property>
@@ -69,40 +72,144 @@ QWidget#frameButtonCheckInfo QPushButton::hover{
        <widget class="QPushButton" name="buttonEditProduct">
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>230</width>
           <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>230</width>
+          <height>220</height>
          </size>
         </property>
         <property name="text">
          <string>Редагування товарів</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../../resources/images.qrc">
+          <normaloff>:/WhiteIcon/images/cubes.png</normaloff>:/WhiteIcon/images/cubes.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="buttonInfoBuyer">
+        <property name="minimumSize">
+         <size>
+          <width>230</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>230</width>
+          <height>220</height>
+         </size>
+        </property>
         <property name="text">
          <string>Покупці</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/images.qrc">
+          <normaloff>:/WhiteIcon/images/investor.png</normaloff>:/WhiteIcon/images/investor.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="buttonInfoEmployees">
+        <property name="minimumSize">
+         <size>
+          <width>230</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>230</width>
+          <height>220</height>
+         </size>
+        </property>
         <property name="text">
          <string>Співробітники</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/images.qrc">
+          <normaloff>:/WhiteIcon/images/manager.png</normaloff>:/WhiteIcon/images/manager.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="buttonInfoSupplier">
+        <property name="minimumSize">
+         <size>
+          <width>230</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>230</width>
+          <height>220</height>
+         </size>
+        </property>
         <property name="text">
          <string>Постачальники</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/images.qrc">
+          <normaloff>:/WhiteIcon/images/supplier.png</normaloff>:/WhiteIcon/images/supplier.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="buttonReportCheck">
+        <property name="minimumSize">
+         <size>
+          <width>230</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>230</width>
+          <height>220</height>
+         </size>
+        </property>
         <property name="text">
          <string>Звіт</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/images.qrc">
+          <normaloff>:/WhiteIcon/images/writing.png</normaloff>:/WhiteIcon/images/writing.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -151,6 +258,8 @@ QWidget#frameButtonCheckInfo QPushButton::hover{
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../resources/images.qrc"/>
+ </resources>
  <connections/>
 </ui>

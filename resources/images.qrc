@@ -12,6 +12,11 @@
         <file>images/left-arrow.png</file>
         <file>images/location.png</file>
         <file>images/phone-call.png</file>
+        <file>images/cubes.png</file>
+        <file>images/investor.png</file>
+        <file>images/writing.png</file>
+        <file>images/manager.png</file>
+        <file>images/supplier.png</file>
     </qresource>
     <qresource prefix="/Icon">
         <file>images/indocator.png</file>
