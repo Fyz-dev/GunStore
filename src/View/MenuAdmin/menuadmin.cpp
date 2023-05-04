@@ -11,7 +11,6 @@
 #include "addnewemployees.h"
 #include "addemployeesviewmodel.h"
 #include "suppliermodel.h"
-#include "menusupplierviewmodel.h"
 #include "menusupplier.h"
 #include "addnewsupplier.h"
 #include "formwithbuttonback.h"
@@ -102,10 +101,8 @@ void MenuAdmin::buttonInfoSupplier_clicked()
     freeMemory();
 
     thisModel = new SupplierModel(connectionHandler);
-    thisViewModel = new MenuSupplierViewModel(static_cast<SupplierModel*>(thisModel));
-    thisWindow = new MenuSupplier(static_cast<MenuSupplierViewModel*>(thisViewModel), this);
+    thisWindow = new MenuSupplier(static_cast<SupplierModel*>(thisModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
-    connect(qobject_cast<MenuSupplier*>(thisWindow), &MenuSupplier::openAddSupplier, this, &MenuAdmin::openAddSupplier);
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 

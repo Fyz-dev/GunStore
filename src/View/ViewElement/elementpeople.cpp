@@ -5,16 +5,34 @@
 #include "buyermodel.h"
 
 ElementPeople::ElementPeople(const QString& INN, const QString& FIO, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent) :
+    ElementPeople(INN, numberPhone, address, connectionHandler, parent)
+{
+    title = FIO;
+    ui->labelTitle->setText(FIO);
+    ui->labelTitleBottom->setText("ІНН: " + INN);
+
+    people = People::Buyer;
+}
+
+ElementPeople::ElementPeople(const QString& idSupplier, const QString& SupplierName, const QString& edrpou, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent) :
+    ElementPeople(SupplierName, numberPhone, address, connectionHandler, parent)
+{
+    title = SupplierName;
+    ui->labelTitle->setText(SupplierName);
+    ui->labelTitleBottom->setText("ЄДРПОУ: " + edrpou);
+
+    people = People::Supplier;
+}
+
+//Base construct
+ElementPeople::ElementPeople(const QString& identifier, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget* parent) :
     QWidget(parent),
-    INN(INN),
-    FIO(FIO),
+    identifier(identifier),
     connectionHandler(connectionHandler),
     ui(new Ui::ElementPeople)
 {
     ui->setupUi(this);
 
-    ui->labelFIO->setText(FIO);
-    ui->labelINN->setText("ІНН: " + INN);
     ui->labelPhone->setText("+38" + numberPhone);
     ui->labelAddress->setText(address);
 }
@@ -35,7 +53,16 @@ void ElementPeople::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
 
-    FormWithButtonBack::pushToView({new FormPeople(INN, FIO, new BuyerModel(connectionHandler),this)});
+    switch (people)
+    {
+    case People::Buyer:
+        FormWithButtonBack::pushToView({new FormPeople(identifier, title, new BuyerModel(connectionHandler), this)});
+        break;
+    case People::Supplier:
+        break;
+    case People::Employees:
+        break;
+    }
 }
 
 ElementPeople::~ElementPeople()

@@ -1,47 +1,26 @@
 #include "menusupplier.h"
 #include "ui_menusupplier.h"
 
-MenuSupplier::MenuSupplier(MenuSupplierViewModel* menuSupplierViewModel, QWidget *parent) :
-    menuSupplierViewModel(menuSupplierViewModel),
+MenuSupplier::MenuSupplier(SupplierModel* supplierModel, QWidget *parent) :
     QWidget(parent),
+    supplierModel(supplierModel),
     ui(new Ui::MenuSupplier)
 {
     ui->setupUi(this);
-    ui->tableViewSupplier->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    connected();
+    ui->scrollAreaWidgetContents->setStyleSheet("background-color: transparent;");
 
-    menuSupplierViewModel->update();
-    ui->tableViewSupplier->setItemDelegate(menuSupplierViewModel->getDelegate());
+    update();
 }
 
-void MenuSupplier::connected()
+void MenuSupplier::update()
 {
-    connect(menuSupplierViewModel, &MenuSupplierViewModel::modelChangedSignals, this, &MenuSupplier::modelChangedSlots);
-    connect(ui->buttonAddSupplier, &QPushButton::clicked, this, [&]()
-    {
-        emit openAddSupplier();
-        menuSupplierViewModel->update();
-    });
+    QVBoxLayout* layout = qobject_cast<QVBoxLayout*>(ui->scrollAreaWidgetContents->layout());
 
-    connect(ui->buttonApplyChanges, &QPushButton::clicked, this, [&]()
-    {
-        menuSupplierViewModel->applyChanges();
-        menuSupplierViewModel->update();
-    });
+    for (ElementPeople* item : supplierModel->updateInfoBuyPeople(this))
+        layout->insertWidget(layout->count()-1, item);
 
-    connect(ui->buttonRemoveSupplier, &QPushButton::clicked, this, [&]()
-    {
-        if(ui->tableViewSupplier->currentIndex().isValid())
-            menuSupplierViewModel->addToRemove(ui->tableViewSupplier->currentIndex().row());
-        ui->tableViewSupplier->update();
-    });
-}
-
-void MenuSupplier::modelChangedSlots(QAbstractItemModel* model)
-{
-    ui->tableViewSupplier->setModel(nullptr);
-    ui->tableViewSupplier->setModel(model);
-    ui->tableViewSupplier->hideColumn(0);
+    ui->count->setText(supplierModel->getOneCell("select sum(listS_count) from listsupply"));
+    ui->sum->setText(supplierModel->getOneCell("select sum(listS_priceCount*listS_count) from listsupply"));
 }
 
 MenuSupplier::~MenuSupplier()

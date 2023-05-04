@@ -5,21 +5,25 @@ SupplierModel::SupplierModel(ConnectionHandler* connection) : BaseModel(connecti
 
 void SupplierModel::setHeaderModel()
 {
-    modelData->setHeaderData(1, Qt::Horizontal, "Назва фірми");
-    modelData->setHeaderData(2, Qt::Horizontal, "Код ЄДРПОУ");
-    modelData->setHeaderData(3, Qt::Horizontal, "Номер телефону");
-    modelData->setHeaderData(4, Qt::Horizontal, "Адреса ");
-    modelData->setHeaderData(5, Qt::Horizontal, "Розрахунковий рахунок");
+//    modelData->setHeaderData(1, Qt::Horizontal, "Назва фірми");
+//    modelData->setHeaderData(2, Qt::Horizontal, "Код ЄДРПОУ");
+//    modelData->setHeaderData(3, Qt::Horizontal, "Номер телефону");
+//    modelData->setHeaderData(4, Qt::Horizontal, "Адреса ");
+//    modelData->setHeaderData(5, Qt::Horizontal, "Розрахунковий рахунок");
 }
 
-
-void SupplierModel::addToRomove(const int& row)
+QList<ElementPeople*>& SupplierModel::updateInfoBuyPeople(QWidget* parent)
 {
-    int idProduct = modelData->index(row, 0).data().toInt();
+    updateModelViaQuery("select id_supplier, sup_name, sup_edrpou, sup_phoneNum, SUBSTRING_INDEX(sup_address, ', ', 1) from supplier;");
 
-    if(!listToRemove.contains(idProduct))
-        listToRemove.append(idProduct);
-    else
-        listToRemove.removeOne(idProduct);
+    list.clear();
+    for (int i = 0; i < modelData->rowCount(); ++i)
+        list.append(new ElementPeople(modelData->index(i, 0).data().toString(),
+                                      modelData->index(i, 1).data().toString(),
+                                      modelData->index(i, 2).data().toString(),
+                                      modelData->index(i, 3).data().toString(),
+                                      modelData->index(i, 4).data().toString(),
+                                      connection, parent));
+
+    return list;
 }
-

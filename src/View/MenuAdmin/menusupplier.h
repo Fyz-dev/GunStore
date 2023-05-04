@@ -1,7 +1,7 @@
 #ifndef MENUSUPPLIER_H
 #define MENUSUPPLIER_H
 
-#include "menusupplierviewmodel.h"
+#include "suppliermodel.h"
 
 #include <QWidget>
 
@@ -14,21 +14,15 @@ class MenuSupplier : public QWidget
     Q_OBJECT
 
 public:
-    explicit MenuSupplier(MenuSupplierViewModel* menuSupplierViewModel, QWidget *parent = nullptr);
+    explicit MenuSupplier(SupplierModel* supplierModel, QWidget *parent = nullptr);
     ~MenuSupplier();
 
-public slots:
-    void modelChangedSlots(QAbstractItemModel* model);
-
-signals:
-    void openAddSupplier();
-
 private:
-    void connected();
+    void update();
 
 private:
     Ui::MenuSupplier *ui;
-    MenuSupplierViewModel* menuSupplierViewModel;
+    SupplierModel* supplierModel;
 };
 
 #endif // MENUSUPPLIER_H

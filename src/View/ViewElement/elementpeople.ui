@@ -26,7 +26,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLabel#labelINN {
+   <string notr="true">QLabel#labelTitleBottom {
 	font: 12pt &quot;Franklin Gothic Medium&quot;;
 	color: #818381;
 	padding-left: 10px;
@@ -83,7 +83,7 @@ QLabel#labelPhone {
        <number>0</number>
       </property>
       <item row="1" column="0">
-       <widget class="QLabel" name="labelINN">
+       <widget class="QLabel" name="labelTitleBottom">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -124,7 +124,7 @@ QLabel#labelPhone {
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="labelFIO">
+       <widget class="QLabel" name="labelTitle">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>

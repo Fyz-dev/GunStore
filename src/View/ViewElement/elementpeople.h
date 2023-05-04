@@ -6,6 +6,13 @@
 
 #include <QWidget>
 
+enum class People
+{
+    Buyer,
+    Supplier,
+    Employees
+};
+
 namespace Ui {
 class ElementPeople;
 }
@@ -15,8 +22,12 @@ class ElementPeople : public QWidget
     Q_OBJECT
 
 public:
-    explicit ElementPeople(const QString& INN, const QString& FIO, const QString& numberPhone, const QString& address, ConnectionHandler* connection, QWidget *parent = nullptr);
+    explicit ElementPeople(const QString& INN, const QString& FIO, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
+    ElementPeople(const QString& idSupplier, const QString& SupplierName, const QString& edrpou, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
     ~ElementPeople();
+
+private:
+    ElementPeople(const QString& identifier, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget* parent);
 
 protected:
     void enterEvent(QEnterEvent* event) override;
@@ -26,10 +37,11 @@ protected:
 private:
     Ui::ElementPeople *ui;
 
-    QString INN;
-    QString FIO;
+    QString identifier;
+    QString title;
     ConnectionHandler* connectionHandler;
     BaseModel* model = nullptr;
+    People people;
 };
 
 #endif // ELEMENTPEOPLE_H

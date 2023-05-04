@@ -2,17 +2,16 @@
 #define SUPPLIERMODEL_H
 
 #include "basemodel.h"
+#include "elementpeople.h"
 
 class SupplierModel : public BaseModel
 {
 public:
     SupplierModel(ConnectionHandler* connection);
     void setHeaderModel() override;
-    void addToRomove(const int& row);
-    const QList<int>& getListToRemove() { return listToRemove; }
-
+    QList<ElementPeople*>& updateInfoBuyPeople(QWidget* parent);
 private:
-    QList<int> listToRemove;
+    QList<ElementPeople*> list;
 };
 
 #endif // SUPPLIERMODEL_H

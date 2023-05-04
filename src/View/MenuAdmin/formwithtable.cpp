@@ -11,8 +11,10 @@ FormWithTable::FormWithTable(const QString& identifier, const QString& title, co
     ui->sum->setText(sum);
 
     buyerModel->updateModelViaQuery(QString("select p_name as 'Назва товару', p_priceOne as 'Ціна за одиницю (грн.)', p_brand as 'Бренд', p_weight as 'Віга (г.)', p_package as 'Упаковка', p_country as 'Країна', listP_count as 'Кількість (од.)' from product join listproduct using(id_product) join sales using(id_sales) where id_sales = %1").arg(identifier));
+
     ui->tableView->setModel(buyerModel->getModelData());
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView->setEditTriggers(QHeaderView::NoEditTriggers);
 }
 
 FormWithTable::~FormWithTable()
