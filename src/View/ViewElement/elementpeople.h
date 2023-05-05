@@ -39,6 +39,8 @@ private:
 
     QString identifier;
     QString title;
+    QString titleBottom;
+
     ConnectionHandler* connectionHandler;
     BaseModel* model = nullptr;
     People people;

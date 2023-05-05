@@ -3,6 +3,7 @@
 #include "formpeople.h"
 #include "formwithbuttonback.h"
 #include "buyermodel.h"
+#include "suppliermodel.h"
 
 ElementPeople::ElementPeople(const QString& INN, const QString& FIO, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent) :
     ElementPeople(INN, numberPhone, address, connectionHandler, parent)
@@ -15,9 +16,10 @@ ElementPeople::ElementPeople(const QString& INN, const QString& FIO, const QStri
 }
 
 ElementPeople::ElementPeople(const QString& idSupplier, const QString& SupplierName, const QString& edrpou, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent) :
-    ElementPeople(SupplierName, numberPhone, address, connectionHandler, parent)
+    ElementPeople(idSupplier, numberPhone, address, connectionHandler, parent)
 {
     title = SupplierName;
+    titleBottom = edrpou;
     ui->labelTitle->setText(SupplierName);
     ui->labelTitleBottom->setText("ЄДРПОУ: " + edrpou);
 
@@ -59,6 +61,7 @@ void ElementPeople::mousePressEvent(QMouseEvent *event)
         FormWithButtonBack::pushToView({new FormPeople(identifier, title, new BuyerModel(connectionHandler), this)});
         break;
     case People::Supplier:
+        FormWithButtonBack::pushToView({new FormPeople(identifier, title, titleBottom, new SupplierModel(connectionHandler), this)});
         break;
     case People::Employees:
         break;

@@ -16,9 +16,12 @@ class FormPeople : public QWidget
 
 public:
     explicit FormPeople(const QString& INN, const QString& FIO, BaseModel* model, QWidget *parent = nullptr);
+    FormPeople(const QString& identifier, const QString& SupplierName, const QString& edrpou, BaseModel* model, QWidget *parent = nullptr);
     ~FormPeople();
 
-    void update();
+private:
+    FormPeople(const QString& identifier, BaseModel* model, QWidget *parent = nullptr);
+    void addToView();
 
 private:
     Ui::FormPeople *ui;

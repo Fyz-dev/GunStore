@@ -2,6 +2,7 @@
 #define ELEMENTORDER_H
 
 #include "buyermodel.h"
+#include "suppliermodel.h"
 
 #include <QWidget>
 
@@ -15,7 +16,11 @@ class ElementOrder : public QWidget
 
 public:
     explicit ElementOrder(const QString& identifier, const QString& Title, const QString& count, const QString sum, BuyerModel* model, QWidget *parent = nullptr);
+    ElementOrder(const QString& identifier, const QString& date, const QString& count, const QString sum, SupplierModel* model, QWidget *parent = nullptr);
     ~ElementOrder();
+
+private:
+    ElementOrder(const QString& identifier, const QString& count, const QString sum, BaseModel* model, QWidget *parent = nullptr);
 
 protected:
     void enterEvent(QEnterEvent* event) override;
@@ -27,7 +32,8 @@ private:
     QString identifier;
     QString count;
     QString sum;
-    BuyerModel* model;
+    QString date;
+    BaseModel* model;
 };
 
 #endif // ELEMENTORDER_H
