@@ -5,14 +5,18 @@ MenuEditProductViewModel::MenuEditProductViewModel(ProductModel* productModel) :
     delegate = new DelegateForTableViewProduct(listToRemove, productModel->getModelData(), QColor(255, 0, 13, 80));
 }
 
-void MenuEditProductViewModel::update()
+void MenuEditProductViewModel::update(const QString& isDelete)
 {
-    if(!productModel->updateModel("product", "", 8, QSqlRelation("category", "id_category", "c_name")))
+    if(!productModel->updateModel("product", QString("isDelete = %1").arg(isDelete), 8, QSqlRelation("category", "id_category", "c_name")))
         return;
 
     emit modelChangedSignal(productModel->getModelData());
 
-    productModel->updateListFilter();
+    if(filter)
+        delete filter;
+    filter = new Filter;
+
+    productModel->updateListFilter(isDelete);
     emit clearCheckBoxSignal();
 
     addCheckBox(productModel->createCheckBox(productModel->getListCategory()), LayoutState::CATEGORY);
@@ -20,12 +24,12 @@ void MenuEditProductViewModel::update()
     addCheckBox(productModel->createCheckBox(productModel->getListBrand()), LayoutState::BRAND);
 }
 
+void MenuEditProductViewModel::update(){}
+
 void MenuEditProductViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName)
 {
-    for (QCheckBox* checkBox : listCheckBox) {
-        connect(checkBox, &QCheckBox::stateChanged, this, &MenuEditProductViewModel::checkBoxEnabledSlots);
+    for (QCheckBox* checkBox : listCheckBox)
         emit addCheckBoxSignal(checkBox, layoutName);
-    }
 }
 
 void MenuEditProductViewModel::applyChanges()
@@ -45,7 +49,7 @@ void MenuEditProductViewModel::applyChanges()
 
     //Удаляем информацию в БД
     for (int id : listToRemove)
-        productModel->requestBD("DELETE FROM product where id_product = " + QString::number(id));
+        productModel->requestBD("UPDATE product SET isDelete = 1 where id_product = " + QString::number(id));
 
     emit showMessageBoxSignals();
     productModel->getListChangedCharacteristic().clear();

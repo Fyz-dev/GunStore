@@ -2,6 +2,7 @@
 #define MENUEDITPRODUCT_H
 
 #include "menueditproductviewmodel.h"
+#include "iview.h"
 
 #include <QMessageBox>
 #include <QWidget>
@@ -11,7 +12,7 @@ namespace Ui {
 class MenuEditProduct;
 }
 
-class MenuEditProduct : public QWidget
+class MenuEditProduct : public QWidget, public IView
 {
     Q_OBJECT
 
@@ -28,8 +29,12 @@ public slots:
     void priceFilterChangedSlots();
     void showMessageBox();
 
+    void show() override;
+    void hide() override;
+
 signals:
-    void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);
+    void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo, const QString& isDelete);
+    void checkBoxEnabledSignals(const int& state, QObject* sender, const QString& isDelete = "0");
     void openAddNewProductDialogSignals();
 
 private:

@@ -26,7 +26,7 @@ public:
     const QString& getIdWorker() { return connection->getIdWorker(); }
 
     void buyProduct(const QString& nameSupplier, QList<ElementBuyProduct*>& listElement);
-    void updateListFilter();
+    void updateListFilter(const QString& isDelete = "0");
     void updateList(QList<QString>& list, QString request);
     void createElementForDispleyCharact(QString request, bool lineEditIsReadOnly = true);
     QList<QCheckBox*> createCheckBox(const QList<QString>& list);

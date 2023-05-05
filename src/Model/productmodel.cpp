@@ -4,11 +4,11 @@
 ProductModel::ProductModel(ConnectionHandler* connection) : BaseModel(connection)
 {}
 
-void ProductModel::updateListFilter()
+void ProductModel::updateListFilter(const QString& isDelete)
 {
-    updateList(listCategory, "select c_name from product join category using(id_category) group by id_category");
-    updateList(listCountry, "select p_country from product group by p_country");
-    updateList(listBrand, "select p_brand from product group by p_brand");
+    updateList(listCategory, QString("select c_name from product join category using(id_category) where isDelete = %1 group by id_category").arg(isDelete));
+    updateList(listCountry, QString("select p_country from product where isDelete = %1 group by p_country").arg(isDelete));
+    updateList(listBrand, QString("select p_brand from product where isDelete = %1 group by p_brand").arg(isDelete));
 }
 
 void ProductModel::updateList(QList<QString>& list, QString request)

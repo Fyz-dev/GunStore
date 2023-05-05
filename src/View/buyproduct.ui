@@ -123,6 +123,9 @@ QWidget#scrollAreaWidgetContents{
           <height>16777215</height>
          </size>
         </property>
+        <property name="maxVisibleItems">
+         <number>10</number>
+        </property>
        </widget>
       </item>
       <item>

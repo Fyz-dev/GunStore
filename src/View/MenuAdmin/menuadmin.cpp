@@ -120,6 +120,19 @@ void MenuAdmin::buttonInfoBuyer_clicked()
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
+void MenuAdmin::show()
+{
+    if(IView* view = dynamic_cast<IView*>(thisWindow))
+        view->show();
+
+    QWidget::show();
+}
+
+void MenuAdmin::hide()
+{
+    QWidget::hide();
+}
+
 void MenuAdmin::colorButtonControl(QPushButton* sender)
 {
     if(!sender)

@@ -12,7 +12,9 @@ MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewMo
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableViewProduct->setPalette(QPalette(QPalette::WindowText, Qt::white));
 
-    menuEditProductViewModel->update();
+    ui->comboBoxIsDelete->addItems({"Наявні товари", "Видалені товари"});
+
+    menuEditProductViewModel->update(QString::number(ui->comboBoxIsDelete->currentIndex()));
     ui->tableViewProduct->setItemDelegate(menuEditProductViewModel->getDelegate());
 }
 
@@ -21,10 +23,16 @@ void MenuEditProduct::modelChangedSlots(QAbstractTableModel* modelData)
     ui->tableViewProduct->setModel(nullptr);
     ui->tableViewProduct->setModel(modelData);
     ui->tableViewProduct->hideColumn(0);
+    ui->tableViewProduct->hideColumn(9);
 }
 
 void MenuEditProduct::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName)
 {
+    connect(checkBox, &QCheckBox::stateChanged, this, [&](const int& state)
+    {
+        emit checkBoxEnabledSignals(state, sender(), QString::number(ui->comboBoxIsDelete->currentIndex()));
+    });
+
     switch (layoutName)
     {
     case LayoutState::CATEGORY:
@@ -60,12 +68,13 @@ void MenuEditProduct::clearCheckBoxSlots()
 
 void MenuEditProduct::priceFilterChangedSlots()
 {
-    emit priceFilterChangedSignals(ui->inputTo, ui->inputDo);
+    emit priceFilterChangedSignals(ui->inputTo, ui->inputDo, QString::number(ui->comboBoxIsDelete->currentIndex()));
 }
 
 void MenuEditProduct::clearLableSlots()
 {
     ui->tableViewProduct->hideColumn(0);
+    ui->tableViewProduct->hideColumn(9);
     deleteWidget(ui->infoSelectProduct->layout());
 }
 
@@ -84,19 +93,25 @@ void MenuEditProduct::showMessageBox()
     QMessageBox::information(this, tr("Увага!"), tr("Зміни внесено до бази даних."));
 }
 
+void MenuEditProduct::show()
+{
+    menuEditProductViewModel->update(QString::number(ui->comboBoxIsDelete->currentIndex()));
+}
+
+void MenuEditProduct::hide() {}
+
 void MenuEditProduct::connected()
 {
     //Button
     connect(ui->buttonAccept, &QPushButton::clicked, this, [&]()
     {
         menuEditProductViewModel->applyChanges();
-        menuEditProductViewModel->update();
+        menuEditProductViewModel->update(QString::number(ui->comboBoxIsDelete->currentIndex()));
     });
 
     connect(ui->buttonAddNewProduct, &QPushButton::clicked, this, [=]()
     {
         emit openAddNewProductDialogSignals();
-        menuEditProductViewModel->update();
     });
 
     connect(ui->buttonDeleteProduct, &QPushButton::clicked, this, [&]()
@@ -108,6 +123,12 @@ void MenuEditProduct::connected()
         }
     });
 
+    connect(ui->comboBoxIsDelete, &QComboBox::currentIndexChanged, this, [&](const int& i)
+    {
+        menuEditProductViewModel->update(QString::number(i));
+    });
+
+    connect(this, &MenuEditProduct::checkBoxEnabledSignals, menuEditProductViewModel, &MenuEditProductViewModel::checkBoxEnabledSlots);
     connect(menuEditProductViewModel, &MenuEditProductViewModel::showMessageBoxSignals, this, &MenuEditProduct::showMessageBox);
     connect(ui->inputTo, &QLineEdit::textChanged, this, &MenuEditProduct::priceFilterChangedSlots);
     connect(ui->inputDo, &QLineEdit::textChanged, this, &MenuEditProduct::priceFilterChangedSlots);
@@ -117,6 +138,7 @@ void MenuEditProduct::connected()
     connect(menuEditProductViewModel, &MenuEditProductViewModel::addInfoProductSignal, this, &MenuEditProduct::addInfoProductSlots);
     connect(menuEditProductViewModel, &MenuEditProductViewModel::clearLableSignal, this, &MenuEditProduct::clearLableSlots);
     connect(this, &MenuEditProduct::priceFilterChangedSignals, menuEditProductViewModel, &MenuEditProductViewModel::priceFilterChangedSlots);
+
     connect(ui->tableViewProduct, &QTableView::clicked, this, [&](const QModelIndex& i)
     {
         menuEditProductViewModel->selectedElemTableViewSlots(i, false);

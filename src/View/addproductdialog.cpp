@@ -1,6 +1,6 @@
 #include "addproductdialog.h"
 #include "ui_addproductdialog.h"
-
+#include "formwithbuttonback.h"
 #include <QTimer>
 #include <QMessageBox>
 
@@ -83,7 +83,7 @@ void AddProductDialog::connected()
     {
         emit addNewProduct(ui->inputName->text(), QString::number(ui->inputPrice->text().toDouble(), 'f', 2), ui->inputBrand->text(),
         QString::number(ui->inputWeight->text().toDouble(), 'f', 2), ui->inputPackage->text(), ui->inputCountry->text(), ui->comboBox->currentText(), ui->tableWidget);
-        this->close();
+        FormWithButtonBack::clearStack();
     });
 }
 

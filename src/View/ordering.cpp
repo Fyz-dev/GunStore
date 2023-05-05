@@ -24,11 +24,11 @@ Ordering::Ordering(QHash<int, int>& listProduct, ConnectionHandler* connectionHa
 
 
     ui->tableWidget->setRowCount(model->rowCount());
-    ui->tableWidget->setColumnCount(model->columnCount()+3);
+    ui->tableWidget->setColumnCount(model->columnCount()+2);
 
     // Заполнение таблицы данными из модели
     for (int row = 0; row < model->rowCount(); ++row) {
-        for (int col = 0; col < model->columnCount(); ++col) {
+        for (int col = 0; col < model->columnCount()-1; ++col) {
             QTableWidgetItem* item = new QTableWidgetItem(model->data(model->index(row, col)).toString());
             ui->tableWidget->setItem(row, col, item);
         }

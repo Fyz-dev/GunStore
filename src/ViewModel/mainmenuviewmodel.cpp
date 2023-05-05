@@ -7,10 +7,14 @@ MainMenuViewModel::MainMenuViewModel(ProductModel* productModel) : BaseViewModel
 
 void MainMenuViewModel::update()
 {
-    if(!productModel->updateModel("product", "", 8, QSqlRelation("category", "id_category", "c_name")))
+    if(!productModel->updateModel("product", "isDelete != 1", 8, QSqlRelation("category", "id_category", "c_name")))
         return;
 
     emit modelChangedSignal(productModel->getModelData());
+
+    if(filter)
+        delete filter;
+    filter = new Filter;
 
     productModel->updateListFilter();
     emit clearCheckBoxSignal();
@@ -22,10 +26,8 @@ void MainMenuViewModel::update()
 
 void MainMenuViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName)
 {
-    for (QCheckBox* checkBox : listCheckBox) {
-        connect(checkBox, &QCheckBox::stateChanged, this, &MainMenuViewModel::checkBoxEnabledSlots);
+    for (QCheckBox* checkBox : listCheckBox)
         emit addCheckBoxSignal(checkBox, layoutName);
-    }
 }
 
 bool MainMenuViewModel::changedListProductForSale(const int& row, const int& count, QLineEdit* lineEdit)

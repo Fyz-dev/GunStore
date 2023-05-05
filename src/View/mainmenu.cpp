@@ -21,11 +21,17 @@ void MainMenu::modelChangedSlots(QAbstractTableModel * modelData)
     ui->tableViewProduct->setModel(nullptr);
     ui->tableViewProduct->setModel(modelData);
     ui->tableViewProduct->hideColumn(0);
+    ui->tableViewProduct->hideColumn(9);
     ui->tableViewProduct->setItemDelegate(mainMenuViewModel->getDelegate());
 }
 
 void MainMenu::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutName)
 {
+    connect(checkBox, &QCheckBox::stateChanged, this, [&](const int& state)
+    {
+        emit checkBoxEnabledSignals(state, sender(), "0");
+    });
+
     switch (layoutName) {
     case LayoutState::CATEGORY:
         ui->frameCategorys->layout()->addWidget(checkBox);
@@ -59,12 +65,13 @@ void MainMenu::clearCheckBoxSlots()
 
 void MainMenu::priceFilterChangedSlots()
 {
-    emit priceFilterChangedSignals(ui->inputTo, ui->inputDo);
+    emit priceFilterChangedSignals(ui->inputTo, ui->inputDo, "0");
 }
 
 void MainMenu::clearLableSlots()
 {
     ui->tableViewProduct->hideColumn(0);
+    ui->tableViewProduct->hideColumn(9);
     deleteWidget(ui->infoSelectProduct->layout());
 }
 
@@ -111,6 +118,7 @@ void MainMenu::messageShow(const QString& message)
 
 void MainMenu::connected()
 {
+    connect(this, &MainMenu::checkBoxEnabledSignals, mainMenuViewModel, &MainMenuViewModel::checkBoxEnabledSlots);
     connect(ui->inputTo, &QLineEdit::textChanged, this, &MainMenu::priceFilterChangedSlots);
     connect(ui->inputDo, &QLineEdit::textChanged, this, &MainMenu::priceFilterChangedSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::modelChangedSignal, this, &MainMenu::modelChangedSlots);

@@ -4,6 +4,7 @@
 #include "basemodel.h"
 #include "baseviewmodel.h"
 #include "connectionhandler.h"
+#include "iview.h"
 
 #include <QWidget>
 #include <QPushButton>
@@ -12,7 +13,7 @@ namespace Ui {
 class MenuAdmin;
 }
 
-class MenuAdmin : public QWidget
+class MenuAdmin : public QWidget, public IView
 {
     Q_OBJECT
 
@@ -24,6 +25,9 @@ public slots:
     void openAddNewProductDialog();
     void openAddNewEmployees();
     void openAddSupplier();
+
+    void show() override;
+    void hide() override;
 
 private slots:
     void buttonEditProduct_clicked();

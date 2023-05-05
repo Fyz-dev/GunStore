@@ -32,7 +32,8 @@ public slots:
     void messageShow(const QString& message);
 
 signals:
-    void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo);
+    void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo, const QString& isDelete = "0");
+    void checkBoxEnabledSignals(const int& state, QObject* sender, const QString& isDelete = "0");
     void updateCountForProduct(const int& newCount);
 
 private:

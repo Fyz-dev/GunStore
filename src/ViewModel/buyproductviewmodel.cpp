@@ -16,7 +16,7 @@ void BuyProductViewModel::update()
     }
     changedCountPriceSlots();
 
-    productModel->updateList(list, "select p_name from product");
+    productModel->updateList(list, "select p_name from product where isDelete != 1");
     productModel->updateList(listSupplier, "select sup_name from supplier");
     emit updateComboBoxSignals(list, listSupplier);
 }

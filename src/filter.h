@@ -15,6 +15,7 @@ public:
     QString priceFilterChangedSlots(QLineEdit* inputTo, QLineEdit* inputDo);
     QString checkBoxEnabled(const int& state, QObject* checkBox);
     QString getFilterForList(const QStringList& list, const QString& nameColumCopare);
+    QList<QObject*>& getListCheckBoxEnabled() { return listCheckBoxEnabled; }
 
 private:
     QString updateModelByFilter();

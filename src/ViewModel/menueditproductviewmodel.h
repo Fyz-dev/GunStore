@@ -14,7 +14,7 @@ public:
     ~MenuEditProductViewModel();
 
 public:
-    void update() override;
+    void update(const QString& isDelete);
     void addItemToRemove(const int& row);
     const QList<int>& getListToRemove() { return listToRemove; };
     DelegateForTableView* getDelegate() { return delegate; };
@@ -25,6 +25,7 @@ signals:
 
 private:
     void addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName) override;
+    void update() override;
 
 private:
     QList<int> listToRemove;

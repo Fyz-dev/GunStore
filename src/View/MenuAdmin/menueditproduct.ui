@@ -109,6 +109,9 @@ QWidget#infoSelectProduct{
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
+        <widget class="QComboBox" name="comboBoxIsDelete"/>
+       </item>
+       <item>
         <layout class="QVBoxLayout" name="priceFilter">
          <item>
           <widget class="QLabel" name="label_9">

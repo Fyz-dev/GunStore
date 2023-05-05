@@ -17,8 +17,8 @@ public:
     void selectedElemTableViewSlots(const QModelIndex& i, bool lineEditIsReadOnly = true);
 
 public slots:
-    void checkBoxEnabledSlots(const int& state);
-    void priceFilterChangedSlots(QLineEdit* inputTo, QLineEdit* inputDo);
+    void checkBoxEnabledSlots(const int& state, QObject* sender, const QString& isDelete = "0");
+    void priceFilterChangedSlots(QLineEdit* inputTo, QLineEdit* inputDo, const QString& isDelete = "0");
 
 signals:
     void modelChangedSignal(QSqlTableModel* modelData);
@@ -32,7 +32,7 @@ protected:
 
 protected:
     ProductModel* productModel;
-    Filter* filter;
+    Filter* filter = nullptr;
 };
 
 #endif // BASEVIEWMODELFORPRODUCT_H
