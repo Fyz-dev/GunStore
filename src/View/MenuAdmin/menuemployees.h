@@ -16,6 +16,9 @@ public:
     ~MenuEmployees();
 
 private:
+    void update();
+
+private:
     Ui::MenuEmployees *ui;
 };
 

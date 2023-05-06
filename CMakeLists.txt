@@ -33,6 +33,9 @@ file(GLOB VIEW "src/View/*.cpp" "src/View/*.h" "src/View/MenuAdmin/*.cpp" "src/V
 file(GLOB UI_HEADERS "src/View/*.ui" "src/View/MenuAdmin/*.ui" "src/View/ViewElement/*.ui")
 file(GLOB VIEWMODEL "src/ViewModel/*.cpp" "src/ViewModel/*.h" "src/ViewModel/base/*.cpp" "src/ViewModel/base/*.h")
 file(GLOB MODEL "src/Model/*.cpp" "src/Model/*.h" "src/Model/base/*.cpp" "src/Model/base/*.h")
+
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/resources/appicon.rc")
+
 set(PROJECT_SOURCES
     src/main.cpp
     src/connectionhandler.h
@@ -47,6 +50,7 @@ set(PROJECT_SOURCES
     ${VIEWMODEL}
     ${MODEL}
     ${UI_HEADERS}
+    ${APP_ICON_RESOURCE_WINDOWS}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

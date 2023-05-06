@@ -6,9 +6,12 @@ MenuEmployees::MenuEmployees(QWidget *parent) :
     ui(new Ui::MenuEmployees)
 {
     ui->setupUi(this);
-    ui->tableViewWorker->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
+void MenuEmployees::update()
+{
+
+}
 
 MenuEmployees::~MenuEmployees()
 {
