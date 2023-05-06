@@ -7,7 +7,6 @@
 #include "addproductdialog.h"
 #include "menuemployees.h"
 #include "employeesmodel.h"
-#include "menuemployeesviewmodel.h"
 #include "addnewemployees.h"
 #include "addemployeesviewmodel.h"
 #include "suppliermodel.h"
@@ -86,10 +85,9 @@ void MenuAdmin::buttonInfoEmployees_clicked()
     freeMemory();
 
     thisModel = new EmployeesModel(connectionHandler);
-    thisViewModel = new MenuEmployeesViewModel(static_cast<EmployeesModel*>(thisModel));
-    thisWindow = new MenuEmployees(static_cast<MenuEmployeesViewModel*>(thisViewModel), this);
+    thisViewModel = nullptr;
+    thisWindow = new MenuEmployees(this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
-    connect(qobject_cast<MenuEmployees*>(thisWindow), &MenuEmployees::openAddNewEmployees, this, &MenuAdmin::openAddNewEmployees);
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
