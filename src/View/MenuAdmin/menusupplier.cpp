@@ -10,6 +10,11 @@ MenuSupplier::MenuSupplier(SupplierModel* supplierModel, QWidget *parent) :
     ui->scrollAreaWidgetContents->setStyleSheet("background-color: transparent;");
 
     update();
+
+    connect(ui->buttonAdd, &QPushButton::clicked, this, [&]()
+    {
+        emit openAddSupplier();
+    });
 }
 
 void MenuSupplier::update()

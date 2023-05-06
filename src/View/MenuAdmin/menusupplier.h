@@ -17,6 +17,9 @@ public:
     explicit MenuSupplier(SupplierModel* supplierModel, QWidget *parent = nullptr);
     ~MenuSupplier();
 
+signals:
+    void openAddSupplier();
+
 private:
     void update();
 

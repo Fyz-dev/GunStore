@@ -26,6 +26,17 @@ void AddNewEmployees::addItemsToComboBox(const QStringList& first, const QString
     ui->comboBoxPosition->setCurrentIndex(-1);
 }
 
+void AddNewEmployees::show()
+{
+    addEmployeesViewModel->update();
+    QWidget::show();
+}
+
+void AddNewEmployees::hide()
+{
+    QWidget::hide();
+}
+
 void AddNewEmployees::close()
 {
     FormWithButtonBack::clearStack();
@@ -47,6 +58,9 @@ void AddNewEmployees::connected()
 
         if(ui->comboBoxGender->currentIndex() == -1 ||ui->comboBoxPosition->currentIndex() == -1)
             return notification->show("Заповніть усі ключові поля!", 2);
+
+        if(!regexNumberPhone.match(ui->inputPhoneNumber->text()).hasMatch())
+            return notification->show("Введіть коректний номер телефону!", 2);
 
         addEmployeesViewModel->applyChanges(ui->inputFullName->text(), ui->inputPassword->text(), ui->comboBoxPosition->currentText(), ui->inputPhoneNumber->text(), ui->inputAddress->text(), ui->comboBoxGender->currentText(), ui->dateEdit->date().toString("yyyy.MM.dd"));
     });

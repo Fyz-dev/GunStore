@@ -2,8 +2,10 @@
 #define ADDNEWSUPPLIER_H
 
 #include "suppliermodel.h"
+#include "centerednotification.h"
 
 #include <QDialog>
+#include <QRegularExpression>
 
 namespace Ui {
 class AddNewSupplier;
@@ -20,6 +22,11 @@ public:
 private:
     Ui::AddNewSupplier *ui;
     SupplierModel* supplierModel;
+    CenteredNotification* notification;
+    static const QRegularExpression regexNumberPhone;
+    static const QRegularExpression regexNull;
+    static const QRegularExpression regexEdrpou;
+    static const QRegularExpression regexBank;
 };
 
 #endif // ADDNEWSUPPLIER_H

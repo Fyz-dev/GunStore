@@ -1,15 +1,17 @@
 #ifndef ADDNEWEMPLOYEES_H
 #define ADDNEWEMPLOYEES_H
 
-#include <QDialog>
 #include "addemployeesviewmodel.h"
 #include "centerednotification.h"
+#include "iview.h"
+
+#include <QDialog>
 
 namespace Ui {
 class AddNewEmployees;
 }
 
-class AddNewEmployees : public QDialog
+class AddNewEmployees : public QDialog, public IView
 {
     Q_OBJECT
 
@@ -20,6 +22,9 @@ public:
 public slots:
     void addItemsToComboBox(const QStringList& first, const QStringList& second);
     void close();
+
+    void show() override;
+    void hide() override;
 
 private:
     void connected();
