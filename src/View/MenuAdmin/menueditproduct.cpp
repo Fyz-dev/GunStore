@@ -146,6 +146,7 @@ void MenuEditProduct::connected()
         }
 
         menuEditProductViewModel->update(QString::number(i));
+
         ui->inputTo->setText("");
         ui->inputDo->setText("");
     });
