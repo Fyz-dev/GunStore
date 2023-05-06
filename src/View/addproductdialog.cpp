@@ -5,6 +5,7 @@
 #include <QMessageBox>
 
 const QRegularExpression AddProductDialog::regex = QRegularExpression("^\\d+(\\.\\d+)?$");
+const QRegularExpression AddProductDialog::regexNull = QRegularExpression("^\\s*$");
 
 AddProductDialog::AddProductDialog(AddProductDialogViewModel* addProductDialogViewModel, QWidget *parent) :
     addProductDialogViewModel(addProductDialogViewModel),
@@ -19,28 +20,31 @@ AddProductDialog::AddProductDialog(AddProductDialogViewModel* addProductDialogVi
     addProductDialogViewModel->update();
     ui->comboBox->setCurrentIndex(-1);
     notification = new CenteredNotification;
+
+    ui->inputPrice->setValidator(new QRegularExpressionValidator(regex));
+    ui->inputWeight->setValidator(new QRegularExpressionValidator(regex));
 }
 
 void AddProductDialog::connected()
 {
     //Коректность данных
-    connect(ui->inputPrice, &QLineEdit::editingFinished, this,  [&]()
-    {
-        if(!isValidInput(ui->inputPrice))
-        {
-            ui->inputPrice->setText("");
-            return notification->show("Введіть коректну ціну!", 2);
-        }
-    });
+//    connect(ui->inputPrice, &QLineEdit::editingFinished, this,  [&]()
+//    {
+//        if(!isValidInput(ui->inputPrice))
+//        {
+//            ui->inputPrice->setText("");
+//            return notification->show("Введіть коректну ціну!", 2);
+//        }
+//    });
 
-    connect(ui->inputWeight, &QLineEdit::editingFinished, this, [&]()
-    {
-        if(!isValidInput(ui->inputWeight))
-        {
-            ui->inputWeight->setText("");
-            return notification->show("Введіть коректну вагу!", 2);
-        }
-    });
+//    connect(ui->inputWeight, &QLineEdit::editingFinished, this, [&]()
+//    {
+//        if(!isValidInput(ui->inputWeight))
+//        {
+//            ui->inputWeight->setText("");
+//            return notification->show("Введіть коректну вагу!", 2);
+//        }
+//    });
 
     connect(addProductDialogViewModel, &AddProductDialogViewModel::updateComboBoxSignals, this, &AddProductDialog::updateComboBoxSlots);
     connect(addProductDialogViewModel, &AddProductDialogViewModel::setComboBoxSignals, this, &AddProductDialog::setComboBoxSlots);
@@ -81,6 +85,15 @@ void AddProductDialog::connected()
 
     connect(ui->buttonAdd, &QPushButton::clicked, this, [&]()
     {
+        QList<QLineEdit*> list = {ui->inputName, ui->inputBrand, ui->inputCountry, ui->inputPackage, ui->inputPrice, ui->inputWeight};
+
+        for (QLineEdit* item : list)
+            if(regexNull.match(item->text()).hasMatch())
+                return notification->show("Заповніть усі ключові поля!", 2);
+
+        if (ui->comboBox->currentIndex() == -1)
+            return notification->show("Оберіть категорію!", 2);
+
         emit addNewProduct(ui->inputName->text(), QString::number(ui->inputPrice->text().toDouble(), 'f', 2), ui->inputBrand->text(),
         QString::number(ui->inputWeight->text().toDouble(), 'f', 2), ui->inputPackage->text(), ui->inputCountry->text(), ui->comboBox->currentText(), ui->tableWidget);
         FormWithButtonBack::clearStack();
@@ -110,10 +123,10 @@ void AddProductDialog::valueEnteredTableWidget(const int& row, const int& column
     comboBox->removeItem(comboBox->currentIndex());
 }
 
-bool AddProductDialog::isValidInput(QLineEdit* lineEdit)
-{
-    return regex.match(lineEdit->text()).hasMatch();
-}
+//bool AddProductDialog::isValidInput(QLineEdit* lineEdit)
+//{
+//    return regex.match(lineEdit->text()).hasMatch();
+//}
 
 void AddProductDialog::updateComboBoxSlots(const QString& text)
 {

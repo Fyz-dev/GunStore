@@ -2,15 +2,20 @@
 #define EMPLOYEESMODEL_H
 
 #include "basemodel.h"
+#include "elementpeople.h"
 
 class EmployeesModel : public BaseModel
 {
 public:
     EmployeesModel(ConnectionHandler* connection);
     void addToRomove(const int& row);
+    QList<ElementPeople*>& updateInfoBuyPeople(QWidget* parent);
 
 private:
     void setHeaderModel() override;
+
+private:
+    QList<ElementPeople*> list;
 };
 
 #endif // EMPLOYEESMODEL_H

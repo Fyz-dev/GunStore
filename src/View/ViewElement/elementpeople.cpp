@@ -26,6 +26,15 @@ ElementPeople::ElementPeople(const QString& idSupplier, const QString& SupplierN
     people = People::Supplier;
 }
 
+ElementPeople::ElementPeople(const QString& idWorker, const QString& FIO, const QString& position, const QString& numberPhone, const QString& address, QWidget *parent, ConnectionHandler* connectionHandler) :
+    ElementPeople(idWorker, numberPhone, address, connectionHandler, parent)
+{
+    ui->labelTitle->setText(FIO);
+    ui->labelTitleBottom->setText("Позиція: " + position);
+
+    people = People::Employees;
+}
+
 //Base construct
 ElementPeople::ElementPeople(const QString& identifier, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget* parent) :
     QWidget(parent),

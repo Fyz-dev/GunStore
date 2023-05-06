@@ -33,11 +33,12 @@ private slots:
     void valueEnteredTableWidget(const int& row, const int& column);
 
 private:
-    bool isValidInput(QLineEdit* lineEdit);
+    //bool isValidInput(QLineEdit* lineEdit);
 
 private:
     Ui::AddProductDialog *ui;
     static const QRegularExpression regex;
+    static const QRegularExpression regexNull;
     AddProductDialogViewModel* addProductDialogViewModel;
     CenteredNotification* notification;
 

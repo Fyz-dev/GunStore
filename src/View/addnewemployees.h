@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "addemployeesviewmodel.h"
+#include "centerednotification.h"
 
 namespace Ui {
 class AddNewEmployees;
@@ -26,6 +27,9 @@ private:
 private:
     Ui::AddNewEmployees *ui;
     AddEmployeesViewModel* addEmployeesViewModel;
+    CenteredNotification* notification;
+    static const QRegularExpression regexNumberPhone;
+    static const QRegularExpression regexNull;
 };
 
 #endif // ADDNEWEMPLOYEES_H

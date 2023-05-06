@@ -22,3 +22,8 @@ void AddEmployeesViewModel::applyChanges(const QString& FIO, const QString& pass
         return;
     }
 }
+
+AddEmployeesViewModel::~AddEmployeesViewModel()
+{
+    delete employeesModel;
+}

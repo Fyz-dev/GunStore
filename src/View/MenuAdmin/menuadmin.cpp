@@ -48,11 +48,9 @@ void MenuAdmin::openAddNewProductDialog()
 
 void MenuAdmin::openAddNewEmployees()
 {
-    std::unique_ptr<EmployeesModel> employeesModel = std::make_unique<EmployeesModel>(connectionHandler);
-    std::unique_ptr<AddEmployeesViewModel> addEmployeesViewModel = std::make_unique<AddEmployeesViewModel>(employeesModel.get());
-    std::unique_ptr<AddNewEmployees> addNewEmployees = std::make_unique<AddNewEmployees>(addEmployeesViewModel.get(), this);
-
-    addNewEmployees->exec();
+    EmployeesModel* employeesModel = new EmployeesModel(connectionHandler);
+    AddEmployeesViewModel* addEmployeesViewModel = new AddEmployeesViewModel(employeesModel);
+    FormWithButtonBack::pushToView({new AddNewEmployees(addEmployeesViewModel, this)});
 }
 
 void MenuAdmin::openAddSupplier()
@@ -86,8 +84,9 @@ void MenuAdmin::buttonInfoEmployees_clicked()
 
     thisModel = new EmployeesModel(connectionHandler);
     thisViewModel = nullptr;
-    thisWindow = new MenuEmployees(this);
+    thisWindow = new MenuEmployees(static_cast<EmployeesModel*>(thisModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
+    connect(qobject_cast<MenuEmployees*>(thisWindow), &MenuEmployees::openAddNewEmployees, this, &MenuAdmin::openAddNewEmployees);
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 

@@ -24,6 +24,7 @@ class ElementPeople : public QWidget
 public:
     explicit ElementPeople(const QString& INN, const QString& FIO, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
     ElementPeople(const QString& idSupplier, const QString& SupplierName, const QString& edrpou, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
+    ElementPeople(const QString& idWorker, const QString& FIO, const QString& position, const QString& numberPhone, const QString& address, QWidget *parent, ConnectionHandler* connectionHandler);
     ~ElementPeople();
 
 private:
