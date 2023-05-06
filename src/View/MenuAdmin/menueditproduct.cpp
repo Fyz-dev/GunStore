@@ -7,12 +7,11 @@ MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewMo
     ui(new Ui::MenuEditProduct)
 {
     ui->setupUi(this);
+    ui->comboBoxIsDelete->addItems({"Наявні товари", "Видалені товари"});
     connected();
 
     ui->tableViewProduct->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableViewProduct->setPalette(QPalette(QPalette::WindowText, Qt::white));
-
-    ui->comboBoxIsDelete->addItems({"Наявні товари", "Видалені товари"});
 
     menuEditProductViewModel->update(QString::number(ui->comboBoxIsDelete->currentIndex()));
     ui->tableViewProduct->setItemDelegate(menuEditProductViewModel->getDelegate());
@@ -30,7 +29,7 @@ void MenuEditProduct::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& l
 {
     connect(checkBox, &QCheckBox::stateChanged, this, [&](const int& state)
     {
-        emit checkBoxEnabledSignals(state, sender(), QString::number(ui->comboBoxIsDelete->currentIndex()));
+        menuEditProductViewModel->checkBoxEnabledSlots(state, sender(), QString::number(ui->comboBoxIsDelete->currentIndex()));
     });
 
     switch (layoutName)
@@ -116,19 +115,41 @@ void MenuEditProduct::connected()
 
     connect(ui->buttonDeleteProduct, &QPushButton::clicked, this, [&]()
     {
-        if(ui->tableViewProduct->currentIndex().isValid())
+        if(!ui->tableViewProduct->currentIndex().isValid())
+            return;
+
+        if(ui->comboBoxIsDelete->currentIndex() == 0)
         {
             menuEditProductViewModel->addItemToRemove(ui->tableViewProduct->currentIndex().row());
+            ui->tableViewProduct->update();
+        }
+        else
+        {
+            menuEditProductViewModel->addItemToReturn(ui->tableViewProduct->currentIndex().row());
             ui->tableViewProduct->update();
         }
     });
 
     connect(ui->comboBoxIsDelete, &QComboBox::currentIndexChanged, this, [&](const int& i)
     {
+        if(i == 0)
+        {
+            menuEditProductViewModel->getDelegate()->setNewColor(QColor(255, 0, 13, 80));
+            menuEditProductViewModel->getDelegate()->setNewList(menuEditProductViewModel->getListToRemove());
+            ui->buttonDeleteProduct->setText("Видалити товар");
+        }
+        else
+        {
+            menuEditProductViewModel->getDelegate()->setNewColor(QColor(2, 204, 136, 80));
+            menuEditProductViewModel->getDelegate()->setNewList(menuEditProductViewModel->getListToReturn());
+            ui->buttonDeleteProduct->setText("Повернути товар");
+        }
+
         menuEditProductViewModel->update(QString::number(i));
+        ui->inputTo->setText("");
+        ui->inputDo->setText("");
     });
 
-    connect(this, &MenuEditProduct::checkBoxEnabledSignals, menuEditProductViewModel, &MenuEditProductViewModel::checkBoxEnabledSlots);
     connect(menuEditProductViewModel, &MenuEditProductViewModel::showMessageBoxSignals, this, &MenuEditProduct::showMessageBox);
     connect(ui->inputTo, &QLineEdit::textChanged, this, &MenuEditProduct::priceFilterChangedSlots);
     connect(ui->inputDo, &QLineEdit::textChanged, this, &MenuEditProduct::priceFilterChangedSlots);

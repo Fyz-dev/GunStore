@@ -34,7 +34,6 @@ public slots:
 
 signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo, const QString& isDelete);
-    void checkBoxEnabledSignals(const int& state, QObject* sender, const QString& isDelete = "0");
     void openAddNewProductDialogSignals();
 
 private:

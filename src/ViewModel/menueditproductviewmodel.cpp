@@ -34,7 +34,7 @@ void MenuEditProductViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox
 
 void MenuEditProductViewModel::applyChanges()
 {
-    if(!productModel->getModelData()->isDirty() && productModel->getListChangedCharacteristic().isEmpty() && listToRemove.isEmpty())
+    if(!productModel->getModelData()->isDirty() && productModel->getListChangedCharacteristic().isEmpty() && listToRemove.isEmpty() && listToReturn.isEmpty())
         return;
 
     //Обновляем информацию в БД
@@ -51,6 +51,9 @@ void MenuEditProductViewModel::applyChanges()
     for (int id : listToRemove)
         productModel->requestBD("UPDATE product SET isDelete = 1 where id_product = " + QString::number(id));
 
+    for (int id : listToReturn)
+        productModel->requestBD("UPDATE product SET isDelete = 0 where id_product = " + QString::number(id));
+
     emit showMessageBoxSignals();
     productModel->getListChangedCharacteristic().clear();
     listToRemove.clear();
@@ -64,6 +67,16 @@ void MenuEditProductViewModel::addItemToRemove(const int& row)
         listToRemove.append(idProduct);
     else
         listToRemove.removeOne(idProduct);
+}
+
+void MenuEditProductViewModel::addItemToReturn(const int& row)
+{
+    int idProduct = productModel->getModelData()->index(row, 0).data().toInt();
+
+    if(!listToReturn.contains(idProduct))
+        listToReturn.append(idProduct);
+    else
+        listToReturn.removeOne(idProduct);
 }
 
 MenuEditProductViewModel::~MenuEditProductViewModel()

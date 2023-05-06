@@ -8,7 +8,7 @@ class EmployeesModel : public BaseModel
 public:
     EmployeesModel(ConnectionHandler* connection);
     void addToRomove(const int& row);
-    const QList<int>& getListToRemove() { return listToRemove; }
+    QList<int>& getListToRemove() { return listToRemove; }
 
 private:
     void setHeaderModel() override;

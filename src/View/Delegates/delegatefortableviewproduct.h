@@ -6,7 +6,7 @@
 class DelegateForTableViewProduct : public DelegateForTableView
 {
 public:
-    DelegateForTableViewProduct(const QList<int>& listToRemove, const QSqlTableModel* model, const QColor colorForPaint);
+    DelegateForTableViewProduct(QList<int>& listToRemove, const QSqlTableModel* model, const QColor colorForPaint);
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 

@@ -16,7 +16,9 @@ public:
 public:
     void update(const QString& isDelete);
     void addItemToRemove(const int& row);
-    const QList<int>& getListToRemove() { return listToRemove; };
+    void addItemToReturn(const int& row);
+    QList<int>& getListToRemove() { return listToRemove; };
+    QList<int>& getListToReturn() { return listToReturn; };
     DelegateForTableView* getDelegate() { return delegate; };
     void applyChanges();
 
@@ -29,6 +31,7 @@ private:
 
 private:
     QList<int> listToRemove;
+    QList<int> listToReturn;
     DelegateForTableViewProduct* delegate;
 };
 

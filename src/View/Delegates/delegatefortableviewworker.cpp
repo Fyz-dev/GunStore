@@ -1,6 +1,6 @@
 #include "delegatefortableviewworker.h"
 
-DelegateForTableViewWorker::DelegateForTableViewWorker(const QList<int>& listToRemove, const QSqlTableModel* model, const QColor& colorForPaint) : DelegateForTableView(listToRemove, model, colorForPaint)
+DelegateForTableViewWorker::DelegateForTableViewWorker(QList<int>& listToRemove, const QSqlTableModel* model, const QColor& colorForPaint) : DelegateForTableView(listToRemove, model, colorForPaint)
 {}
 
 QWidget* DelegateForTableViewWorker::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const

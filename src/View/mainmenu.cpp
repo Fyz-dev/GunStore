@@ -29,7 +29,7 @@ void MainMenu::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutNa
 {
     connect(checkBox, &QCheckBox::stateChanged, this, [&](const int& state)
     {
-        emit checkBoxEnabledSignals(state, sender(), "0");
+        mainMenuViewModel->checkBoxEnabledSlots(state, sender());
     });
 
     switch (layoutName) {
@@ -118,7 +118,6 @@ void MainMenu::messageShow(const QString& message)
 
 void MainMenu::connected()
 {
-    connect(this, &MainMenu::checkBoxEnabledSignals, mainMenuViewModel, &MainMenuViewModel::checkBoxEnabledSlots);
     connect(ui->inputTo, &QLineEdit::textChanged, this, &MainMenu::priceFilterChangedSlots);
     connect(ui->inputDo, &QLineEdit::textChanged, this, &MainMenu::priceFilterChangedSlots);
     connect(mainMenuViewModel, &MainMenuViewModel::modelChangedSignal, this, &MainMenu::modelChangedSlots);
