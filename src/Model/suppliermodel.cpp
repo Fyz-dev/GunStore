@@ -12,9 +12,9 @@ void SupplierModel::setHeaderModel()
 //    modelData->setHeaderData(5, Qt::Horizontal, "Розрахунковий рахунок");
 }
 
-QList<ElementPeople*>& SupplierModel::updateInfoBuyPeople(QWidget* parent)
+QList<ElementPeople*>& SupplierModel::updateInfoBuyPeople(QWidget* parent, const QString& isDelete)
 {
-    updateModelViaQuery("select id_supplier, sup_name, sup_edrpou, sup_phoneNum, SUBSTRING_INDEX(sup_address, ', ', 1) from supplier;");
+    updateModelViaQuery(QString("select id_supplier, sup_name, sup_edrpou, sup_phoneNum, SUBSTRING_INDEX(sup_address, ', ', 1) from supplier where isDelete = %1").arg(isDelete));
 
     for(ElementPeople* item : list)
         delete item;

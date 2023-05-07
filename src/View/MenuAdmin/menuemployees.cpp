@@ -9,6 +9,7 @@ MenuEmployees::MenuEmployees(EmployeesModel* employeesModel, QWidget *parent) :
 {
     ui->setupUi(this);
     ui->scrollAreaWidgetContents->setStyleSheet("background-color: transparent;");
+    ui->comboBoxIsDelete->addItems({"Наявні співробітники", "Видалені співробітники"});
 
     update(); 
 

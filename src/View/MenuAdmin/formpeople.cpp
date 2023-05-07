@@ -23,7 +23,6 @@ FormPeople::FormPeople(const QString& INN, const QString& FIO, BaseModel* model,
                                      modelData->index(i, 2).data().toString(),
                                      modelData->index(i, 3).data().toString(), static_cast<BuyerModel*>(model),this));
 
-    ui->buttonDelete->hide();
     addToView();
 }
 
@@ -31,6 +30,27 @@ FormPeople::FormPeople(const QString& identifier, SupplierModel* model, QWidget 
     FormPeople(identifier, (BaseModel*)model, parent)
 {
     updateSupplier();
+
+    if(model->getOneCell(QString("select isDelete from supplier where id_supplier = %1").arg(identifier)) == "0")
+    {
+        ui->buttonDelete->show();
+
+        connect(ui->buttonDelete, &QPushButton::clicked, this, [=]()
+        {
+            model->requestBD(QString("UPDATE supplier SET isDelete = 1 where id_supplier = %1").arg(identifier));
+            FormWithButtonBack::clearStack();
+        });
+    }
+    else
+    {
+        ui->buttonReturn->show();
+
+        connect(ui->buttonReturn, &QPushButton::clicked, this, [=]()
+        {
+            model->requestBD(QString("UPDATE supplier SET isDelete = 0 where id_supplier = %1").arg(identifier));
+            FormWithButtonBack::clearStack();
+        });
+    }
 }
 
 FormPeople::FormPeople(const QString& identifier, BaseModel* model, QWidget *parent) :
@@ -43,6 +63,9 @@ FormPeople::FormPeople(const QString& identifier, BaseModel* model, QWidget *par
     ui->scrollAreaWidgetContents->setStyleSheet("background-color: transparent;");
 
     connect(ui->buttonDetails, &QPushButton::clicked, this, &FormPeople::buttonDetails_clicked);
+
+    ui->buttonReturn->hide();
+    ui->buttonDelete->hide();
 }
 
 void FormPeople::buttonDetails_clicked()
@@ -92,7 +115,9 @@ void FormPeople::updateSupplier()
 
 void FormPeople::show()
 {
-    updateSupplier();
+    if(dynamic_cast<SupplierModel*>(model))
+        updateSupplier();
+
     QWidget::show();
 }
 
