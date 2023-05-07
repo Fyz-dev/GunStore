@@ -17,12 +17,20 @@ class AddNewSupplier : public QDialog
 
 public:
     explicit AddNewSupplier(SupplierModel* supplierModel, QWidget *parent = nullptr);
+    AddNewSupplier(const QString& idSupplier, SupplierModel* supplierModel, QWidget* parent = nullptr);
     ~AddNewSupplier();
+
+private:
+    AddNewSupplier(QWidget *parent = nullptr);
+
+protected:
+    bool eventFilter(QObject* watched, QEvent* event) override;
 
 private:
     Ui::AddNewSupplier *ui;
     SupplierModel* supplierModel;
     CenteredNotification* notification;
+    QString lastText;
     static const QRegularExpression regexNumberPhone;
     static const QRegularExpression regexNull;
     static const QRegularExpression regexEdrpou;

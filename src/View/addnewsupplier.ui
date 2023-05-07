@@ -384,6 +384,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="buttonChange">
+            <property name="text">
+             <string>Підтвердити зміни</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

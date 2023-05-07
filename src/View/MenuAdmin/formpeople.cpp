@@ -2,6 +2,7 @@
 #include "ui_formpeople.h"
 #include "formwithbuttonback.h"
 #include "addbuyer.h"
+#include "addnewsupplier.h"
 #include <QDateTime>
 
 FormPeople::FormPeople(const QString& INN, const QString& FIO, BaseModel* model, QWidget *parent) : FormPeople(INN, model, parent)
@@ -26,27 +27,10 @@ FormPeople::FormPeople(const QString& INN, const QString& FIO, BaseModel* model,
     addToView();
 }
 
-FormPeople::FormPeople(const QString& identifier, const QString& SupplierName, const QString& edrpou, BaseModel* model, QWidget *parent) :
-    FormPeople(identifier, model, parent)
+FormPeople::FormPeople(const QString& identifier, SupplierModel* model, QWidget *parent) :
+    FormPeople(identifier, (BaseModel*)model, parent)
 {
-    ui->labelTop->setText(SupplierName);
-    ui->labelTopBottom->setText("ЄДРПОУ: " + edrpou);
-
-    ui->count->setText(model->getOneCell(QString("select sum(listS_count) from listsupply join waybill using(id_waybill) where id_supplier = %1").arg(identifier)));
-    ui->sum->setText(model->getOneCell(QString("select sum(listS_priceCount*listS_count) from listsupply join waybill using(id_waybill) where id_supplier = %1").arg(identifier)));
-    model->updateModelViaQuery(QString("select waybillDate, count(DISTINCT id_product), sum(listS_count*listS_priceCount) from listsupply join waybill using(id_waybill) where id_supplier = %1 group by 1").arg(identifier));
-
-    QSqlRelationalTableModel* modelData = model->getModelData();
-
-    list.clear();
-    for (int i = 0; i < modelData->rowCount(); ++i)
-        list.append(new ElementOrder(identifier,
-                                     modelData->index(i, 0).data().toString(),
-                                     modelData->index(i, 1).data().toString(),
-                                     modelData->index(i, 2).data().toString(),
-                                     static_cast<SupplierModel*>(model), this));
-
-    addToView();
+    updateSupplier();
 }
 
 FormPeople::FormPeople(const QString& identifier, BaseModel* model, QWidget *parent) :
@@ -75,6 +59,46 @@ void FormPeople::buttonDetails_clicked()
                                         modelData->index(0, 4).data().toString(),
                                         modelData->index(0, 5).data().toString(), this)});
     }
+    else
+    {
+        FormWithButtonBack::pushToView({new AddNewSupplier(identifier, static_cast<SupplierModel*>(model), this)});
+    }
+}
+
+void FormPeople::updateSupplier()
+{
+    ui->labelTop->setText(model->getOneCell(QString("select sup_name from supplier where id_supplier = %1").arg(identifier)));
+    ui->labelTopBottom->setText("ЄДРПОУ: " + model->getOneCell(QString("select sup_edrpou from supplier where id_supplier = %1").arg(identifier)));
+
+    ui->count->setText(model->getOneCell(QString("select sum(listS_count) from listsupply join waybill using(id_waybill) where id_supplier = %1").arg(identifier)));
+    ui->sum->setText(model->getOneCell(QString("select sum(listS_priceCount*listS_count) from listsupply join waybill using(id_waybill) where id_supplier = %1").arg(identifier)));
+    model->updateModelViaQuery(QString("select waybillDate, count(DISTINCT id_product), sum(listS_count*listS_priceCount) from listsupply join waybill using(id_waybill) where id_supplier = %1 group by 1").arg(identifier));
+
+    QSqlRelationalTableModel* modelData = model->getModelData();
+
+    for(ElementOrder* item : list)
+        delete item;
+    list.clear();
+
+    for (int i = 0; i < modelData->rowCount(); ++i)
+        list.append(new ElementOrder(identifier,
+                                     modelData->index(i, 0).data().toString(),
+                                     modelData->index(i, 1).data().toString(),
+                                     modelData->index(i, 2).data().toString(),
+                                     static_cast<SupplierModel*>(model), this));
+
+    addToView();
+}
+
+void FormPeople::show()
+{
+    updateSupplier();
+    QWidget::show();
+}
+
+void FormPeople::hide()
+{
+    QWidget::hide();
 }
 
 void FormPeople::addToView()

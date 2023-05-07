@@ -70,7 +70,7 @@ void ElementPeople::mousePressEvent(QMouseEvent *event)
         FormWithButtonBack::pushToView({new FormPeople(identifier, title, new BuyerModel(connectionHandler), this)});
         break;
     case People::Supplier:
-        FormWithButtonBack::pushToView({new FormPeople(identifier, title, titleBottom, new SupplierModel(connectionHandler), this)});
+        FormWithButtonBack::pushToView({new FormPeople(identifier, new SupplierModel(connectionHandler), this)});
         break;
     case People::Employees:
         break;

@@ -30,13 +30,6 @@ void MenuSupplier::hide()
 
 void MenuSupplier::update()
 {
-    QLayoutItem* item;
-
-    while (ui->scrollAreaWidgetContents->layout()->count() > 1 && (item = ui->scrollAreaWidgetContents->layout()->takeAt(0)) != nullptr)
-    { // удалить все элементы
-        delete item->widget();
-        delete item;
-    }
 
     QVBoxLayout* layout = qobject_cast<QVBoxLayout*>(ui->scrollAreaWidgetContents->layout());
 

@@ -16,7 +16,10 @@ QList<ElementPeople*>& SupplierModel::updateInfoBuyPeople(QWidget* parent)
 {
     updateModelViaQuery("select id_supplier, sup_name, sup_edrpou, sup_phoneNum, SUBSTRING_INDEX(sup_address, ', ', 1) from supplier;");
 
+    for(ElementPeople* item : list)
+        delete item;
     list.clear();
+
     for (int i = 0; i < modelData->rowCount(); ++i)
         list.append(new ElementPeople(modelData->index(i, 0).data().toString(),
                                       modelData->index(i, 1).data().toString(),
