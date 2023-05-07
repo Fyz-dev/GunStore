@@ -16,6 +16,7 @@ class AddBuyer : public QWidget
 
 public:
     explicit AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWidget *parent = nullptr);
+    AddBuyer(const QString& FIO, const QString& INN, const QString& numberPhone, const QString& email, const QString& city, const QString& details, const QString& license, QWidget *parent = nullptr);
     ~AddBuyer();
 
 private slots:
@@ -24,13 +25,14 @@ private slots:
     void inputNewFIO();
 
 private:
+    AddBuyer(QWidget *parent = nullptr);
     void connected();
     void setEditable(bool isEdit);
 
 private:
     Ui::AddBuyer *ui;
     ProductModel* productModel;
-    QHash<int, int>& listProduct;
+    QHash<int, int>* listProduct;
     CenteredNotification* notification;
 
     static QRegularExpression regexNumberPhone;

@@ -14,13 +14,10 @@ QRegularExpression AddBuyer::regexLicense= QRegularExpression("^\\d{7}$");
 
 
 AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWidget *parent) :
-    QWidget(parent),
-    productModel(productModel),
-    listProduct(listProduct),
-    ui(new Ui::AddBuyer)
+    AddBuyer(parent)
 {
-    ui->setupUi(this);
-    notification = new CenteredNotification;
+    this->productModel = productModel;
+    this->listProduct = &listProduct;
 
     QStringList list;
     productModel->updateList(list, "select full_name from buyer");
@@ -36,6 +33,34 @@ AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWi
     ui->inputLicense->setValidator(new QRegularExpressionValidator(regexLicense));
 
     connected();
+}
+
+AddBuyer::AddBuyer(const QString& FIO, const QString& INN, const QString& numberPhone, const QString& email, const QString& city, const QString& details, const QString& license, QWidget *parent) :
+    AddBuyer(parent)
+{
+    QLineEdit* fio = new QLineEdit(this);
+    fio->setReadOnly(true);
+    setEditable(false);
+
+    ui->inputFIO->hide();
+    ui->buttonOrder->hide();
+    ui->verticalLayout->addWidget(fio);
+
+    fio->setText(FIO);
+    ui->inputINN->setText(INN);
+    ui->inputPhone->setText(numberPhone);
+    ui->inputEmail->setText(email);
+    ui->inputCity->setText(city);
+    ui->inputAddressDetails->setText(details);
+    ui->inputLicense->setText(license);
+}
+
+AddBuyer::AddBuyer(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::AddBuyer)
+{
+    ui->setupUi(this);
+    notification = new CenteredNotification;
 }
 
 void AddBuyer::connected()
@@ -90,13 +115,13 @@ void AddBuyer::buttonOrder_clicked()
     productModel->requestBD(QString("INSERT INTO sales(inn, id_worker, date_time) VALUES(%1, %2, NOW())").arg(INN, productModel->getIdWorker()));
     int idSales = productModel->getLastInsertId();
 
-    for (QHash<int, int>::const_iterator i = listProduct.constBegin(); i != listProduct.constEnd(); ++i)
+    for (QHash<int, int>::const_iterator i = listProduct->constBegin(); i != listProduct->constEnd(); ++i)
     {
         productModel->requestBD(QString("INSERT INTO listproduct(id_sales, id_product, listP_count) VALUES(%1, %2, %3)").arg(QString::number(idSales), QString::number(i.key()), QString::number(i.value())));
         productModel->requestBD(QString("UPDATE product SET p_count = p_count - %1 WHERE id_product = %2").arg(QString::number(i.value()), QString::number(i.key())));
     }
 
-    listProduct.clear();
+    listProduct->clear();
     FormWithButtonBack::clearStack();
 }
 

@@ -19,6 +19,9 @@ public:
     FormPeople(const QString& identifier, const QString& SupplierName, const QString& edrpou, BaseModel* model, QWidget *parent = nullptr);
     ~FormPeople();
 
+private slots:
+    void buttonDetails_clicked();
+
 private:
     FormPeople(const QString& identifier, BaseModel* model, QWidget *parent = nullptr);
     void addToView();

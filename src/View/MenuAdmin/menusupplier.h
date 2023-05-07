@@ -2,6 +2,7 @@
 #define MENUSUPPLIER_H
 
 #include "suppliermodel.h"
+#include "iview.h"
 
 #include <QWidget>
 
@@ -9,13 +10,16 @@ namespace Ui {
 class MenuSupplier;
 }
 
-class MenuSupplier : public QWidget
+class MenuSupplier : public QWidget, public IView
 {
     Q_OBJECT
 
 public:
     explicit MenuSupplier(SupplierModel* supplierModel, QWidget *parent = nullptr);
     ~MenuSupplier();
+
+    void show() override;
+    void hide() override;
 
 signals:
     void openAddSupplier();

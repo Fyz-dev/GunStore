@@ -1,5 +1,6 @@
 #include "addnewsupplier.h"
 #include "ui_addnewsupplier.h"
+#include "formwithbuttonback.h"
 
 #include <QRegularExpressionValidator>
 
@@ -38,7 +39,7 @@ AddNewSupplier::AddNewSupplier(SupplierModel* supplierModel, QWidget *parent) :
             return notification->show("Введіть коректний розрахунковий рахунок!", 2);
 
         this->supplierModel->requestBD("INSERT INTO supplier(sup_name, sup_edrpou, sup_phoneNum, sup_address, sup_bank) VALUES('" + ui->inputFullNameSupplier->text() + "'," + ui->inputEdrpou->text() + ",'" + ui->inpuNumberPhone->text() + "','" + ui->inpuAddress->text() + "','" + ui->inpuBank->text() + "')");
-        this->close();
+        FormWithButtonBack::clearStack();
     });
 }
 

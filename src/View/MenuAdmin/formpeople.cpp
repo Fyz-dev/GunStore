@@ -1,5 +1,7 @@
 #include "formpeople.h"
 #include "ui_formpeople.h"
+#include "formwithbuttonback.h"
+#include "addbuyer.h"
 #include <QDateTime>
 
 FormPeople::FormPeople(const QString& INN, const QString& FIO, BaseModel* model, QWidget *parent) : FormPeople(INN, model, parent)
@@ -20,6 +22,7 @@ FormPeople::FormPeople(const QString& INN, const QString& FIO, BaseModel* model,
                                      modelData->index(i, 2).data().toString(),
                                      modelData->index(i, 3).data().toString(), static_cast<BuyerModel*>(model),this));
 
+    ui->buttonDelete->hide();
     addToView();
 }
 
@@ -54,6 +57,24 @@ FormPeople::FormPeople(const QString& identifier, BaseModel* model, QWidget *par
 {
     ui->setupUi(this);
     ui->scrollAreaWidgetContents->setStyleSheet("background-color: transparent;");
+
+    connect(ui->buttonDetails, &QPushButton::clicked, this, &FormPeople::buttonDetails_clicked);
+}
+
+void FormPeople::buttonDetails_clicked()
+{
+    if(dynamic_cast<BuyerModel*>(model))
+    {
+        model->updateModelViaQuery(QString("select full_name, phone_number, email, city, details, license from buyer join address using(id_address) where inn = %1;").arg(identifier));
+        QSqlRelationalTableModel* modelData = model->getModelData();
+
+        FormWithButtonBack::pushToView({new AddBuyer(modelData->index(0, 0).data().toString(),
+                                        identifier, modelData->index(0, 1).data().toString(),
+                                        modelData->index(0, 2).data().toString(),
+                                        modelData->index(0, 3).data().toString(),
+                                        modelData->index(0, 4).data().toString(),
+                                        modelData->index(0, 5).data().toString(), this)});
+    }
 }
 
 void FormPeople::addToView()
