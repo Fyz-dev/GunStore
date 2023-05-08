@@ -4,6 +4,8 @@
 #include "formwithbuttonback.h"
 #include "buyermodel.h"
 #include "suppliermodel.h"
+#include "employeesmodel.h"
+#include "infoemployees.h"
 
 ElementPeople::ElementPeople(const QString& INN, const QString& FIO, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget *parent) :
     ElementPeople(INN, numberPhone, address, connectionHandler, parent)
@@ -73,6 +75,7 @@ void ElementPeople::mousePressEvent(QMouseEvent *event)
         FormWithButtonBack::pushToView({new FormPeople(identifier, new SupplierModel(connectionHandler), this)});
         break;
     case People::Employees:
+        FormWithButtonBack::pushToView({new InfoEmployees(identifier, new EmployeesModel(connectionHandler), this)});
         break;
     }
 }

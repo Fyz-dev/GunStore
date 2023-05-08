@@ -9,7 +9,7 @@ class EmployeesModel : public BaseModel
 public:
     EmployeesModel(ConnectionHandler* connection);
     void addToRomove(const int& row);
-    QList<ElementPeople*>& updateInfoBuyPeople(QWidget* parent);
+    QList<ElementPeople*>& updateInfoBuyPeople(QWidget* parent, const QString& isDelete = "0");
 
 private:
     void setHeaderModel() override;

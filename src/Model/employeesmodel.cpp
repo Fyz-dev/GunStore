@@ -14,11 +14,14 @@ void EmployeesModel::setHeaderModel()
 //    modelData->setHeaderData(6, Qt::Horizontal, "День народження");
 }
 
-QList<ElementPeople*>& EmployeesModel::updateInfoBuyPeople(QWidget* parent)
+QList<ElementPeople*>& EmployeesModel::updateInfoBuyPeople(QWidget* parent, const QString& isDelete)
 {
-    updateModelViaQuery("select id_worker, w_full_name, `position`, w_phoneNum, SUBSTRING_INDEX(w_address, ', ', 1) from worker;");
+    updateModelViaQuery(QString("select id_worker, w_full_name, `position`, w_phoneNum, SUBSTRING_INDEX(w_address, ', ', 1) from worker where isDelete = %1").arg(isDelete));
 
+    for(ElementPeople* item : list)
+        delete item;
     list.clear();
+
     for (int i = 0; i < modelData->rowCount(); ++i)
         list.append(new ElementPeople(modelData->index(i, 0).data().toString(),
                                       modelData->index(i, 1).data().toString(),
