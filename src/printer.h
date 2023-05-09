@@ -14,10 +14,10 @@ class Printer : public QObject
 public:
     Printer();
     ~Printer();
-    void printActOfSupply(QTableView* table, const QString& sumCount, const QString& sumPrice);
+    void printActOfSupply(QTableView* table, const QString& FIOEmployees, const QString& FIOSupplier, const QString& sumCount, const QString& sumPrice);
 
 private:
-    void paintRequestedActOfSupply(QPrinter* printer, QTableView* table, const QString& sumCount, const QString& sumPrice);
+    void paintRequestedActOfSupply(QPrinter* printer, QTableView* table, const QString& FIOEmployees, const QString& FIOSupplier, const QString& sumCount, const QString& sumPrice);
 
 private:
    QPrinter* printer;

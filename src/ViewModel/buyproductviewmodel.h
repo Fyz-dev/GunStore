@@ -18,7 +18,7 @@ class BuyProductViewModel : public QObject, public BaseViewModel
 public:
     BuyProductViewModel(ProductModel* productModel);
     void update() override;
-    void printReport(const QString& sumCount, const QString& sumPrice);
+    void printReport(const QString& sumCount, const QString& sumPrice, const QString& nameSupplier);
     const QList<ElementBuyProduct*>& getListElement() { return listElement; }
 
 public slots:

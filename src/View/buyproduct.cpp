@@ -77,7 +77,7 @@ void BuyProduct::messageBoxShow()
 
     msgBox->exec();
     if(qobject_cast<QPushButton*>(msgBox->clickedButton()) == print)
-        buyProductViewModel->printReport(ui->sumCount->text(), ui->sumPrice->text());
+        buyProductViewModel->printReport(ui->sumCount->text(), ui->sumPrice->text(), ui->comboBoxSupplier->currentText());
 
     buyProductViewModel->update();
 }

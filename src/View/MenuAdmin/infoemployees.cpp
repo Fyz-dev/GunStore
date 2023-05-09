@@ -28,10 +28,12 @@ InfoEmployees::InfoEmployees(const QString& idEmployees, EmployeesModel* model, 
     }
 
     update();
+    ui->labelTopBottom->setText("Позиція: " + position = model->getOneCell(QString("select position from worker where id_worker = %1").arg(idEmployees)));
     ui->saleCount->setText("Загальна кількість: " + model->getOneCell(QString("select sum(listP_count) from listproduct join sales using(id_sales) where id_worker = %1").arg(idEmployees)) + " од.");
     ui->saleSum->setText("Загальна сума: " + model->getOneCell(QString("select sum(listP_count*p_priceOne) from listproduct join sales using(id_sales) join product using(id_product) where id_worker = %1").arg(idEmployees)) + " грн.");
     ui->buyCount->setText("Загальна кількість: " + model->getOneCell(QString("select sum(listS_count) from listsupply join waybill using(id_waybill) where id_worker = %1").arg(idEmployees)) + " од.");
     ui->buySum->setText("Загальна сума: " + model->getOneCell(QString("select sum(listS_count*listS_priceCount) from listsupply join waybill using(id_waybill) where id_worker = %1").arg(idEmployees)) + " грн.");
+
 
     if(model->getOneCell(QString("select isDelete from worker where id_worker = %1").arg(idEmployees)) == "0")
     {
@@ -57,7 +59,7 @@ InfoEmployees::InfoEmployees(const QString& idEmployees, EmployeesModel* model, 
 
             model->requestBD(QString("UPDATE worker SET isDelete = 0 where id_worker = %1").arg(idEmployees));
 
-            if(model->getOneCell(QString("select position from worker where id_worker = %1").arg(idEmployees)) == "Адміністратор")
+            if(position == "Адміністратор")
                 model->requestBD(QString("call createAdmin((select w_full_name from worker where id_worker = %1), %2)").arg(idEmployees, ui->inputPassword->text()));
             else
                 model->requestBD(QString("call createCasir((select w_full_name from worker where id_worker = %1), %2)").arg(idEmployees, ui->inputPassword->text()));
@@ -84,7 +86,6 @@ InfoEmployees::InfoEmployees(const QString& idEmployees, EmployeesModel* model, 
 void InfoEmployees::update()
 {
     ui->labelTop->setText(model->getOneCell(QString("select w_full_name from worker where id_worker = %1").arg(idEmployees)));
-    ui->labelTopBottom->setText("Позиція: " + model->getOneCell(QString("select position from worker where id_worker = %1").arg(idEmployees)));
 
     model->updateModelViaQuery(QString("select w_full_name, w_phoneNum, w_address, gender, birthday from worker where id_worker = %1").arg(idEmployees));
 
@@ -114,8 +115,12 @@ void InfoEmployees::change()
     {
         if(regexNull.match(ui->inputPassword->text()).hasMatch())
             return notification->show("Введіть новий пароль!", 2);
-        //Не работает изменения пароля!!!
-        model->requestBD(QString("SET PASSWORD FOR '%1'@'localhost'='%2'").arg(model->getOneCell(QString("select w_full_name from worker where id_worker = %1").arg(idEmployees)), ui->inputPassword->text()));
+
+        model->requestBD(QString("call deactivationUser(%1)").arg(idEmployees));
+        if(position == "Адміністратор")
+            model->requestBD(QString("call createAdmin((select w_full_name from worker where id_worker = %1), %2)").arg(idEmployees, ui->inputPassword->text()));
+        else
+            model->requestBD(QString("call createCasir((select w_full_name from worker where id_worker = %1), %2)").arg(idEmployees, ui->inputPassword->text()));
     }
 
 

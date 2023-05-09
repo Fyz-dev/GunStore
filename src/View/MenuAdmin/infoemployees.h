@@ -32,7 +32,9 @@ private:
     const QString& idEmployees;
     QString lastText;
     QString lastDate;
+    QString position;
     int idLastGender;
+
     EmployeesModel* model;
     CenteredNotification* notification;
     static const QRegularExpression regexNull;
