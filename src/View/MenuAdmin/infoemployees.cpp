@@ -37,6 +37,12 @@ InfoEmployees::InfoEmployees(const QString& idEmployees, EmployeesModel* model, 
 
     if(model->getOneCell(QString("select isDelete from worker where id_worker = %1").arg(idEmployees)) == "0")
     {
+        if(idEmployees == model->getIdWorker())
+        {
+            ui->buttonDelete->hide();
+            qobject_cast<QGridLayout*>(ui->gridLayout)->setContentsMargins(0, 0, 48, 48);
+        }
+
         ui->buttonReturn->hide();
         ui->inputPassword->hide();
 

@@ -1,6 +1,7 @@
 #include "addbuyer.h"
 #include "ui_addbuyer.h"
 #include "formwithbuttonback.h"
+#include "printer.h"
 
 #include <QSortFilterProxyModel>
 #include <QRegularExpression>
@@ -120,6 +121,9 @@ void AddBuyer::buttonOrder_clicked()
         productModel->requestBD(QString("INSERT INTO listproduct(id_sales, id_product, listP_count) VALUES(%1, %2, %3)").arg(QString::number(idSales), QString::number(i.key()), QString::number(i.value())));
         productModel->requestBD(QString("UPDATE product SET p_count = p_count - %1 WHERE id_product = %2").arg(QString::number(i.value()), QString::number(i.key())));
     }
+
+    Printer printer(QPageSize::B7);
+    printer.printCheque(*listProduct, productModel, productModel->getOneCell(QString("select date_time from sales where id_sales = %1").arg(QString::number(idSales))));
 
     listProduct->clear();
     FormWithButtonBack::clearStack();
