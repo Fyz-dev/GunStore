@@ -13,6 +13,17 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#settingGraphics {
+	border-radius: 10px;
+	background-color: #202124;
+}
+
+QChartView {
+	border-radius: 10px;
+	background-color: #202124;
+}</string>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
     <number>20</number>
@@ -30,7 +41,15 @@
     <number>20</number>
    </property>
    <item>
-    <widget class="QGraphicsView" name="graphicsReport"/>
+    <widget class="QChartView" name="chartView" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout"/>
+    </widget>
    </item>
    <item>
     <widget class="QWidget" name="settingGraphics" native="true">
@@ -38,58 +57,64 @@
       <item>
        <widget class="QLabel" name="label_4">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="maximumSize">
          <size>
-          <width>152</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="text">
-         <string>Загальна сума</string>
+         <string>Загальна сума продажу</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="outputPriceSum">
+       <widget class="QLineEdit" name="salesSum">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_5">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="maximumSize">
          <size>
-          <width>152</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="text">
-         <string>Загальна кількість</string>
+         <string>Загальна сума закупівель</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="outputCountSum">
+       <widget class="QLineEdit" name="buySum">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -118,6 +143,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QWidget</extends>
+   <header>QChartView</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

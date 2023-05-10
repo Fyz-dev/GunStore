@@ -15,6 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Sql)
 find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
 find_package(Qt6 REQUIRED COMPONENTS Gui)
+find_package(Qt6 REQUIRED COMPONENTS Charts)
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/src/View)
@@ -80,6 +81,7 @@ target_link_libraries(GunStore PRIVATE Qt6::Sql)
 target_link_libraries(GunStore PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(GunStore PRIVATE Qt6::PrintSupport)
 target_link_libraries(GunStore PRIVATE Qt6::Gui)
+target_link_libraries(GunStore PRIVATE Qt6::Charts)
 
 set_target_properties(GunStore PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

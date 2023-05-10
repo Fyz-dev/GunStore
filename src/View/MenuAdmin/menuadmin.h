@@ -34,6 +34,7 @@ private slots:
     void buttonInfoEmployees_clicked();
     void buttonInfoSupplier_clicked();
     void buttonInfoBuyer_clicked();
+    void buttonReportCheck_clicked();
 
 private:
     void colorButtonControl(QPushButton* sender);

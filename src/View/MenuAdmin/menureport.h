@@ -1,6 +1,8 @@
 #ifndef MENUREPORT_H
 #define MENUREPORT_H
 
+#include "productmodel.h"
+
 #include <QWidget>
 
 namespace Ui {
@@ -12,7 +14,7 @@ class MenuReport : public QWidget
     Q_OBJECT
 
 public:
-    explicit MenuReport(QWidget *parent = nullptr);
+    explicit MenuReport(ProductModel* productModel, QWidget *parent = nullptr);
     ~MenuReport();
 
 private:
