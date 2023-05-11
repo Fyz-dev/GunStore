@@ -20,11 +20,12 @@
 //Класс где происходит контроль всех окон админа
 //При желание добавить новое окно в область видимости окна администратора НЕОБХОДИМО вызвать метод freeMemory()
 
-MenuAdmin::MenuAdmin(ConnectionHandler* connectionHandler, QWidget *parent) :
+MenuAdmin::MenuAdmin(ConnectionHandler* connectionHandler, QLineEdit* lineSearch, QWidget *parent) :
     connectionHandler(connectionHandler),
     thisWindow(nullptr),
     thisViewModel(nullptr),
     thisModel(nullptr),
+    lineSearch(lineSearch),
     QWidget(parent),
     ui(new Ui::MenuAdmin)
 {
@@ -179,6 +180,9 @@ void MenuAdmin::freeMemory()
         delete thisModel;
         thisModel = nullptr;
     }
+
+    //Очищаем поиск
+    lineSearch->clear();
 }
 
 MenuAdmin::~MenuAdmin()

@@ -86,7 +86,7 @@ void MainWindow::buttonAdmin_clicked()
 
     thisModel = nullptr;
     thisViewModel = nullptr;
-    thisWindow = new MenuAdmin(connectionHandler, this);
+    thisWindow = new MenuAdmin(connectionHandler, ui->inputSearch, this);
     ui->centralwidget->layout()->addWidget(thisWindow);
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
@@ -144,6 +144,9 @@ void MainWindow::freeMemory()
         delete thisModel;
         thisModel = nullptr;
     }
+
+    //Очищаем поиск
+    ui->inputSearch->clear();
 }
 
 MainWindow::~MainWindow()

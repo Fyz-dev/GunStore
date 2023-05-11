@@ -8,6 +8,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QLineEdit>
 
 namespace Ui {
 class MenuAdmin;
@@ -18,7 +19,7 @@ class MenuAdmin : public QWidget, public IView
     Q_OBJECT
 
 public:
-    explicit MenuAdmin(ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
+    explicit MenuAdmin(ConnectionHandler* connectionHandler, QLineEdit* lineSearch, QWidget *parent = nullptr);
     ~MenuAdmin();
 
 public slots:
@@ -49,6 +50,7 @@ private:
     BaseViewModel* thisViewModel = nullptr;
     QPushButton* thisButton = nullptr;
     ConnectionHandler* connectionHandler;
+    QLineEdit* lineSearch;
 };
 
 #endif // MENUADMIN_H
