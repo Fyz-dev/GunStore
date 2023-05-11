@@ -7,7 +7,7 @@ MainMenuViewModel::MainMenuViewModel(ProductModel* productModel) : BaseViewModel
 
 void MainMenuViewModel::update()
 {
-    if(!productModel->updateModel("product", "isDelete != 1", 8, QSqlRelation("category", "id_category", "c_name")))
+    if(!productModel->updateModel("product", "isDelete = 0 and p_count != 0", 8, QSqlRelation("category", "id_category", "c_name")))
         return;
 
     emit modelChangedSignal(productModel->getModelData());

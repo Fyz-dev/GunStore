@@ -23,6 +23,15 @@ void MenuBuyer::update()
     ui->sum->setText(buyerModel->getOneCell("select sum(p_priceOne*listP_count) from product join listproduct using(id_product)"));
 }
 
+void MenuBuyer::search(const QString& text)
+{
+    for (ElementPeople* item : buyerModel->getList())
+        if(!item->getTitle().contains(text, Qt::CaseInsensitive))
+            item->hide();
+        else
+            item->show();
+}
+
 MenuBuyer::~MenuBuyer()
 {
     delete ui;

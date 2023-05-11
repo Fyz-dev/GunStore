@@ -27,6 +27,8 @@ public:
     ElementPeople(const QString& idWorker, const QString& FIO, const QString& position, const QString& numberPhone, const QString& address, QWidget *parent, ConnectionHandler* connectionHandler);
     ~ElementPeople();
 
+    const QString& getTitle() { return title; }
+
 private:
     ElementPeople(const QString& identifier, const QString& numberPhone, const QString& address, ConnectionHandler* connectionHandler, QWidget* parent);
 

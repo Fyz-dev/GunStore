@@ -29,7 +29,7 @@ void MainMenu::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& layoutNa
 {
     connect(checkBox, &QCheckBox::stateChanged, this, [&](const int& state)
     {
-        mainMenuViewModel->checkBoxEnabledSlots(state, sender());
+        mainMenuViewModel->checkBoxEnabledSlots(state, sender(), "0 and p_count != 0 ");
     });
 
     switch (layoutName) {
@@ -65,7 +65,7 @@ void MainMenu::clearCheckBoxSlots()
 
 void MainMenu::priceFilterChangedSlots()
 {
-    emit priceFilterChangedSignals(ui->inputTo, ui->inputDo, "0");
+    emit priceFilterChangedSignals(ui->inputTo, ui->inputDo, "0 and p_count != 0 ");
 }
 
 void MainMenu::clearLableSlots()
@@ -142,6 +142,11 @@ void MainMenu::connected()
             return messageShow("Введіть коректну кількість!");
         }
     });
+}
+
+void MainMenu::search(const QString& text)
+{
+    mainMenuViewModel->updateWithSearch(text, "0 and p_count != 0 ");
 }
 
 MainMenu::~MainMenu()

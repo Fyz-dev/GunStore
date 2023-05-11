@@ -47,6 +47,15 @@ void MenuSupplier::update()
     ui->sum->setText(supplierModel->getOneCell(QString("select sum(listS_priceCount*listS_count) from listsupply join waybill using(id_waybill) join supplier using(id_supplier) where isDelete = %1").arg(currentIndex)));
 }
 
+void MenuSupplier::search(const QString& text)
+{
+    for (ElementPeople* item : supplierModel->getList())
+        if(!item->getTitle().contains(text, Qt::CaseInsensitive))
+            item->hide();
+        else
+            item->show();
+}
+
 MenuSupplier::~MenuSupplier()
 {
     delete ui;

@@ -31,6 +31,7 @@ ElementPeople::ElementPeople(const QString& idSupplier, const QString& SupplierN
 ElementPeople::ElementPeople(const QString& idWorker, const QString& FIO, const QString& position, const QString& numberPhone, const QString& address, QWidget *parent, ConnectionHandler* connectionHandler) :
     ElementPeople(idWorker, numberPhone, address, connectionHandler, parent)
 {
+    title = FIO;
     ui->labelTitle->setText(FIO);
     ui->labelTitleBottom->setText("Позиція: " + position);
 

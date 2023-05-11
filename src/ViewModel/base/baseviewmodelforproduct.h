@@ -16,6 +16,8 @@ public:
     ~BaseViewModelForProduct();
     void selectedElemTableViewSlots(const QModelIndex& i, bool lineEditIsReadOnly = true);
 
+    void updateWithSearch(const QString& text, const QString& isDelete = "0");
+
 public slots:
     void checkBoxEnabledSlots(const int& state, QObject* sender, const QString& isDelete = "0");
     void priceFilterChangedSlots(QLineEdit* inputTo, QLineEdit* inputDo, const QString& isDelete = "0");
@@ -33,6 +35,7 @@ protected:
 protected:
     ProductModel* productModel;
     Filter* filter = nullptr;
+    QString textSearch;
 };
 
 #endif // BASEVIEWMODELFORPRODUCT_H

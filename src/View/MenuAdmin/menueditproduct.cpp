@@ -99,6 +99,11 @@ void MenuEditProduct::show()
 
 void MenuEditProduct::hide() {}
 
+void MenuEditProduct::search(const QString& text)
+{
+    menuEditProductViewModel->updateWithSearch(text, QString::number(ui->comboBoxIsDelete->currentIndex()));
+}
+
 void MenuEditProduct::connected()
 {
     //Button

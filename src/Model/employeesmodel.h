@@ -11,6 +11,7 @@ public:
     void addToRomove(const int& row);
     QList<ElementPeople*>& updateInfoBuyPeople(QWidget* parent, const QString& isDelete = "0");
     const QString& getIdWorker() { return connection->getIdWorker(); }
+    const QList<ElementPeople*>& getList() { return list; }
 
 private:
     void setHeaderModel() override;

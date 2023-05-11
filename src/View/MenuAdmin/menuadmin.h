@@ -25,6 +25,7 @@ public slots:
     void openAddNewProductDialog();
     void openAddNewEmployees();
     void openAddSupplier();
+    QWidget* getThisWindow() { return thisWindow; }
 
     void show() override;
     void hide() override;

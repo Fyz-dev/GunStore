@@ -10,6 +10,8 @@ public:
     SupplierModel(ConnectionHandler* connection);
     void setHeaderModel() override;
     QList<ElementPeople*>& updateInfoBuyPeople(QWidget* parent, const QString& isDelete);
+    const QList<ElementPeople*>& getList() { return list; }
+
 private:
     QList<ElementPeople*> list;
 };

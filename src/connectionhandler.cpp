@@ -17,9 +17,14 @@ bool ConnectionHandler::connectionDataBase(QString userName, QString password)
     if((dbOpen = db->open()))
     {
         QSqlQuery query;
-        query.exec("select id_worker from worker where w_full_name = '" + userName + "'");
-        while (query.next())
+        query.exec("select id_worker, `position` from worker where w_full_name = '" + userName + "'");
+        if(query.first())
+        {
             idWorker = query.value(0).toString();
+            position = query.value(1).toString();
+        }
+
+        qDebug() << position;
     }
 
     return dbOpen;

@@ -5,6 +5,7 @@
 #include "ordering.h"
 #include "formforempty.h"
 #include "./ui_mainwindow.h"
+#include "isearch.h"
 
 //Основной класс где происходит контроль таких окон как: Главное окно, закупки, админа, оформление заказа
 //При желание добавить новое окно в область видимости основного окна НЕОБХОДИМО вызвать метод freeMemory()
@@ -27,6 +28,9 @@ MainWindow::MainWindow(ConnectionHandler* connectionHandler, QWidget *parent) :
 
     buttonMainMenu_clicked();
     colorButtonControl(ui->buttonMainMenu);
+
+    if(connectionHandler->getPosition() != "Адміністратор")
+        ui->buttonAdmin->hide();
 }
 
 void MainWindow::connected()
@@ -35,6 +39,7 @@ void MainWindow::connected()
     connect(ui->buttonBuyProduct, &QPushButton::clicked, this, &MainWindow::buttonBuyProduct_clicked);
     connect(ui->buttonAdmin, &QPushButton::clicked, this, &MainWindow::buttonAdmin_clicked);
     connect(ui->buttonBasket, &QPushButton::clicked, this, &MainWindow::buttonBasket_clicked);
+    connect(ui->inputSearch, &QLineEdit::textChanged, this, &MainWindow::search);
 }
 
 void MainWindow::buttonMainMenu_clicked()
@@ -92,6 +97,16 @@ void MainWindow::buttonBasket_clicked()
         FormWithButtonBack::pushToView({new FormForEmpty});
     else
         FormWithButtonBack::pushToView({new Ordering(static_cast<MainMenuViewModel*>(thisViewModel)->getListProduct(), connectionHandler, this)});
+}
+
+void MainWindow::search(const QString& text)
+{
+    if(ISearch* iSearch = dynamic_cast<ISearch*>(thisWindow))
+        return iSearch->search(text);
+
+    if(MenuAdmin* menuAdmin= qobject_cast<MenuAdmin*>(thisWindow))
+        if(ISearch* iSearch = dynamic_cast<ISearch*>(menuAdmin->getThisWindow()))
+            iSearch->search(text);
 }
 
 void MainWindow::colorButtonControl(QPushButton* sender)

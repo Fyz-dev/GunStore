@@ -42,6 +42,15 @@ void MenuEmployees::hide()
     QWidget::hide();
 }
 
+void MenuEmployees::search(const QString& text)
+{
+    for (ElementPeople* item : employeesModel->getList())
+        if(!item->getTitle().contains(text, Qt::CaseInsensitive))
+            item->hide();
+        else
+            item->show();
+}
+
 MenuEmployees::~MenuEmployees()
 {
     delete ui;

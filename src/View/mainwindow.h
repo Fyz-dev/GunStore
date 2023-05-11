@@ -27,6 +27,7 @@ private slots:
     void buttonBuyProduct_clicked();
     void buttonAdmin_clicked();
     void buttonBasket_clicked();
+    void search(const QString& text);
 
 private:
     void connected();

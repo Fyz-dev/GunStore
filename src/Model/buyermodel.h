@@ -9,6 +9,7 @@ class BuyerModel : public BaseModel
 public:
     BuyerModel(ConnectionHandler* connectionHandler);
     QList<ElementPeople*>& updateInfoBuyPeople(QWidget* parent);
+    const QList<ElementPeople*>& getList() { return list; }
 
 private:
     void setHeaderModel() override;

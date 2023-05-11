@@ -5,6 +5,7 @@
 #include "LayoutState.h"
 #include "centerednotification.h"
 #include "iview.h"
+#include "isearch.h"
 
 #include <QWidget>
 
@@ -12,13 +13,15 @@ namespace Ui {
 class MainMenu;
 }
 
-class MainMenu : public QWidget, public IView
+class MainMenu : public QWidget, public IView, public ISearch
 {
     Q_OBJECT
 
 public:
     explicit MainMenu(MainMenuViewModel* mainMenuViewModel, QWidget *parent = nullptr);
     ~MainMenu();
+
+    void search(const QString& text) override;
 
 public slots:
     void modelChangedSlots(QAbstractTableModel * modelData);
