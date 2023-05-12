@@ -21,7 +21,7 @@ MenuReport::MenuReport(ProductModel* productModel, QWidget *parent) :
 
 
     //Линия для продаж
-    QSplineSeries* seriesSales = new QSplineSeries(this);
+    QLineSeries* seriesSales = new QLineSeries(this);
     seriesSales->setName(" - Продаж");
 
     double sumSales = 0;
@@ -42,7 +42,7 @@ MenuReport::MenuReport(ProductModel* productModel, QWidget *parent) :
 
 
     //Линия для закупок
-    QSplineSeries* seriesBuy = new QSplineSeries(this);
+    QLineSeries* seriesBuy = new QLineSeries(this);
     seriesBuy->setName(" - Закупки");
 
     double sumBuy = 0;
@@ -54,14 +54,12 @@ MenuReport::MenuReport(ProductModel* productModel, QWidget *parent) :
         sumBuy += model->index(i, 1).data().toDouble();
     }
 
-    double maxBuy = productModel->getOneCell("select sum(listS_priceCount*listS_count) from listsupply join waybill using(id_waybill) group by 1 order by 1 desc limit 1").toDouble();
+    double maxBuy = productModel->getOneCell("select sum(listS_priceCount*listS_count) from listsupply join waybill using(id_waybill) group by waybillDate order by 1 desc limit 1").toDouble();
     double max = maxSales > maxBuy ? maxSales : maxBuy;
 
     pen.setWidth(3);
     pen.setColor(QColor(153, 0, 0));
     seriesBuy->setPen(pen);
-
-
 
     ui->salesSum->setText(QString::number(sumSales, 'f', 2) + " грн.");
     ui->buySum->setText(QString::number(sumBuy, 'f', 2) + " грн.");
@@ -70,10 +68,12 @@ MenuReport::MenuReport(ProductModel* productModel, QWidget *parent) :
     QDateTimeAxis *axisX = new QDateTimeAxis(this);
     axisX->setFormat("yyyy-MM-dd");
     axisX->setTitleText("Дата");
+    axisX->setTickCount(5);
 
     QValueAxis *axisY = new QValueAxis(this);
     axisY->setLabelFormat("%.0f");
-    axisY->setMax(qCeil(max+max/100*5));
+    axisY->setRange(0, qCeil(max+max/100*5));  // Диапазон значений по оси Y
+    axisY->setTickCount(10);
 
     // Создание графика и добавление данных
     ui->chartView->chart()->addSeries(seriesBuy);
@@ -82,10 +82,15 @@ MenuReport::MenuReport(ProductModel* productModel, QWidget *parent) :
     ui->chartView->chart()->addAxis(axisY, Qt::AlignLeft);
     ui->chartView->chart()->legend()->setAlignment(Qt::AlignBottom);
     ui->chartView->chart()->legend()->setMarkerShape(QLegend::MarkerShapeCircle);
+    ui->chartView->setRenderHint(QPainter::Antialiasing);
     seriesSales->attachAxis(axisX);
     seriesSales->attachAxis(axisY);
+    seriesBuy->attachAxis(axisX);
+    seriesBuy->attachAxis(axisY);
 
     ui->buttonReportPrint->hide();
+
+    ui->chartView->setInteractive(true);
 }
 
 MenuReport::~MenuReport()

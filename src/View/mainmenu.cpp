@@ -103,6 +103,7 @@ void MainMenu::show()
     mainMenuViewModel->syncHashAndList();
     emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
     mainMenuViewModel->update();
+    clearLableSlots();
     QWidget::show();
 }
 

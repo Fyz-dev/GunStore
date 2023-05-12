@@ -3,6 +3,8 @@
 #include "formwithbuttonback.h"
 
 const QRegularExpression InfoEmployees::regexNull = QRegularExpression("^\\s*$");
+QRegularExpression InfoEmployees::regexNumberPhone = QRegularExpression("^0\\d{9}$");
+
 
 InfoEmployees::InfoEmployees(const QString& idEmployees, EmployeesModel* model, QWidget *parent) :
     QWidget(parent),
@@ -28,7 +30,8 @@ InfoEmployees::InfoEmployees(const QString& idEmployees, EmployeesModel* model, 
     }
 
     update();
-    ui->labelTopBottom->setText("Позиція: " + position = model->getOneCell(QString("select position from worker where id_worker = %1").arg(idEmployees)));
+    position = model->getOneCell(QString("select position from worker where id_worker = %1").arg(idEmployees));
+    ui->labelTopBottom->setText("Позиція: " + position);
     ui->saleCount->setText("Загальна кількість: " + model->getOneCell(QString("select sum(listP_count) from listproduct join sales using(id_sales) where id_worker = %1").arg(idEmployees)) + " од.");
     ui->saleSum->setText("Загальна сума: " + model->getOneCell(QString("select sum(listP_count*p_priceOne) from listproduct join sales using(id_sales) join product using(id_product) where id_worker = %1").arg(idEmployees)) + " грн.");
     ui->buyCount->setText("Загальна кількість: " + model->getOneCell(QString("select sum(listS_count) from listsupply join waybill using(id_waybill) where id_worker = %1").arg(idEmployees)) + " од.");
@@ -87,6 +90,7 @@ InfoEmployees::InfoEmployees(const QString& idEmployees, EmployeesModel* model, 
     });
 
     connect(ui->buttonAccept, &QPushButton::clicked, this, &InfoEmployees::change);
+    ui->inputPhoneNumber->setValidator(new QRegularExpressionValidator(regexNumberPhone));
 }
 
 void InfoEmployees::update()
@@ -117,19 +121,24 @@ bool InfoEmployees::eventFilter(QObject* watched, QEvent* event)
 
 void InfoEmployees::change()
 {
+    if(regexNull.match(ui->inputFullName->text()).hasMatch())
+        return notification->show("Заповніть ФІО!", 2);
+
+    if(!regexNumberPhone.match(ui->inputPhoneNumber->text()).hasMatch())
+        return notification->show("Введіть коректний номер телефону!", 2);
+
+    if(regexNull.match(ui->inputAddress->text()).hasMatch())
+        return notification->show("Адрес не може бути порожнім!", 2);
+
     if(ui->buttonReturn->isHidden() && !ui->inputPassword->isHidden())
     {
         if(regexNull.match(ui->inputPassword->text()).hasMatch())
             return notification->show("Введіть новий пароль!", 2);
 
-        model->requestBD(QString("call deactivationUser(%1)").arg(idEmployees));
-        if(position == "Адміністратор")
-            model->requestBD(QString("call createAdmin((select w_full_name from worker where id_worker = %1), %2)").arg(idEmployees, ui->inputPassword->text()));
-        else
-            model->requestBD(QString("call createCasir((select w_full_name from worker where id_worker = %1), %2)").arg(idEmployees, ui->inputPassword->text()));
+        model->requestBD(QString("ALTER USER '%1'@'localhost' IDENTIFIED BY '%2'").arg(ui->labelTop->text(), ui->inputPassword->text()));
     }
 
-
+    model->requestBD(QString("RENAME USER '%1'@'localhost' TO '%2'@'localhost'").arg(ui->labelTop->text(), ui->inputFullName->text()));
     model->requestBD(QString("UPDATE worker SET w_full_name = '%1', w_phoneNum = '%2', w_address = '%3', gender = '%4', birthday = '%5' where id_worker = %6").arg(ui->inputFullName->text(), ui->inputPhoneNumber->text(), ui->inputAddress->text(), ui->comboBoxGender->currentText(), ui->dateEdit->date().toString("yyyy-MM-dd"), idEmployees));
     notification->show("Зміни внесено до БД!", 2);
     ui->buttonAccept->hide();

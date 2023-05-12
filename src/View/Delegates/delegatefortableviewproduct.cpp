@@ -7,7 +7,7 @@ DelegateForTableViewProduct::DelegateForTableViewProduct(QList<int>& listToRemov
 
 QWidget* DelegateForTableViewProduct::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if (index.column() == 8)
+    if (index.column() == 8 || index.column() == 3)
         return nullptr;
 
     return QSqlRelationalDelegate::createEditor(parent, option, index);

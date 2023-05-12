@@ -12,9 +12,6 @@
 //void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 //{
 //    switch (type) {
-//    case QtDebugMsg:
-//        fprintf(stderr, "Debug: %s (%s:%u, %s)\n", msg.toStdString().c_str(), context.file, context.line, context.function);
-//        break;
 //    case QtWarningMsg:
 //        fprintf(stderr, "Warning: %s (%s:%u, %s)\n", msg.toStdString().c_str(), context.file, context.line, context.function);
 //        break;
@@ -34,7 +31,7 @@
 
 int main(int argc, char *argv[])
 {
-    //qInstallMessageHandler(myMessageOutput);
+    //InstallMessageHandler(myMessageOutput);
     QApplication a(argc, argv);
     std::shared_ptr<ConnectionHandler> connectionHandler = std::make_shared<ConnectionHandler>();
     std::shared_ptr<LoginViewModel> loginViewModel = std::make_shared<LoginViewModel>(connectionHandler);

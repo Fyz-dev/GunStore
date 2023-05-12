@@ -38,6 +38,7 @@ private:
     EmployeesModel* model;
     CenteredNotification* notification;
     static const QRegularExpression regexNull;
+    static QRegularExpression regexNumberPhone;
 };
 
 #endif // INFOEMPLOYEES_H
