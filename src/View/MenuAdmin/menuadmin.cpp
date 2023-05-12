@@ -31,6 +31,14 @@ MenuAdmin::MenuAdmin(ConnectionHandler* connectionHandler, QLineEdit* lineSearch
 {
     ui->setupUi(this);
     connected();
+
+    ui->frameButtonCheckInfo->installEventFilter(this);
+
+    animation = new QPropertyAnimation(ui->frameButtonCheckInfo, "geometry");
+    connect(animation, &QPropertyAnimation::finished, this, [&]()
+    {
+        ui->frameButtonCheckInfo->setMaximumWidth(ui->frameButtonCheckInfo->width());
+    });
 }
 
 void MenuAdmin::connected()
@@ -134,6 +142,41 @@ void MenuAdmin::buttonReportCheck_clicked()
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
+bool MenuAdmin::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched != ui->frameButtonCheckInfo)
+        return false;
+
+    if(!thisWindow)
+        return false;
+
+    if(event->type() == QEvent::Leave)
+    {
+        QWidget* frame = ui->frameButtonCheckInfo;
+
+        animation->stop();
+        animation->setDuration(500);
+        animation->setStartValue(QRect(frame->x(), frame->y(), frame->width(), frame->height()));
+        animation->setEndValue(QRect(frame->x(), frame->y(), 20, frame->height()));
+
+        animation->start();
+    }
+    else if(event->type() == QEvent::Enter)
+    {
+        QWidget* frame = ui->frameButtonCheckInfo;
+        frame->setMaximumWidth(270);
+
+        animation->stop();
+        animation->setDuration(500);
+        animation->setStartValue(QRect(frame->x(), frame->y(), frame->width(), frame->height()));
+        animation->setEndValue(QRect(frame->x(), frame->y(), 270, frame->height()));
+
+        animation->start();
+    }
+
+    return false;
+}
+
 void MenuAdmin::show()
 {
     if(IView* view = dynamic_cast<IView*>(thisWindow))
@@ -187,6 +230,8 @@ void MenuAdmin::freeMemory()
 
 MenuAdmin::~MenuAdmin()
 {
+    ui->frameButtonCheckInfo->removeEventFilter(this);
     freeMemory();
+    delete animation;
     delete ui;
 }

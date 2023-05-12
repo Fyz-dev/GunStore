@@ -9,6 +9,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QPropertyAnimation>
 
 namespace Ui {
 class MenuAdmin;
@@ -43,6 +44,9 @@ private:
     void freeMemory();
     void connected();
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     Ui::MenuAdmin *ui;
     QWidget* thisWindow = nullptr;
@@ -51,6 +55,7 @@ private:
     QPushButton* thisButton = nullptr;
     ConnectionHandler* connectionHandler;
     QLineEdit* lineSearch;
+    QPropertyAnimation* animation;
 };
 
 #endif // MENUADMIN_H

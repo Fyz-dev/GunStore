@@ -23,7 +23,6 @@ private slots:
     void on_Button_Login_clicked();
     void openMainWindow();
     void openFailedDialog();
-    void on_Button_Exit_clicked();
 
 private:
     Ui::Login *ui;

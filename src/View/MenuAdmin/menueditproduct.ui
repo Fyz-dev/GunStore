@@ -409,7 +409,7 @@ QWidget#infoSelectProduct{
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
-      <number>5</number>
+      <number>10</number>
      </property>
      <item>
       <widget class="QTableView" name="tableViewProduct">
@@ -463,7 +463,7 @@ QWidget#infoSelectProduct{
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <property name="spacing">
-      <number>5</number>
+      <number>10</number>
      </property>
      <item>
       <widget class="QWidget" name="infoProductAndSuc" native="true">
@@ -568,7 +568,7 @@ QWidget#infoSelectProduct{
                <x>0</x>
                <y>0</y>
                <width>246</width>
-               <height>455</height>
+               <height>450</height>
               </rect>
              </property>
              <property name="sizePolicy">

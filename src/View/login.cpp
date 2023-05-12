@@ -9,17 +9,11 @@ Login::Login(std::shared_ptr<LoginViewModel> loginViewModel, QWidget *parent) :
     ui->setupUi(this);
     connect(loginViewModel.get(), &LoginViewModel::openMainWindowSignal, this, &Login::openMainWindow);
     connect(loginViewModel.get(), &LoginViewModel::openFailedDialogSignal, this, &Login::openFailedDialog);
-
 }
 
 void Login::on_Button_Login_clicked()
 {
     loginViewModel->connectedBD(ui->lineEdit_Login->text(), ui->lineEdit_Password->text());
-}
-
-void Login::on_Button_Exit_clicked()
-{
-    this->close();
 }
 
 void Login::openMainWindow()
