@@ -23,8 +23,6 @@ bool ConnectionHandler::connectionDataBase(QString userName, QString password)
             idWorker = query.value(0).toString();
             position = query.value(1).toString();
         }
-
-        qDebug() << position;
     }
 
     return dbOpen;

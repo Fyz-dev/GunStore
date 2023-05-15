@@ -26,7 +26,6 @@ public slots:
 
 signals:
     void selectedItemComboBox(const int& i, const QComboBox* comboBoxSender);
-    void addNewProduct(const QString& name, const QString& price, const QString& brand, const QString& weight, const QString& package, const QString& country, const QString& category, const QTableWidget* table);
 
 private slots:
     void connected();

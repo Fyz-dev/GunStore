@@ -2,8 +2,10 @@
 #define MENUEDITPRODUCT_H
 
 #include "menueditproductviewmodel.h"
+#include "connectionhandler.h"
 #include "iview.h"
 #include "isearch.h"
+#include "iclose.h"
 
 #include <QMessageBox>
 #include <QWidget>
@@ -13,12 +15,12 @@ namespace Ui {
 class MenuEditProduct;
 }
 
-class MenuEditProduct : public QWidget, public IView, public ISearch
+class MenuEditProduct : public QWidget, public IView, public ISearch, public IClose
 {
     Q_OBJECT
 
 public:
-    explicit MenuEditProduct(MenuEditProductViewModel* menuEditProductViewModel, QWidget *parent = nullptr);
+    explicit MenuEditProduct(MenuEditProductViewModel* menuEditProductViewModel, ConnectionHandler* connectionHandler, QWidget *parent = nullptr);
     ~MenuEditProduct();
 
     void search(const QString& text) override;
@@ -32,6 +34,7 @@ public slots:
     void priceFilterChangedSlots();
     void showMessageBox();
 
+    bool canClose() override;
     void show() override;
     void hide() override;
 
@@ -46,6 +49,7 @@ private:
 private:
     Ui::MenuEditProduct *ui;
     MenuEditProductViewModel* menuEditProductViewModel;
+    ConnectionHandler* connectionHandler;
 };
 
 #endif // MENUEDITPRODUCT_H

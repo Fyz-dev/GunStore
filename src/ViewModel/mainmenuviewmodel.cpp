@@ -16,7 +16,7 @@ void MainMenuViewModel::update()
         delete filter;
     filter = new Filter;
 
-    productModel->updateListFilter();
+    productModel->updateListFilter("0 and p_count != 0 ");
     emit clearCheckBoxSignal();
 
     addCheckBox(productModel->createCheckBox(productModel->getListCategory()), LayoutState::CATEGORY);

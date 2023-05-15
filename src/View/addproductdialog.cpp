@@ -50,8 +50,6 @@ void AddProductDialog::connected()
     connect(addProductDialogViewModel, &AddProductDialogViewModel::setComboBoxSignals, this, &AddProductDialog::setComboBoxSlots);
     connect(ui->tableWidget, &QTableWidget::cellChanged, this, &AddProductDialog::valueEnteredTableWidget);
     connect(this, &AddProductDialog::selectedItemComboBox, addProductDialogViewModel, &AddProductDialogViewModel::selectedItemComboBox);
-    connect(this, &AddProductDialog::addNewProduct, addProductDialogViewModel, &AddProductDialogViewModel::addNewProduct);
-
     connect(ui->comboBox, &QComboBox::currentIndexChanged, this, [&](const int& i)
     {
         if((ui->tableWidget->rowCount() > 1))
@@ -94,7 +92,7 @@ void AddProductDialog::connected()
         if (ui->comboBox->currentIndex() == -1)
             return notification->show("Оберіть категорію!", 2);
 
-        emit addNewProduct(ui->inputName->text(), QString::number(ui->inputPrice->text().toDouble(), 'f', 2), ui->inputBrand->text(),
+        addProductDialogViewModel->addNewProduct(ui->inputName->text(), QString::number(ui->inputPrice->text().toDouble(), 'f', 2), ui->inputBrand->text(),
         QString::number(ui->inputWeight->text().toDouble(), 'f', 2), ui->inputPackage->text(), ui->inputCountry->text(), ui->comboBox->currentText(), ui->tableWidget);
         FormWithButtonBack::clearStack();
     });

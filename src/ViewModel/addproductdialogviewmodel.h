@@ -15,10 +15,10 @@ public:
     AddProductDialogViewModel(ProductModel* productModel);
     ~AddProductDialogViewModel();
     void update() override;
+    void addNewProduct(const QString& name, const QString& price, const QString& brand, const QString& weight, const QString& package, const QString& country, const QString& category, const QTableWidget* table);
 
 public slots:
     void selectedItemComboBox(const int& i, const QComboBox* comboBoxSender);
-    void addNewProduct(const QString& name, const QString& price, const QString& brand, const QString& weight, const QString& package, const QString& country, const QString& category, const QTableWidget* table);
 
 signals:
     void updateComboBoxSignals(const QString& text);

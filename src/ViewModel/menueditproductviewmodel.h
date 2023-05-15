@@ -14,13 +14,19 @@ public:
     ~MenuEditProductViewModel();
 
 public:
-    void update(const QString& isDelete);
+    void update(const QString& isDelete, bool isUpdateModel = true);
     void addItemToRemove(const int& row);
     void addItemToReturn(const int& row);
+
+    void applyChanges();
+    bool isChanged();
+
+    //GET & SET
     QList<int>& getListToRemove() { return listToRemove; };
     QList<int>& getListToReturn() { return listToReturn; };
     DelegateForTableView* getDelegate() { return delegate; };
-    void applyChanges();
+    ProductModel* getProductModel() { return productModel; }
+    void setProductModel(ProductModel* productModel) { this->productModel = productModel; }
 
 signals:
     void showMessageBoxSignals();

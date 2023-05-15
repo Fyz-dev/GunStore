@@ -180,5 +180,6 @@ void AddBuyer::setEditable(bool isEdit)
 
 AddBuyer::~AddBuyer()
 {
+    delete notification;
     delete ui;
 }

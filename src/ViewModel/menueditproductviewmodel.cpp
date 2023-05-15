@@ -1,14 +1,18 @@
 #include "menueditproductviewmodel.h"
 
-MenuEditProductViewModel::MenuEditProductViewModel(ProductModel* productModel) : BaseViewModelForProduct(productModel)
-{
-    delegate = new DelegateForTableViewProduct(listToRemove, productModel->getModelData(), QColor(255, 0, 13, 80));
-}
+MenuEditProductViewModel::MenuEditProductViewModel(ProductModel* productModel) : BaseViewModelForProduct(productModel),
+    delegate(new DelegateForTableViewProduct(listToRemove, productModel->getModelData(), QColor(255, 0, 13, 80)))
+{}
 
-void MenuEditProductViewModel::update(const QString& isDelete)
+void MenuEditProductViewModel::update(const QString& isDelete, bool isUpdateModel)
 {
-    if(!productModel->updateModel("product", QString("isDelete = %1").arg(isDelete), 8, QSqlRelation("category", "id_category", "c_name")))
-        return;
+    productModel->getListChangedCharacteristic().clear();
+    listToRemove.clear();
+    listToReturn.clear();
+
+    if(isUpdateModel)
+        if(!productModel->updateModel("product", QString("isDelete = %1").arg(isDelete), 8, QSqlRelation("category", "id_category", "c_name")))
+            return;
 
     emit modelChangedSignal(productModel->getModelData());
 
@@ -24,7 +28,8 @@ void MenuEditProductViewModel::update(const QString& isDelete)
     addCheckBox(productModel->createCheckBox(productModel->getListBrand()), LayoutState::BRAND);
 }
 
-void MenuEditProductViewModel::update(){}
+void MenuEditProductViewModel::update()
+{}
 
 void MenuEditProductViewModel::addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName)
 {
@@ -57,6 +62,7 @@ void MenuEditProductViewModel::applyChanges()
     emit showMessageBoxSignals();
     productModel->getListChangedCharacteristic().clear();
     listToRemove.clear();
+    listToReturn.clear();
 }
 
 void MenuEditProductViewModel::addItemToRemove(const int& row)
@@ -77,6 +83,14 @@ void MenuEditProductViewModel::addItemToReturn(const int& row)
         listToReturn.append(idProduct);
     else
         listToReturn.removeOne(idProduct);
+}
+
+bool MenuEditProductViewModel::isChanged()
+{
+    if(!productModel->getModelData()->isDirty() && productModel->getListChangedCharacteristic().isEmpty() && listToRemove.isEmpty() && listToReturn.isEmpty())
+        return false;
+
+    return true;
 }
 
 MenuEditProductViewModel::~MenuEditProductViewModel()

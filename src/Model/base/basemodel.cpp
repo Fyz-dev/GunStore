@@ -82,4 +82,5 @@ bool BaseModel::requestBD(QString request)
 BaseModel::~BaseModel()
 {
     delete modelData;
+    modelData;
 }

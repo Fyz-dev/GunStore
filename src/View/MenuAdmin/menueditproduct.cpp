@@ -1,8 +1,9 @@
 #include "menueditproduct.h"
 #include "ui_menueditproduct.h"
 
-MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewModel, QWidget *parent) :
+MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewModel, ConnectionHandler* connectionHandler, QWidget *parent) :
     menuEditProductViewModel(menuEditProductViewModel),
+    connectionHandler(connectionHandler),
     QWidget(parent),
     ui(new Ui::MenuEditProduct)
 {
@@ -115,7 +116,8 @@ void MenuEditProduct::connected()
 
     connect(ui->buttonAddNewProduct, &QPushButton::clicked, this, [=]()
     {
-        emit openAddNewProductDialogSignals();
+        if(canClose())
+            emit openAddNewProductDialogSignals();
     });
 
     connect(ui->buttonDeleteProduct, &QPushButton::clicked, this, [&]()
@@ -137,6 +139,12 @@ void MenuEditProduct::connected()
 
     connect(ui->comboBoxIsDelete, &QComboBox::currentIndexChanged, this, [&](const int& i)
     {
+        if(!canClose())
+        {
+            ui->comboBoxIsDelete->blockSignals(true), ui->comboBoxIsDelete->setCurrentIndex(i == 1? 0 : 1), ui->comboBoxIsDelete->blockSignals(false);
+            return;
+        }
+
         if(i == 0)
         {
             menuEditProductViewModel->getDelegate()->setNewColor(QColor(255, 0, 13, 80));
@@ -151,6 +159,7 @@ void MenuEditProduct::connected()
         }
 
         menuEditProductViewModel->update(QString::number(i));
+        clearLableSlots();
 
         ui->inputTo->setText("");
         ui->inputDo->setText("");
@@ -170,6 +179,25 @@ void MenuEditProduct::connected()
     {
         menuEditProductViewModel->selectedElemTableViewSlots(i, false);
     });
+}
+
+bool MenuEditProduct::canClose()
+{
+    if(!menuEditProductViewModel->isChanged())
+        return true;
+
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle("Увага!");
+    msgBox.setText("Усі не підтверджені дані зникнуть!\nВи це підтверджуєте?");
+
+    QPushButton* yes = msgBox.addButton("Так", QMessageBox::ActionRole);
+    msgBox.addButton("Ні", QMessageBox::ActionRole);
+
+    msgBox.exec();
+    if(msgBox.clickedButton() != yes)
+        return false;
+
+    return true;
 }
 
 MenuEditProduct::~MenuEditProduct()

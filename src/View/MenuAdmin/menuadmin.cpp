@@ -79,7 +79,7 @@ void MenuAdmin::buttonEditProduct_clicked()
 
     thisModel = new ProductModel(connectionHandler);
     thisViewModel = new MenuEditProductViewModel(static_cast<ProductModel*>(thisModel));
-    thisWindow = new MenuEditProduct(static_cast<MenuEditProductViewModel*>(thisViewModel), this);
+    thisWindow = new MenuEditProduct(static_cast<MenuEditProductViewModel*>(thisViewModel), connectionHandler, this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
     connect(qobject_cast<MenuEditProduct*>(thisWindow), &MenuEditProduct::openAddNewProductDialogSignals, this, &MenuAdmin::openAddNewProductDialog);
     colorButtonControl(qobject_cast<QPushButton*>(sender()));

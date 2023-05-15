@@ -90,6 +90,13 @@ void MainMenu::buttonAddOrder_clicked()
     if(!ui->tableViewProduct->currentIndex().isValid())
         return messageShow("Виберіть товар!");
 
+    static QRegularExpression reg("^[1-9]\\d*$");
+    if(!reg.match(ui->inputCountProduct->text()).hasMatch() || ui->inputCountProduct->text().isEmpty())
+    {
+        ui->inputCountProduct->setText("1");
+        return messageShow("Введіть коректну кількість!");
+    }
+
     if (mainMenuViewModel->changedListProductForSale(ui->tableViewProduct->currentIndex().row(), ui->inputCountProduct->text().toInt(), ui->inputCountProduct))
     {
         emit updateCountForProduct(mainMenuViewModel->getListProductForSale().count());
@@ -134,15 +141,12 @@ void MainMenu::connected()
         mainMenuViewModel->selectedElemTableViewSlots(i);
     });
 
-    connect(ui->inputCountProduct, &QLineEdit::editingFinished, this, [&]()
-    {
-        static QRegularExpression reg("^[1-9]\\d*$");
-        if(!reg.match(ui->inputCountProduct->text()).hasMatch() || ui->inputCountProduct->text().isEmpty())
-        {
-            ui->inputCountProduct->setText("1");
-            return messageShow("Введіть коректну кількість!");
-        }
-    });
+//    connect(ui->inputCountProduct, &QLineEdit::editingFinished, this, [&]()
+//    {
+//        static QRegularExpression reg("^[1-9]\\d*$");
+//        if(!reg.match(ui->inputCountProduct->text()).hasMatch() || ui->inputCountProduct->text().isEmpty())
+//            return messageShow("Введіть коректну кількість!");
+//    });
 }
 
 void MainMenu::search(const QString& text)
