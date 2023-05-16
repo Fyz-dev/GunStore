@@ -23,6 +23,8 @@ public:
     explicit MenuAdmin(ConnectionHandler* connectionHandler, QLineEdit* lineSearch, QWidget *parent = nullptr);
     ~MenuAdmin();
 
+    bool canClose();
+
 public slots:
     void openAddNewProductDialog();
     void openAddNewEmployees();

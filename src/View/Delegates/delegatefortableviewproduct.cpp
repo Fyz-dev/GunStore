@@ -1,6 +1,7 @@
 #include "delegatefortableviewproduct.h"
 #include "qcolor.h"
 #include <QSqlRelationalDelegate>
+#include <QStandardItemModel>
 
 DelegateForTableViewProduct::DelegateForTableViewProduct(QList<int>& listToRemove, const QSqlTableModel* model, const QColor colorForPaint) : DelegateForTableView(listToRemove, model, colorForPaint)
 {}

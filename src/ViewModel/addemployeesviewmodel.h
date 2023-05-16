@@ -14,6 +14,8 @@ public:
     void update() override;
     void applyChanges(const QString& FIO, const QString& password, const QString& position, const QString& phoneNumber, const QString& address, const QString& gender, const QString& date);
 
+    bool isEmployees(const QString& text);
+
 signals:
     void addItemsToComboBox(const QStringList& first, const QStringList& second);
     void close();

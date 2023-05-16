@@ -12,6 +12,9 @@ public:
     void setNewColor(const QColor& colorForPaint) { this->colorForPaint = colorForPaint; }
     void setNewList(QList<int>& list) { this->list = &list; }
 
+protected:
+    QString displayText(const QVariant &value, const QLocale &locale) const override;
+
 private:
     QList<int>* list;
     QColor colorForPaint;

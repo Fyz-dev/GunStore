@@ -29,8 +29,7 @@ Ordering::Ordering(QHash<int, int>& listProduct, ConnectionHandler* connectionHa
     // Заполнение таблицы данными из модели
     for (int row = 0; row < model->rowCount(); ++row) {
         for (int col = 0; col < model->columnCount()-1; ++col) {
-            QTableWidgetItem* item = new QTableWidgetItem(model->data(model->index(row, col)).toString());
-            ui->tableWidget->setItem(row, col, item);
+            ui->tableWidget->setItem(row, col, new QTableWidgetItem(model->data(model->index(row, col)).toString()));
         }
     }
 

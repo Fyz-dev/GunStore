@@ -16,6 +16,7 @@
 #include "menubuyer.h"
 #include "buyermodel.h"
 #include "menureport.h"
+#include "iclose.h"
 
 //Класс где происходит контроль всех окон админа
 //При желание добавить новое окно в область видимости окна администратора НЕОБХОДИМО вызвать метод freeMemory()
@@ -75,6 +76,9 @@ void MenuAdmin::buttonEditProduct_clicked()
     if(qobject_cast<MenuEditProduct*>(thisWindow))
         return;
 
+    if(!canClose())
+        return;
+
     freeMemory();
 
     thisModel = new ProductModel(connectionHandler);
@@ -88,6 +92,9 @@ void MenuAdmin::buttonEditProduct_clicked()
 void MenuAdmin::buttonInfoEmployees_clicked()
 {
     if(qobject_cast<MenuEmployees*>(thisWindow))
+        return;
+
+    if(!canClose())
         return;
 
     freeMemory();
@@ -105,6 +112,9 @@ void MenuAdmin::buttonInfoSupplier_clicked()
     if(qobject_cast<MenuSupplier*>(thisWindow))
         return;
 
+    if(!canClose())
+        return;
+
     freeMemory();
 
     thisModel = new SupplierModel(connectionHandler);
@@ -117,6 +127,9 @@ void MenuAdmin::buttonInfoSupplier_clicked()
 void MenuAdmin::buttonInfoBuyer_clicked()
 {
     if(qobject_cast<MenuBuyer*>(thisWindow))
+        return;
+
+    if(!canClose())
         return;
 
     freeMemory();
@@ -133,6 +146,9 @@ void MenuAdmin::buttonReportCheck_clicked()
     if(qobject_cast<MenuReport*>(thisWindow))
         return;
 
+    if(!canClose())
+        return;
+
     freeMemory();
 
     thisModel = new ProductModel(connectionHandler);
@@ -140,6 +156,14 @@ void MenuAdmin::buttonReportCheck_clicked()
     thisWindow = new MenuReport(static_cast<ProductModel*>(thisModel), this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
+}
+
+bool MenuAdmin::canClose()
+{
+    if(IClose* iclose = dynamic_cast<IClose*>(thisWindow))
+        return iclose->canClose();
+
+    return true;
 }
 
 bool MenuAdmin::eventFilter(QObject *watched, QEvent *event)
@@ -155,7 +179,7 @@ bool MenuAdmin::eventFilter(QObject *watched, QEvent *event)
         QWidget* frame = ui->frameButtonCheckInfo;
 
         animation->stop();
-        animation->setDuration(500);
+        animation->setDuration(400);
         animation->setStartValue(QRect(frame->x(), frame->y(), frame->width(), frame->height()));
         animation->setEndValue(QRect(frame->x(), frame->y(), 20, frame->height()));
 
@@ -167,7 +191,7 @@ bool MenuAdmin::eventFilter(QObject *watched, QEvent *event)
         frame->setMaximumWidth(270);
 
         animation->stop();
-        animation->setDuration(500);
+        animation->setDuration(400);
         animation->setStartValue(QRect(frame->x(), frame->y(), frame->width(), frame->height()));
         animation->setEndValue(QRect(frame->x(), frame->y(), 270, frame->height()));
 

@@ -14,6 +14,7 @@ void BuyProductViewModel::update()
         delete listElement[0];
         listElement.remove(0);
     }
+
     changedCountPriceSlots();
 
     productModel->updateList(list, "select p_name from product where isDelete != 1");
@@ -97,3 +98,4 @@ void BuyProductViewModel::printReport(const QString& sumCount, const QString& su
     Printer printer;
     printer.printActOfSupply(&table, productModel->getOneCell(QString("select w_full_name from worker where id_worker = %1").arg(productModel->getIdWorker())), nameSupplier, sumCount, sumPrice);
 }
+

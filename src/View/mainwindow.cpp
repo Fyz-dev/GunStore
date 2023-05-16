@@ -7,6 +7,7 @@
 #include "./ui_mainwindow.h"
 #include "isearch.h"
 
+#include <QTimer>
 //Основной класс где происходит контроль таких окон как: Главное окно, закупки, админа, оформление заказа
 //При желание добавить новое окно в область видимости основного окна НЕОБХОДИМО вызвать метод freeMemory()
 
@@ -47,6 +48,10 @@ void MainWindow::buttonMainMenu_clicked()
     if(qobject_cast<MainMenu*>(thisWindow))
         return;
 
+    if(MenuAdmin* mainMenu = qobject_cast<MenuAdmin*>(thisWindow))
+        if(!mainMenu->canClose())
+            return;
+
     freeMemory();
 
     thisModel = new ProductModel(connectionHandler);
@@ -68,6 +73,10 @@ void MainWindow::buttonBuyProduct_clicked()
     if(qobject_cast<BuyProduct*>(thisWindow))
         return;
 
+    if(MenuAdmin* mainMenu = qobject_cast<MenuAdmin*>(thisWindow))
+        if(!mainMenu->canClose())
+            return;
+
     freeMemory();
 
     thisModel = new ProductModel(connectionHandler);
@@ -75,12 +84,33 @@ void MainWindow::buttonBuyProduct_clicked()
     thisWindow = new BuyProduct(static_cast<BuyProductViewModel*>(thisViewModel), this);
     ui->centralwidget->layout()->addWidget(thisWindow);
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
+
+//    QString targetText = "Закупка товара";
+//    int currentIndex = 0;
+//    QTimer* timer = new QTimer(this);
+//    timer->setInterval(20); // Интервал времени между добавлением символов (в миллисекундах)
+
+//    connect(timer, &QTimer::timeout, this, [=]() mutable {
+//        if (currentIndex < targetText.size()) {
+//            ui->buttonBuyProduct->setText(ui->buttonBuyProduct->text() + targetText.at(currentIndex));
+//            currentIndex++;
+//        } else {
+//            timer->stop();
+//            delete timer;
+//        }
+//    });
+
+//    timer->start();
 }
 
 void MainWindow::buttonAdmin_clicked()
 {
     if(qobject_cast<MenuAdmin*>(thisWindow))
         return;
+
+    if(MenuAdmin* mainMenu = qobject_cast<MenuAdmin*>(thisWindow))
+        if(!mainMenu->canClose())
+            return;
 
     freeMemory();
 

@@ -62,6 +62,9 @@ void AddNewEmployees::connected()
         if(!regexNumberPhone.match(ui->inputPhoneNumber->text()).hasMatch())
             return notification->show("Введіть коректний номер телефону!", 2);
 
+        if(addEmployeesViewModel->isEmployees(ui->inputFullName->text()))
+            return notification->show("Такий співробітник вже є!", 2);
+
         addEmployeesViewModel->applyChanges(ui->inputFullName->text(), ui->inputPassword->text(), ui->comboBoxPosition->currentText(), ui->inputPhoneNumber->text(), ui->inputAddress->text(), ui->comboBoxGender->currentText(), ui->dateEdit->date().toString("yyyy.MM.dd"));
     });
 }

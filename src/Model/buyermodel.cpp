@@ -5,7 +5,7 @@ BuyerModel::BuyerModel(ConnectionHandler* connectionHandler) : BaseModel(connect
 
 QList<ElementPeople*>& BuyerModel::updateInfoBuyPeople(QWidget* parent)
 {
-    updateModelViaQuery("select inn, full_name, phone_number, city from buyer join address using(id_address)");
+    updateModelViaQuery("select inn, full_name, phone_number, city from buyer join address using(id_address) order by id_address");
 
     list.clear();
     for (int i = 0; i < modelData->rowCount(); ++i)

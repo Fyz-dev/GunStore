@@ -23,6 +23,14 @@ void AddEmployeesViewModel::applyChanges(const QString& FIO, const QString& pass
     }
 }
 
+bool AddEmployeesViewModel::isEmployees(const QString& text)
+{
+    if(employeesModel->getOneCell(QString("select count(*) from worker where w_full_name = '%1'").arg(text)) == "0")
+        return false;
+
+    return true;
+}
+
 AddEmployeesViewModel::~AddEmployeesViewModel()
 {
     delete employeesModel;

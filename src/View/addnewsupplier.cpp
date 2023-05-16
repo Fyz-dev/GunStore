@@ -31,6 +31,15 @@ AddNewSupplier::AddNewSupplier(SupplierModel* supplierModel, QWidget *parent) :
         if (!regexBank.match(ui->inpuBank->text()).hasMatch())
             return notification->show("Введіть коректний розрахунковий рахунок!", 2);
 
+        if(this->supplierModel->getOneCell(QString("select count(*) from supplier where sup_name = '%1'").arg(ui->inputFullNameSupplier->text())) != "0")
+            return notification->show("Такий постачальник вже є!", 2);
+
+        if(this->supplierModel->getOneCell(QString("select count(*) from supplier where sup_edrpou = '%1'").arg(ui->inputEdrpou->text())) != "0")
+            return notification->show("Такий ЄДРПОУ вже є!", 2);
+
+        if(this->supplierModel->getOneCell(QString("select count(*) from supplier where sup_bank = '%1'").arg(ui->inpuBank->text())) != "0")
+            return notification->show("Такий розрахунковий рахунок вже є!", 2);
+
         this->supplierModel->requestBD("INSERT INTO supplier(sup_name, sup_edrpou, sup_phoneNum, sup_address, sup_bank) VALUES('" + ui->inputFullNameSupplier->text() + "'," + ui->inputEdrpou->text() + ",'" + ui->inpuNumberPhone->text() + "','" + ui->inpuAddress->text() + "','" + ui->inpuBank->text() + "')");
         FormWithButtonBack::clearStack();
     });
