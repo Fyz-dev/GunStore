@@ -148,7 +148,10 @@ void MainWindow::textButtonControl(QPushButton* sender, const QString& text)
         return;
 
     if(timerTextButton)
+    {
+        timerTextButton->stop();
         timerTextButton->deleteLater();
+    }
 
     thisButton->setText("");
 

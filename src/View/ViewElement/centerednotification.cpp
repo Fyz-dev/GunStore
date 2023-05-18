@@ -116,13 +116,13 @@ void CenteredNotification::close()
 
     if(timer)
     {
-        delete timer;
+        timer->deleteLater();
         timer = nullptr;
     }
 
     if(anim)
     {
-        delete anim;
+        anim->deleteLater();
         anim = nullptr;
     }
 }
@@ -167,10 +167,16 @@ void CenteredNotification::centredTheWidget()
 CenteredNotification::~CenteredNotification()
 {
     if(anim)
-        delete anim;
+    {
+        anim->stop();
+        anim->deleteLater();
+    }
 
     if(timer)
-        delete timer;
+    {
+        timer->stop();
+        timer->deleteLater();
+    }
 
     baseWindow->removeEventFilter(this);
     delete ui;

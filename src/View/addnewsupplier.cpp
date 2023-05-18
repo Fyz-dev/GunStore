@@ -49,6 +49,7 @@ AddNewSupplier::AddNewSupplier(const QString& idSupplier, SupplierModel* supplie
     AddNewSupplier(parent)
 {
     ui->buttonAddSupplier->hide();
+    ui->label->setText("Дані постачальника");
 
     supplierModel->updateModelViaQuery(QString("select sup_name, sup_edrpou, sup_phoneNum, sup_address, sup_bank from supplier where id_supplier = %1").arg(idSupplier));
 
