@@ -9,6 +9,18 @@ Login::Login(std::shared_ptr<LoginViewModel> loginViewModel, QWidget *parent) :
     ui->setupUi(this);
     connect(loginViewModel.get(), &LoginViewModel::openMainWindowSignal, this, &Login::openMainWindow);
     connect(loginViewModel.get(), &LoginViewModel::openFailedDialogSignal, this, &Login::openFailedDialog);
+
+    connect(ui->buttonShowPassword, &QPushButton::pressed, this, [&]()
+    {
+        ui->buttonShowPassword->setIcon(QIcon(":/WhiteIcon/images/view.png"));
+        ui->lineEdit_Password->setEchoMode(QLineEdit::Normal);
+    });
+
+    connect(ui->buttonShowPassword, &QPushButton::released, this, [&]()
+    {
+        ui->buttonShowPassword->setIcon(QIcon(":/WhiteIcon/images/hide.png"));
+        ui->lineEdit_Password->setEchoMode(QLineEdit::Password);
+    });
 }
 
 void Login::on_Button_Login_clicked()

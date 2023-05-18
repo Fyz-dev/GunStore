@@ -20,6 +20,8 @@
         <file>images/menu-dots.png</file>
         <file>images/bin.png</file>
         <file>images/return.png</file>
+        <file>images/hide.png</file>
+        <file>images/view.png</file>
     </qresource>
     <qresource prefix="/Icon">
         <file>images/indocator.png</file>
