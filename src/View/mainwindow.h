@@ -33,6 +33,7 @@ private:
     void connected();
     void freeMemory();
     void colorButtonControl(QPushButton* sender);
+    void textButtonControl(QPushButton* sender, const QString& text);
 
 private:
     Ui::MainWindow *ui;
@@ -41,6 +42,7 @@ private:
     QWidget* thisWindow = nullptr;
     BaseModel* thisModel = nullptr;
     BaseViewModel* thisViewModel;
+    QTimer* timerTextButton = nullptr;
 
     FormWithButtonBack* formWithButtonBack;
     ConnectionHandler* connectionHandler;

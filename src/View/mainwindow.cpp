@@ -29,6 +29,7 @@ MainWindow::MainWindow(ConnectionHandler* connectionHandler, QWidget *parent) :
 
     buttonMainMenu_clicked();
     colorButtonControl(ui->buttonMainMenu);
+    ui->buttonMainMenu->setText("Головне вікно");
 
     if(connectionHandler->getPosition() != "Адміністратор")
         ui->buttonAdmin->hide();
@@ -65,6 +66,7 @@ void MainWindow::buttonMainMenu_clicked()
     });
     ui->printCountProduct->setText("0");
 
+    textButtonControl(qobject_cast<QPushButton*>(sender()), "Головне вікно");
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
@@ -83,24 +85,8 @@ void MainWindow::buttonBuyProduct_clicked()
     thisViewModel = new BuyProductViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new BuyProduct(static_cast<BuyProductViewModel*>(thisViewModel), this);
     ui->centralwidget->layout()->addWidget(thisWindow);
+    textButtonControl(qobject_cast<QPushButton*>(sender()), "Закупівля товару");
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
-
-//    QString targetText = "Закупка товара";
-//    int currentIndex = 0;
-//    QTimer* timer = new QTimer(this);
-//    timer->setInterval(20); // Интервал времени между добавлением символов (в миллисекундах)
-
-//    connect(timer, &QTimer::timeout, this, [=]() mutable {
-//        if (currentIndex < targetText.size()) {
-//            ui->buttonBuyProduct->setText(ui->buttonBuyProduct->text() + targetText.at(currentIndex));
-//            currentIndex++;
-//        } else {
-//            timer->stop();
-//            delete timer;
-//        }
-//    });
-
-//    timer->start();
 }
 
 void MainWindow::buttonAdmin_clicked()
@@ -118,6 +104,8 @@ void MainWindow::buttonAdmin_clicked()
     thisViewModel = nullptr;
     thisWindow = new MenuAdmin(connectionHandler, ui->inputSearch, this);
     ui->centralwidget->layout()->addWidget(thisWindow);
+
+    textButtonControl(qobject_cast<QPushButton*>(sender()), "Вікно адміністора");
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 
@@ -152,6 +140,35 @@ void MainWindow::colorButtonControl(QPushButton* sender)
 
     ui->buttonBasket->setVisible(sender == ui->buttonMainMenu);
     ui->printCountProduct->setVisible(sender == ui->buttonMainMenu);
+}
+
+void MainWindow::textButtonControl(QPushButton* sender, const QString& text)
+{
+    if(!sender)
+        return;
+
+    if(timerTextButton)
+        timerTextButton->deleteLater();
+
+    thisButton->setText("");
+
+    int currentIndex = 0;
+    timerTextButton = new QTimer(this);
+    timerTextButton->setInterval(20);
+
+    connect(timerTextButton, &QTimer::timeout, this, [=]() mutable
+    {
+        if (currentIndex < text.size()) {
+            sender->setText(sender->text() + text.at(currentIndex));
+            currentIndex++;
+        } else {
+            timerTextButton->stop();
+            timerTextButton->deleteLater();
+            timerTextButton = nullptr;
+        }
+    });
+
+    timerTextButton->start();
 }
 
 //Очищаем память
