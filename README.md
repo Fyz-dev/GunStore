@@ -4,7 +4,7 @@
 
 My coursework using C++ and a framework QT
   
-<img src="resources/images/appicon.ico" alt="drawing" width="500"/>
+<img src="resources/images/appicon.png" alt="drawing" width="300"/>
   
 </div>
 
@@ -18,7 +18,7 @@ The theme of this course project is "weapons store".
 ## 🎆Design
 
 ### 🔑Authorization
-<img src = https://github.com/Vladhuman/GunStore/assets/63561158/3cae8308-6209-43f3-ae43-8bc31aaad4de>
+<img align="center" src = https://github.com/Vladhuman/GunStore/assets/63561158/3cae8308-6209-43f3-ae43-8bc31aaad4de>
 
 ### 🖼️Main window
 #### ⭐Admin
