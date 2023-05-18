@@ -25,5 +25,6 @@
         <file>images/indocator.png</file>
         <file>images/down-arrow.png</file>
         <file>images/empty-basket.png</file>
+        <file>images/up-arrow.png</file>
     </qresource>
 </RCC>

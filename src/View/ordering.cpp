@@ -29,6 +29,8 @@ Ordering::Ordering(QHash<int, int>& listProduct, ConnectionHandler* connectionHa
     // Заполнение таблицы данными из модели
     for (int row = 0; row < model->rowCount(); ++row) {
         for (int col = 0; col < model->columnCount()-1; ++col) {
+            if(model->data(model->index(row, col)).typeId() == QMetaType::Double)
+                ui->tableWidget->setItem(row, col, new QTableWidgetItem(model->data(model->index(row, col)).toDouble()));
             ui->tableWidget->setItem(row, col, new QTableWidgetItem(model->data(model->index(row, col)).toString()));
         }
     }
@@ -41,7 +43,7 @@ Ordering::Ordering(QHash<int, int>& listProduct, ConnectionHandler* connectionHa
     for (int row = 0; row < ui->tableWidget->rowCount(); ++row)
     {
         ui->tableWidget->setItem(row, 9, new QTableWidgetItem(QString::number(listProduct.value(model->index(row, 0).data().toInt()))));
-        ui->tableWidget->setItem(row, 10, new QTableWidgetItem(QString::number(model->index(row, 2).data().toInt()*listProduct.value(model->index(row, 0).data().toDouble()), 'f', 2)));
+        ui->tableWidget->setItem(row, 10, new QTableWidgetItem(QString::number(model->index(row, 2).data().toDouble()*listProduct.value(model->index(row, 0).data().toInt()), 'f', 2)));
 
         QPushButton* button = new QPushButton;
         connect(button, &QPushButton::clicked, this, &Ordering::deleteProduct);

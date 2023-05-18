@@ -167,6 +167,28 @@ QDateEdit {
     background-color: #41444a;
 	font: 14pt &quot;Franklin Gothic Medium&quot;;
 	border: none;
+	border-radius: 5px;
+}
+
+
+QDateEdit::down-button, QDateEdit::up-button {
+    background-color: transparent;
+}
+
+QDateEdit::down-button::hover, QDateEdit::up-button::hover {
+	background-color: rgba(255, 255, 255, 30 );
+}
+
+QDateEdit::down-arrow {
+        image: url(:/Icon/images/down-arrow.png);
+		width: 10px;
+		height: 10px;
+}
+
+QDateEdit::up-arrow {
+        image: url(:/Icon/images/up-arrow.png);
+		width: 10px;
+		height: 10px;
 }
 
 /* Поле с кнопками для администратора*/
