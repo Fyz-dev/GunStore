@@ -18,7 +18,7 @@ The theme of this course project is "weapons store".
 ## 🎆Design
 
 ### 🔑Authorization
-<img align="center" src = https://github.com/Vladhuman/GunStore/assets/63561158/3cae8308-6209-43f3-ae43-8bc31aaad4de>
+<div align="center"> <img src = https://github.com/Vladhuman/GunStore/assets/63561158/3cae8308-6209-43f3-ae43-8bc31aaad4de> </div>
 
 ### 🖼️Main window
 #### ⭐Admin
