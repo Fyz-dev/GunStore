@@ -6,6 +6,7 @@
 #include "iview.h"
 #include "isearch.h"
 #include "iclose.h"
+#include "centerednotification.h"
 
 #include <QMessageBox>
 #include <QWidget>
@@ -42,14 +43,21 @@ signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo, const QString& isDelete);
     void openAddNewProductDialogSignals();
 
+private slots:
+    void selectedItem(const QModelIndex& i);
+
 private:
     void connected();
     void deleteWidget(QLayout* layout);
+    void buttonAddCharact(QComboBox* comboBox, QLineEdit* lineEdit);
 
 private:
     Ui::MenuEditProduct *ui;
     MenuEditProductViewModel* menuEditProductViewModel;
     ConnectionHandler* connectionHandler;
+    CenteredNotification* notification;
+
+    static const QRegularExpression regexNull;
 };
 
 #endif // MENUEDITPRODUCT_H

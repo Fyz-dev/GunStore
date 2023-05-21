@@ -1,6 +1,8 @@
 #include "menueditproduct.h"
 #include "ui_menueditproduct.h"
 
+const QRegularExpression MenuEditProduct::regexNull = QRegularExpression("^\\s*$");
+
 MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewModel, ConnectionHandler* connectionHandler, QWidget *parent) :
     menuEditProductViewModel(menuEditProductViewModel),
     connectionHandler(connectionHandler),
@@ -16,6 +18,8 @@ MenuEditProduct::MenuEditProduct(MenuEditProductViewModel* menuEditProductViewMo
 
     menuEditProductViewModel->update(QString::number(ui->comboBoxIsDelete->currentIndex()));
     ui->tableViewProduct->setItemDelegate(menuEditProductViewModel->getDelegate());
+
+    notification = new CenteredNotification;
 }
 
 void MenuEditProduct::modelChangedSlots(QAbstractTableModel* modelData)
@@ -175,10 +179,46 @@ void MenuEditProduct::connected()
     connect(menuEditProductViewModel, &MenuEditProductViewModel::clearLableSignal, this, &MenuEditProduct::clearLableSlots);
     connect(this, &MenuEditProduct::priceFilterChangedSignals, menuEditProductViewModel, &MenuEditProductViewModel::priceFilterChangedSlots);
 
-    connect(ui->tableViewProduct, &QTableView::clicked, this, [&](const QModelIndex& i)
+    connect(ui->tableViewProduct, &QTableView::clicked, this, &MenuEditProduct::selectedItem);
+}
+
+void MenuEditProduct::selectedItem(const QModelIndex& i)
+{
+    menuEditProductViewModel->selectedElemTableViewSlots(i, false);
+
+    QList<QString> list = menuEditProductViewModel->getListCharact(i);
+    if(list.isEmpty())
+        return;
+
+    QComboBox* comboBox = new QComboBox(this);
+    QLineEdit* lineEdit = new QLineEdit(this);
+    QPushButton* buttonCharact = new QPushButton(QIcon(), "Додати характеристику", this);
+
+    comboBox->addItems(list);
+    comboBox->setCurrentIndex(-1);
+    lineEdit->setPlaceholderText("Введіть значення");
+
+    addInfoProductSlots(comboBox);
+    addInfoProductSlots(lineEdit);
+    addInfoProductSlots(buttonCharact);
+
+    connect(buttonCharact, &QPushButton::clicked, this, [=]()
     {
-        menuEditProductViewModel->selectedElemTableViewSlots(i, false);
+        buttonAddCharact(comboBox, lineEdit);
     });
+}
+
+void MenuEditProduct::buttonAddCharact(QComboBox* comboBox, QLineEdit* lineEdit)
+{
+    if(comboBox->currentIndex() == -1)
+        return notification->show("Виберіть характеристику!", 2);
+
+    if(regexNull. match(lineEdit->text()).hasMatch())
+        return notification->show("Введіть значення для характеристики!", 2);
+
+    const QModelIndex& i = ui->tableViewProduct->currentIndex();
+    menuEditProductViewModel->insertCharactToBD(i.model()->index(i.row(), 0).data().toString(), comboBox->currentText(), lineEdit->text());
+    selectedItem(i);
 }
 
 bool MenuEditProduct::canClose()
@@ -202,5 +242,6 @@ bool MenuEditProduct::canClose()
 
 MenuEditProduct::~MenuEditProduct()
 {
+    delete notification;
     delete ui;
 }

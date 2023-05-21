@@ -96,8 +96,12 @@ void AddBuyer::buttonOrder_clicked()
     if(!regexNumberPhone.match(phoneNumber).hasMatch())
         return notification->show("Введіть коректний номер телефону!", 2);
 
-    if(!regexEmail.match(email).hasMatch())
-        return notification->show("Введіть коректну електронну пошту!", 2);
+    if(!ui->inputEmail->text().isEmpty())
+        if(!regexEmail.match(email).hasMatch())
+            return notification->show("Введіть коректну електронну пошту!", 2);
+
+    if(ui->inputCity->text().isEmpty())
+        return notification->show("Введіть місто!", 2);
 
     if(!regexLicense.match(license).hasMatch())
         return notification->show("Введіть коректну ліцензію!", 2);

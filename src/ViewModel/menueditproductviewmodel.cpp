@@ -93,6 +93,18 @@ bool MenuEditProductViewModel::isChanged()
     return true;
 }
 
+QList<QString> MenuEditProductViewModel::getListCharact(const QModelIndex& i)
+{
+    QList<QString> list;
+    productModel->updateList(list, QString("select charact_name from categorycharacteristic join characteristic using(id_characteristic) where id_categoryCharacteristic not in(select id_categoryCharacteristic from productvalue where id_product = %1) and id_category = (select id_category from product where id_product = %1)").arg(i.model()->index(i.row(), 0).data().toString()));
+    return list;
+}
+
+void MenuEditProductViewModel::insertCharactToBD(const QString& idProduct, const QString& charact, const QString& value)
+{
+    productModel->requestBD(QString("INSERT INTO productvalue(id_product, id_categoryCharacteristic, `value`) VALUES(%1, (select id_categoryCharacteristic from categorycharacteristic join characteristic using(id_characteristic) where charact_name = '%2' and id_category = (select id_category from product where id_product = %1)), '%3')").arg(idProduct, charact, value));
+}
+
 MenuEditProductViewModel::~MenuEditProductViewModel()
 {
     delete delegate;

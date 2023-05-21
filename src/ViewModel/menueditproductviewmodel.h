@@ -17,6 +17,7 @@ public:
     void update(const QString& isDelete, bool isUpdateModel = true);
     void addItemToRemove(const int& row);
     void addItemToReturn(const int& row);
+    void insertCharactToBD(const QString& idProduct, const QString& charact, const QString& value);
 
     void applyChanges();
     bool isChanged();
@@ -26,6 +27,7 @@ public:
     QList<int>& getListToReturn() { return listToReturn; };
     DelegateForTableView* getDelegate() { return delegate; };
     ProductModel* getProductModel() { return productModel; }
+    QList<QString>  getListCharact(const QModelIndex& i);
     void setProductModel(ProductModel* productModel) { this->productModel = productModel; }
 
 signals:
