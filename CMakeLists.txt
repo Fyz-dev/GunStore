@@ -82,7 +82,8 @@ target_link_libraries(GunStore PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(GunStore PRIVATE Qt6::PrintSupport)
 target_link_libraries(GunStore PRIVATE Qt6::Gui)
 target_link_libraries(GunStore PRIVATE Qt6::Charts)
-target_link_libraries(GunStore PRIVATE ${PROJECT_SOURCE_DIR}/libmysql.dll)
+
+configure_file(${PROJECT_SOURCE_DIR}/libmysql.dll ${CMAKE_CURRENT_BINARY_DIR}/libmysql.dll COPYONLY)
 
 set_target_properties(GunStore PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
