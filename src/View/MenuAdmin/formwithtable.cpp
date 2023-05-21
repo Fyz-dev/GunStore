@@ -1,5 +1,6 @@
 #include "formwithtable.h"
 #include "ui_formwithtable.h"
+#include "delegatetableviewdouble.h"
 
 FormWithTable::FormWithTable(const QString& identifier, const QString& title, const QString& sum, BuyerModel* buyerModel, QWidget *parent) :
     FormWithTable(identifier, sum, parent)
@@ -18,7 +19,7 @@ FormWithTable::FormWithTable(const QString& identifier, const QString& title, co
     ui->labelTitle->setText("Постачання від " + title);
     ui->count->setText(supplierModel->getOneCell(QString("select sum(listS_count) from listsupply join waybill using(id_waybill) join product using(id_product) where id_supplier = %1 and waybillDate = '%2' group by waybillDate;").arg(identifier, title)));
 
-    supplierModel->updateModelViaQuery(QString("select p_name as 'Назва товару', listS_priceCount as 'Ціна за одиницю (грн.)', p_brand as 'Бренд', p_weight as 'Вага (г.)', p_package as 'Упаковка', p_country as 'Країна', sum(listS_count) as 'Кількість (од.)' from listsupply join waybill using(id_waybill) join product using(id_product) where id_supplier = %1 and waybillDate = '%2' group by id_product;")
+    supplierModel->updateModelViaQuery(QString("select p_name as 'Назва товару', listS_priceCount as 'Ціна за одиницю (грн.)', p_brand as 'Бренд', p_weight as 'Вага (г.)', p_package as 'Упаковка', p_country as 'Країна', CAST(SUM(listS_count) AS SIGNED) as 'Кількість (од.)' from listsupply join waybill using(id_waybill) join product using(id_product) where id_supplier = %1 and waybillDate = '%2' group by id_product;")
                                        .arg(identifier, title));
 
     ui->tableView->setModel(supplierModel->getModelData());
@@ -34,9 +35,11 @@ FormWithTable::FormWithTable(const QString& identifier, const QString& sum, QWid
 
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView->setEditTriggers(QHeaderView::NoEditTriggers);
+    ui->tableView->setItemDelegate(new DelegateTableViewDouble);
 }
 
 FormWithTable::~FormWithTable()
 {
+    ui->tableView->itemDelegate()->deleteLater();
     delete ui;
 }
