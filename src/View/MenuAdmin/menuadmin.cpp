@@ -17,6 +17,7 @@
 #include "buyermodel.h"
 #include "menureport.h"
 #include "iclose.h"
+#include "addcharact.h"
 
 //Класс где происходит контроль всех окон админа
 //При желание добавить новое окно в область видимости окна администратора НЕОБХОДИМО вызвать метод freeMemory()
@@ -65,6 +66,12 @@ void MenuAdmin::openAddNewEmployees()
     FormWithButtonBack::pushToView({new AddNewEmployees(addEmployeesViewModel, this)});
 }
 
+void MenuAdmin::openAddCharact()
+{
+    ProductModel* productModel = new ProductModel(connectionHandler);
+    FormWithButtonBack::pushToView({new AddCharact(productModel, this)});
+}
+
 void MenuAdmin::openAddSupplier()
 {
     SupplierModel* supplierModel = new SupplierModel(connectionHandler);
@@ -85,7 +92,11 @@ void MenuAdmin::buttonEditProduct_clicked()
     thisViewModel = new MenuEditProductViewModel(static_cast<ProductModel*>(thisModel));
     thisWindow = new MenuEditProduct(static_cast<MenuEditProductViewModel*>(thisViewModel), connectionHandler, this);
     ui->widgetForWindowAdmin->layout()->addWidget(thisWindow);
-    connect(qobject_cast<MenuEditProduct*>(thisWindow), &MenuEditProduct::openAddNewProductDialogSignals, this, &MenuAdmin::openAddNewProductDialog);
+
+    MenuEditProduct* menuEditProduct = qobject_cast<MenuEditProduct*>(thisWindow);
+    connect(menuEditProduct, &MenuEditProduct::openAddNewProductDialogSignals, this, &MenuAdmin::openAddNewProductDialog);
+    connect(menuEditProduct, &MenuEditProduct::openAddCharactSignals, this, &MenuAdmin::openAddCharact);
+
     colorButtonControl(qobject_cast<QPushButton*>(sender()));
 }
 

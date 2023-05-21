@@ -42,6 +42,7 @@ public slots:
 signals:
     void priceFilterChangedSignals(QLineEdit* inputTo, QLineEdit* inputDo, const QString& isDelete);
     void openAddNewProductDialogSignals();
+    void openAddCharactSignals();
 
 private slots:
     void selectedItem(const QModelIndex& i);

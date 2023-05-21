@@ -99,6 +99,7 @@ void MenuEditProduct::showMessageBox()
 
 void MenuEditProduct::show()
 {
+    deleteWidget(ui->infoSelectProduct->layout());
     menuEditProductViewModel->update(QString::number(ui->comboBoxIsDelete->currentIndex()));
 }
 
@@ -122,6 +123,12 @@ void MenuEditProduct::connected()
     {
         if(canClose())
             emit openAddNewProductDialogSignals();
+    });
+
+    connect(ui->buttonAddCharact, &QPushButton::clicked, this, [=]()
+    {
+        if(canClose())
+            emit openAddCharactSignals();
     });
 
     connect(ui->buttonDeleteProduct, &QPushButton::clicked, this, [&]()
