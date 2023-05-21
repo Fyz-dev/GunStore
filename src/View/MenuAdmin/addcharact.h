@@ -29,6 +29,8 @@ private:
     ProductModel* productModel;
     CenteredNotification* notification;
     QList<QString> listCharact;
+
+    int previousIndexComboBox;
 };
 
 #endif // ADDCHARACT_H

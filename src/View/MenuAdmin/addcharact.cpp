@@ -25,16 +25,36 @@ AddCharact::AddCharact(ProductModel* productModel, QWidget *parent) :
     connect(ui->buttonApply, &QPushButton::clicked, this, &AddCharact::buttonApply_clicked);
 
     ui->comboBoxCategory->setCurrentIndex(0);
-    productModel->updateList(listCharact, QString("select charact_name from category join categorycharacteristic using(id_category) join characteristic using(id_characteristic) where c_name = '%1'").arg(ui->comboBoxCategory->currentText()));
 }
 
 void AddCharact::comboBoxCategoryIndexChanged(const int& i)
 {
+    if(ui->tableWidget->rowCount()>1)
+    {
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Увага!");
+        msgBox.setText("Усі введені характеристики зникнуть. Ви підтверджуєте це?");
+
+        QPushButton* yes = msgBox.addButton("Так", QMessageBox::ActionRole);
+        msgBox.addButton("Ні", QMessageBox::ActionRole);
+
+        msgBox.exec();
+        if(msgBox.clickedButton() != yes)
+        {
+            {ui->comboBoxCategory->blockSignals(true), ui->comboBoxCategory->setCurrentIndex(previousIndexComboBox), ui->comboBoxCategory->blockSignals(false);};
+            return;
+        }
+    }
+
     ui->comboBoxCharact->clear();
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(1);
 
     QList<QString> listCharact;
+    productModel->updateList(this->listCharact, QString("select charact_name from category join categorycharacteristic using(id_category) join characteristic using(id_characteristic) where c_name = '%1'").arg(ui->comboBoxCategory->currentText()));
     productModel->updateList(listCharact, QString("select charact_name from characteristic where charact_name not in(select charact_name from category join categorycharacteristic using(id_category) join characteristic using(id_characteristic) where c_name = '%1')").arg(ui->comboBoxCategory->currentText()));
     ui->comboBoxCharact->addItems(listCharact);
+    previousIndexComboBox = i;
 }
 
 void AddCharact::comboBoxCharactIndexChanged(const int& i)

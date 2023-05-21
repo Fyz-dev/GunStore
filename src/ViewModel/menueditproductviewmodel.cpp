@@ -16,6 +16,8 @@ void MenuEditProductViewModel::update(const QString& isDelete, bool isUpdateMode
 
     emit modelChangedSignal(productModel->getModelData());
 
+    connect(productModel->getModelData(), &QSqlRelationalTableModel::dataChanged, this, &MenuEditProductViewModel::dataChanged);
+
     if(filter)
         delete filter;
     filter = new Filter;
@@ -63,6 +65,7 @@ void MenuEditProductViewModel::applyChanges()
     productModel->getListChangedCharacteristic().clear();
     listToRemove.clear();
     listToReturn.clear();
+    tableListChange.clear();
 }
 
 void MenuEditProductViewModel::addItemToRemove(const int& row)
@@ -85,6 +88,19 @@ void MenuEditProductViewModel::addItemToReturn(const int& row)
         listToReturn.removeOne(idProduct);
 }
 
+void MenuEditProductViewModel::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QList<int>& roles)
+{
+    QSqlRelationalTableModel* model = productModel->getModelData();
+    int firstKey = model->index(topLeft.row(), 0).data().toInt();
+    int secondKey = topLeft.column();
+
+//    auto outerIt = tableListChange.find(firstKey);
+//    if(outerIt != tableListChange.end())
+//    tableListChange.emplace(firstKey, std::unordered_map<int, QString>{{secondKey, model->index(topLeft.row(), topLeft.column()).data().toString()}});
+
+    tableListChange[firstKey][secondKey] = model->index(topLeft.row(), topLeft.column()).data().toString();
+}
+
 bool MenuEditProductViewModel::isChanged()
 {
     if(!productModel->getModelData()->isDirty() && productModel->getListChangedCharacteristic().isEmpty() && listToRemove.isEmpty() && listToReturn.isEmpty())
@@ -103,6 +119,15 @@ QList<QString> MenuEditProductViewModel::getListCharact(const QModelIndex& i)
 void MenuEditProductViewModel::insertCharactToBD(const QString& idProduct, const QString& charact, const QString& value)
 {
     productModel->requestBD(QString("INSERT INTO productvalue(id_product, id_categoryCharacteristic, `value`) VALUES(%1, (select id_categoryCharacteristic from categorycharacteristic join characteristic using(id_characteristic) where charact_name = '%2' and id_category = (select id_category from product where id_product = %1)), '%3')").arg(idProduct, charact, value));
+}
+
+void MenuEditProductViewModel::updateChange()
+{
+    QSqlRelationalTableModel* model = productModel->getModelData();
+    for (int i = 0; i < model->rowCount(); ++i)
+        if(tableListChange.find(model->index(i, 0).data().toInt()) != tableListChange.end())
+            for (auto it = tableListChange[model->index(i, 0).data().toInt()].begin(); it != tableListChange[model->index(i, 0).data().toInt()].end(); ++it)
+                model->setData(QModelIndex(model->index(i, it->first)), it->second);
 }
 
 MenuEditProductViewModel::~MenuEditProductViewModel()

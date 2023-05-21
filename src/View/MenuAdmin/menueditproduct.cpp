@@ -35,6 +35,7 @@ void MenuEditProduct::addCheckBoxSlots(QCheckBox* checkBox, const LayoutState& l
     connect(checkBox, &QCheckBox::stateChanged, this, [&](const int& state)
     {
         menuEditProductViewModel->checkBoxEnabledSlots(state, sender(), QString::number(ui->comboBoxIsDelete->currentIndex()));
+        menuEditProductViewModel->updateChange();
     });
 
     switch (layoutName)
@@ -73,6 +74,7 @@ void MenuEditProduct::clearCheckBoxSlots()
 void MenuEditProduct::priceFilterChangedSlots()
 {
     emit priceFilterChangedSignals(ui->inputTo, ui->inputDo, QString::number(ui->comboBoxIsDelete->currentIndex()));
+    menuEditProductViewModel->updateChange();
 }
 
 void MenuEditProduct::clearLableSlots()
@@ -108,6 +110,7 @@ void MenuEditProduct::hide() {}
 void MenuEditProduct::search(const QString& text)
 {
     menuEditProductViewModel->updateWithSearch(text, QString::number(ui->comboBoxIsDelete->currentIndex()));
+    menuEditProductViewModel->updateChange();
 }
 
 void MenuEditProduct::connected()

@@ -18,6 +18,7 @@ public:
     void addItemToRemove(const int& row);
     void addItemToReturn(const int& row);
     void insertCharactToBD(const QString& idProduct, const QString& charact, const QString& value);
+    void updateChange();
 
     void applyChanges();
     bool isChanged();
@@ -33,6 +34,9 @@ public:
 signals:
     void showMessageBoxSignals();
 
+private slots:
+    void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QList<int>& roles);
+
 private:
     void addCheckBox(const QList<QCheckBox*>& listCheckBox, const LayoutState& layoutName) override;
     void update() override;
@@ -40,6 +44,7 @@ private:
 private:
     QList<int> listToRemove;
     QList<int> listToReturn;
+    std::unordered_map<int, std::unordered_map<int, QString>> tableListChange;
     DelegateForTableViewProduct* delegate;
 };
 
