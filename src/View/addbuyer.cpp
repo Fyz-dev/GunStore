@@ -13,7 +13,6 @@ QRegularExpression AddBuyer::regexINN= QRegularExpression("^\\d{10}$");
 QRegularExpression AddBuyer::regexEmail = QRegularExpression("^[\\w.-]+@[a-zA-Z_-]+?\\.[a-zA-Z]{2,}$");
 QRegularExpression AddBuyer::regexLicense= QRegularExpression("^\\d{7}$");
 
-
 AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWidget *parent) :
     AddBuyer(parent)
 {
@@ -42,6 +41,10 @@ AddBuyer::AddBuyer(const QString& FIO, const QString& INN, const QString& number
     QLineEdit* fio = new QLineEdit(this);
     fio->setReadOnly(true);
     setEditable(false);
+    ui->inputPhone->setReadOnly(true);
+    ui->inputEmail->setReadOnly(true);
+    ui->inputCity->setReadOnly(true);
+    ui->inputAddressDetails->setReadOnly(true);
 
     ui->inputFIO->hide();
     ui->buttonOrder->hide();
@@ -115,6 +118,13 @@ void AddBuyer::buttonOrder_clicked()
         productModel->requestBD(QString("INSERT INTO buyer(inn, full_name, phone_number, email, id_address, license) VALUES('%1', '%2', '%3', '%4', %5, %6)")
                                 .arg(INN, FIO, phoneNumber, email, QString::number(productModel->getLastInsertId()), license));
     }
+    else
+    {
+        productModel->requestBD(QString("UPDATE buyer SET phone_number = '%1' where inn = %2").arg(phoneNumber, INN));
+        productModel->requestBD(QString("UPDATE buyer SET email = '%1' where inn = %2").arg(email, INN));
+        productModel->requestBD(QString("UPDATE address SET city = '%1' where id_address = (select id_address from buyer where inn = %2)").arg(city, INN));
+        productModel->requestBD(QString("UPDATE address SET details = '%1' where id_address = (select id_address from buyer where inn = %2)").arg(detailsAddress, INN));
+    }
 
     //Оформление заказа
     productModel->requestBD(QString("INSERT INTO sales(inn, id_worker, date_time) VALUES(%1, %2, NOW())").arg(INN, productModel->getIdWorker()));
@@ -175,11 +185,8 @@ void AddBuyer::inputNewFIO()
 
 void AddBuyer::setEditable(bool isEdit)
 {
-    for (int i = 0; i < ui->verticalLayout_8->count(); ++i)
-        if(QLayout* layout = dynamic_cast<QLayout*>(ui->verticalLayout_8->itemAt(i)))
-            for (int index = 0; index < layout->count(); ++index)
-                if(QLineEdit* lineEdit = qobject_cast<QLineEdit*>(layout->itemAt(index)->widget()))
-                    lineEdit->setReadOnly(!isEdit);
+    ui->inputINN->setReadOnly(!isEdit);
+    ui->inputLicense->setReadOnly(!isEdit);
 }
 
 AddBuyer::~AddBuyer()
