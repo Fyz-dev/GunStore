@@ -22,6 +22,7 @@ public:
 
 private:
     AddNewSupplier(QWidget *parent = nullptr);
+    bool isValid();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
