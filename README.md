@@ -26,3 +26,10 @@ The theme of this course project is "weapons store".
 
 #### 🙎‍♂️Cashier
 <img src = https://github.com/Vladhuman/GunStore/assets/63561158/192467b5-9457-4742-ae88-f287a9215f7f>
+
+## Project Configuration
+1. You need to run the database creation script "createBD/GunStore.sql"
+2. Run the script for filling the database with initial data "createBD/InsertGunStore.sql"
+3. Run the procedure creation script "createBD/procedurAndFunction.sql"
+4. Run script to create roles and user "createBD/CreatUser.sql"
+5. After that, we launch applications from the account of the created user, or from root
