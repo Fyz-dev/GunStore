@@ -8,9 +8,10 @@
 #include <QDateTime>
 #include <QSqlError>
 
+QRegularExpression AddBuyer::regexFIO = QRegularExpression("^.{1,55}$");
 QRegularExpression AddBuyer::regexNumberPhone = QRegularExpression("^0\\d{9}$");
 QRegularExpression AddBuyer::regexINN= QRegularExpression("^\\d{10}$");
-QRegularExpression AddBuyer::regexEmail = QRegularExpression("^[\\w.-]+@[a-zA-Z_-]+?\\.[a-zA-Z]{2,}$");
+QRegularExpression AddBuyer::regexEmail = QRegularExpression("^(?=.{1,40}$)[\\w.-]+@[a-zA-Z_-]+?.[a-zA-Z]{2,}$");
 QRegularExpression AddBuyer::regexLicense= QRegularExpression("^\\d{7}$");
 
 AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWidget *parent) :
@@ -27,6 +28,7 @@ AddBuyer::AddBuyer(ProductModel* productModel, QHash<int, int>& listProduct, QWi
     ui->inputFIO->setInsertPolicy(QComboBox::NoInsert);
     ui->inputFIO->setCurrentIndex(-1);
 
+    ui->inputFIO->lineEdit()->setValidator(new QRegularExpressionValidator(regexFIO));
     ui->inputPhone->setValidator(new QRegularExpressionValidator(regexNumberPhone));
     ui->inputINN->setValidator(new QRegularExpressionValidator(regexINN));
     ui->inputEmail->setValidator(new QRegularExpressionValidator(regexEmail));
@@ -92,6 +94,9 @@ void AddBuyer::buttonOrder_clicked()
     QString city = ui->inputCity->text();
     QString detailsAddress = ui->inputAddressDetails->text();
     QString license = ui->inputLicense->text();
+
+    if(FIO.isEmpty())
+        return notification->show("Введіть ФІО!", 2);
 
     if(!regexINN.match(INN).hasMatch())
         return notification->show("Введіть коректний ІНН!", 2);

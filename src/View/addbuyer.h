@@ -35,6 +35,7 @@ private:
     QHash<int, int>* listProduct;
     CenteredNotification* notification;
 
+    static QRegularExpression regexFIO;
     static QRegularExpression regexNumberPhone;
     static QRegularExpression regexEmail;
     static QRegularExpression regexINN;
